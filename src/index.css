@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap');
+
+@theme {
+  --color-ghibli-blue: #71A6D1;
+  --color-ghibli-green: #8FCE72;
+  --color-ghibli-brown: #7D6149;
+  --color-ghibli-red: #D1666F;
+  --color-ghibli-yellow: #F7C371;
+  --color-ghibli-cream: #F9F4E7;
+  --color-ghibli-dark-blue: #2D5877;
+  --color-ghibli-teal: #5DA3A6;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-handwritten: 'Dancing Script', cursive;
+
+  --shadow-ghibli: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
+}
+
+@layer base {
+  body {
+    @apply font-sans min-h-screen;
+    background-color: var(--color-ghibli-cream);
+    color: var(--color-ghibli-brown);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+    color: var(--color-ghibli-dark-blue);
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-6 py-2 rounded-full transition-all duration-300 font-medium;
+    box-shadow: var(--shadow-ghibli);
+  }
+
+  .btn-primary {
+    @apply text-white;
+    background-color: var(--color-ghibli-blue);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-ghibli-dark-blue);
+  }
+
+  .btn-secondary {
+    color: var(--color-ghibli-cream);
+    background-color: var(--color-ghibli-green);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-ghibli-brown);
+    color: var(--color-ghibli-cream);
+  }
+
+  .card {
+    @apply bg-white rounded-xl p-6 transition-shadow duration-300;
+    box-shadow: var(--shadow-ghibli);
+  }
+  .card:hover {
+     box-shadow: 0 6px 20px 0 rgba(0,0,0,0.15);
+  }
+
+  .ghibli-image {
+    @apply rounded-lg transition-all duration-300;
+    box-shadow: var(--shadow-ghibli);
+  }
+  .ghibli-image:hover {
+    @apply scale-[1.02];
+    box-shadow: 0 6px 20px 0 rgba(0,0,0,0.15);
+  }
+
+  .handwritten {
+    font-family: var(--font-handwritten);
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+
