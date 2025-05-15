@@ -32,6 +32,7 @@ const Footer = () => (
           <ul className="space-y-2 text-sm font-sans">
             <li><RouterLink to="/privacy" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Privacy</RouterLink></li>
             <li><RouterLink to="/terms" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Terms</RouterLink></li>
+            <li><RouterLink to="/apiStatus" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>API Status</RouterLink></li>
           </ul>
         </div>
       </div>
