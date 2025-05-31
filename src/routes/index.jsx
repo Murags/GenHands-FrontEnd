@@ -1,10 +1,24 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Outlet } from 'react-router-dom';
+
+// Layouts
 import PageLayout from '../components/layout/PageLayout';
+import DashboardLayout from '../components/dashboard/DashboardLayout';
+
+// Pages
 import HomePage from '../pages/HomePage/HomePage';
 import ApiStatusPage from '../pages/ApiStatusPage/ApiStatusPage';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
+import DashboardOverviewPage from '../pages/DashboardPage/DashboardOverviewPage';
+import DashboardNotFoundPage from '../pages/DashboardPage/DashboardNotFoundPage';
+import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersPage';
 
+// serves as the layout for all /admin routes
+const AdminLayout = () => (
+  <DashboardLayout>
+    <Outlet />
+  </DashboardLayout>
+);
 
 function AppRoutes() {
   return (
@@ -25,6 +39,12 @@ function AppRoutes() {
           </PageLayout>
         }
       />
+
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<DashboardOverviewPage />} />
+        <Route path="users/volunteers" element={<DashboardVolunteersPage />} />
+        <Route path="*" element={<DashboardNotFoundPage />} />
+      </Route>
 
       {/*
       <Route
