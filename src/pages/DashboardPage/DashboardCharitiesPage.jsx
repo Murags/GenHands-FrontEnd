@@ -10,7 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Pagination from '../../components/common/Pagination';
 import Drawer from '../../components/common/Drawer';
-import VolunteerApplicationForm from '../../components/dashboard/forms/VolunteerApplicationForm';
+import CharityApplicationForm from '../../components/dashboard/forms/CharityApplicationForm';
 import { getUsers } from '../../services/userService';
 import { useQuery } from '@tanstack/react-query';
 
@@ -53,37 +53,38 @@ const statusTabs = [
   { key: 'rejected', label: 'Rejected', status: 'rejected' },
 ];
 
-const DashboardVolunteersPage = () => {
+const DashboardCharitiesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [selectedVolunteer, setSelectedVolunteer] = useState(null);
+  const [selectedCharity, setSelectedCharity] = useState(null);
   const [activeTab, setActiveTab] = useState('pending');
 
-  const { data: allVolunteers, isLoading, isError, error } = useQuery({
-    queryKey: ['volunteers', activeTab],
-    queryFn: () => getUsers('volunteer', statusTabs.find(tab => tab.key === activeTab)?.status),
+  const { data: allCharities, isLoading, isError, error } = useQuery({
+    queryKey: ['charities', activeTab],
+    queryFn: () => getUsers('charity', statusTabs.find(tab => tab.key === activeTab)?.status),
   });
 
-  const filteredVolunteers = useMemo(() => {
-    if (!allVolunteers) return [];
+  const filteredCharities = useMemo(() => {
+    if (!allCharities) return [];
     if (!searchTerm) {
-      return allVolunteers;
+      return allCharities;
     }
-    return allVolunteers.filter(
-      (volunteer) =>
-        (volunteer.name && volunteer.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (volunteer.email && volunteer.email.toLowerCase().includes(searchTerm.toLowerCase()))
+    return allCharities.filter(
+      (charity) =>
+        (charity.name && charity.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (charity.email && charity.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (charity.charityName && charity.charityName.toLowerCase().includes(searchTerm.toLowerCase()))
     );
-  }, [allVolunteers, searchTerm]);
+  }, [allCharities, searchTerm]);
 
-  const totalPages = Math.ceil(filteredVolunteers.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredCharities.length / ITEMS_PER_PAGE);
 
-  const currentVolunteers = useMemo(() => {
+  const currentCharities = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    return filteredVolunteers.slice(startIndex, endIndex);
-  }, [filteredVolunteers, currentPage]);
+    return filteredCharities.slice(startIndex, endIndex);
+  }, [filteredCharities, currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -100,27 +101,27 @@ const DashboardVolunteersPage = () => {
     setSearchTerm('');
   };
 
-  const openVolunteerDrawer = (volunteer) => {
-    setSelectedVolunteer(volunteer);
+  const openCharityDrawer = (charity) => {
+    setSelectedCharity(charity);
     setIsDrawerOpen(true);
   };
 
-  const closeVolunteerDrawer = () => {
+  const closeCharityDrawer = () => {
     setIsDrawerOpen(false);
-    setSelectedVolunteer(null);
+    setSelectedCharity(null);
   };
 
-  if (isLoading) return <div className="text-center p-6">Loading volunteers...</div>;
-  if (isError) return <div className="text-center p-6 text-red-500">Error loading volunteers: {error.message}</div>;
+  if (isLoading) return <div className="text-center p-6">Loading charities...</div>;
+  if (isError) return <div className="text-center p-6 text-red-500">Error loading charities: {error.message}</div>;
 
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-4">
-        <h1 className="text-3xl font-bold text-ghibli-dark-blue handwritten">Volunteer Management</h1>
+        <h1 className="text-3xl font-bold text-ghibli-dark-blue handwritten">Charity Management</h1>
         <div className="relative">
           <input
             type="text"
-            placeholder="Search volunteers..."
+            placeholder="Search charities..."
             value={searchTerm}
             onChange={handleSearchChange}
             className="pl-10 pr-4 py-2.5 w-full sm:w-64 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-ghibli-teal-dark transition-colors duration-150 text-sm bg-ghibli-cream-lightest placeholder-ghibli-brown"
@@ -154,31 +155,33 @@ const DashboardVolunteersPage = () => {
         <table className="w-full min-w-[600px]">
           <thead className="border-b border-ghibli-brown-light">
             <tr>
-              <th className="p-3 text-left text-sm font-semibold text-ghibli-brown tracking-wider">Name</th>
+              <th className="p-3 text-left text-sm font-semibold text-ghibli-brown tracking-wider">Charity Name</th>
+              <th className="p-3 text-left text-sm font-semibold text-ghibli-brown tracking-wider">Contact Person</th>
               <th className="p-3 text-left text-sm font-semibold text-ghibli-brown tracking-wider">Email</th>
-              <th className="p-3 text-left text-sm font-semibold text-ghibli-brown tracking-wider">Applied On</th>
               <th className="p-3 text-center text-sm font-semibold text-ghibli-brown tracking-wider">Status</th>
               <th className="p-3 text-center text-sm font-semibold text-ghibli-brown tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentVolunteers.map((volunteer) => (
-              <tr key={volunteer._id} className="border-b border-ghibli-cream-light hover:bg-ghibli-cream-lightest transition-colors duration-150">
+            {currentCharities.map((charity) => (
+              <tr key={charity._id} className="border-b border-ghibli-cream-light hover:bg-ghibli-cream-lightest transition-colors duration-150">
                 <td className="p-3 text-sm text-ghibli-dark-blue whitespace-nowrap">
-                  {volunteer.name}
+                  {charity.charityName || charity.name}
                 </td>
-                <td className="p-3 text-sm text-ghibli-brown whitespace-nowrap">{volunteer.email}</td>
-                <td className="p-3 text-sm text-ghibli-brown whitespace-nowrap">{volunteer.applicationDate || volunteer.createdAt || 'N/A'}</td>
+                <td className="p-3 text-sm text-ghibli-dark-blue whitespace-nowrap">
+                  {charity.name}
+                </td>
+                <td className="p-3 text-sm text-ghibli-brown whitespace-nowrap">{charity.email}</td>
                 <td className="p-3 text-center whitespace-nowrap">
                   <span
-                    className={`px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusPillClass(volunteer.verificationStatus || volunteer.status)}`}
+                    className={`px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusPillClass(charity.verificationStatus || charity.status)}`}
                   >
-                    {getStatusDisplayText(volunteer.verificationStatus || volunteer.status)}
+                    {getStatusDisplayText(charity.verificationStatus || charity.status)}
                   </span>
                 </td>
                 <td className="p-3 text-center whitespace-nowrap space-x-2">
                   <button
-                    onClick={() => openVolunteerDrawer(volunteer)}
+                    onClick={() => openCharityDrawer(charity)}
                     className="p-1.5 text-ghibli-blue hover:text-ghibli-blue-dark transition-colors duration-150"
                     title="View Application & Documents"
                   >
@@ -187,10 +190,10 @@ const DashboardVolunteersPage = () => {
                 </td>
               </tr>
             ))}
-            {filteredVolunteers.length === 0 && (
+            {filteredCharities.length === 0 && (
               <tr>
                 <td colSpan="5" className="p-4 text-center text-ghibli-brown">
-                  {searchTerm ? `No volunteers found matching "${searchTerm}".` : `No ${statusTabs.find(tab => tab.key === activeTab)?.label.toLowerCase()} volunteer applications found.`}
+                  {searchTerm ? `No charities found matching "${searchTerm}".` : `No ${statusTabs.find(tab => tab.key === activeTab)?.label.toLowerCase()} charity applications found.`}
                 </td>
               </tr>
             )}
@@ -203,19 +206,19 @@ const DashboardVolunteersPage = () => {
           totalPages={totalPages}
           onPageChange={handlePageChange}
           itemsPerPage={ITEMS_PER_PAGE}
-          totalItems={filteredVolunteers.length}
+          totalItems={filteredCharities.length}
         />
       )}
 
       <Drawer
         isOpen={isDrawerOpen}
-        onClose={closeVolunteerDrawer}
-        title="Volunteer Application Details"
+        onClose={closeCharityDrawer}
+        title="Charity Application Details"
       >
-        {selectedVolunteer && (
-          <VolunteerApplicationForm
-            volunteer={selectedVolunteer}
-            onCloseDrawer={closeVolunteerDrawer}
+        {selectedCharity && (
+          <CharityApplicationForm
+            charity={selectedCharity}
+            onCloseDrawer={closeCharityDrawer}
           />
         )}
       </Drawer>
@@ -224,4 +227,4 @@ const DashboardVolunteersPage = () => {
   );
 };
 
-export default DashboardVolunteersPage;
+export default DashboardCharitiesPage;

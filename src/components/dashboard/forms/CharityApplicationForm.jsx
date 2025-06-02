@@ -29,38 +29,38 @@ const getStatusButtonStyles = (status, currentStatus) => {
   return `${base} ${specific}`;
 };
 
-const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
+const CharityApplicationForm = ({ charity, onCloseDrawer }) => {
   const queryClient = useQueryClient();
 
-  const [currentStatus, setCurrentStatus] = useState(volunteer?.status || '');
-  const [adminNotes, setAdminNotes] = useState(volunteer?.notes || '');
+  const [currentStatus, setCurrentStatus] = useState(charity?.status || '');
+  const [adminNotes, setAdminNotes] = useState(charity?.notes || '');
 
   const verifyUserMutation = useMutation({
     mutationFn: ({ userId, approve }) => verifyUser({ userId, approve }),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['volunteers'] });
+      queryClient.invalidateQueries({ queryKey: ['charities'] });
       const statusText = currentStatus === 'Approved' ? 'approved' : 'rejected';
-      toast.success(`Volunteer application ${statusText} successfully!`);
+      toast.success(`Charity application ${statusText} successfully!`);
       onCloseDrawer();
     },
     onError: (err) => {
-      console.error('Error verifying volunteer:', err);
-      toast.error('Failed to update volunteer status. Please try again.');
+      console.error('Error verifying charity:', err);
+      toast.error('Failed to update charity status. Please try again.');
     },
   });
 
   useEffect(() => {
-    if (volunteer) {
-      const status = volunteer.verificationStatus || volunteer.status;
+    if (charity) {
+      const status = charity.verificationStatus || charity.status;
       setCurrentStatus(status === 'verified' ? 'Approved' : status === 'rejected' ? 'Rejected' : status);
-      setAdminNotes(volunteer.notes || '');
+      setAdminNotes(charity.notes || '');
     }
-  }, [volunteer]);
+  }, [charity]);
 
-  if (!volunteer) {
+  if (!charity) {
     return (
       <div className="p-6 text-center text-ghibli-brown">
-        <p>No volunteer selected or data is unavailable.</p>
+        <p>No charity selected or data is unavailable.</p>
         <p>Please close this panel and try again.</p>
       </div>
     );
@@ -68,30 +68,31 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
 
   const handleUpdate = () => {
     const approve = currentStatus === 'Approved';
-    const userId = volunteer._id;
+    const userId = charity._id;
 
     verifyUserMutation.mutate({ userId, approve });
   };
 
-  const avatarUrl = `https://picsum.photos/seed/${volunteer._id || volunteer.id}/100/100`;
+  const avatarUrl = `https://picsum.photos/seed/${charity._id || charity.id}/100/100`;
 
   return (
     <div className="flex flex-col h-full bg-ghibli-cream text-ghibli-brown">
       <div className="p-6 space-y-6 overflow-y-auto flex-grow">
         <section>
-          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-4 handwritten">Volunteer Information</h3>
+          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-4 handwritten">Charity Information</h3>
           <div className="flex items-start space-x-4">
             <img
               src={avatarUrl}
-              alt={`${volunteer.name}'s avatar`}
+              alt={`${charity.charityName || charity.name}'s avatar`}
               className="h-24 w-24 rounded-full object-cover border-2 border-ghibli-brown-light shadow-md"
             />
             <div className="space-y-1 text-sm flex-grow">
-              <p><strong className="font-medium text-ghibli-brown-dark">Name:</strong> {volunteer.name}</p>
-              <p><strong className="font-medium text-ghibli-brown-dark">Email:</strong> <a href={`mailto:${volunteer.email}`} className="text-ghibli-blue hover:underline">{volunteer.email}</a></p>
-              <p><strong className="font-medium text-ghibli-brown-dark">Volunteer ID:</strong> {volunteer._id}</p>
-              {volunteer.createdAt && (
-                <p><strong className="font-medium text-ghibli-brown-dark">Applied On:</strong> {new Date(volunteer.createdAt).toLocaleDateString()}</p>
+              <p><strong className="font-medium text-ghibli-brown-dark">Charity Name:</strong> {charity.charityName || charity.name}</p>
+              <p><strong className="font-medium text-ghibli-brown-dark">Contact Person:</strong> {charity.name}</p>
+              <p><strong className="font-medium text-ghibli-brown-dark">Email:</strong> <a href={`mailto:${charity.email}`} className="text-ghibli-blue hover:underline">{charity.email}</a></p>
+              <p><strong className="font-medium text-ghibli-brown-dark">Charity ID:</strong> {charity._id}</p>
+              {charity.createdAt && (
+                <p><strong className="font-medium text-ghibli-brown-dark">Applied On:</strong> {new Date(charity.createdAt).toLocaleDateString()}</p>
               )}
             </div>
           </div>
@@ -99,9 +100,9 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
 
         <section>
           <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-3 handwritten">Supporting Documents</h3>
-          {volunteer.documents && volunteer.documents.length > 0 ? (
+          {charity.documents && charity.documents.length > 0 ? (
             <ul className="space-y-2">
-              {volunteer.documents.map((doc, index) => (
+              {charity.documents.map((doc, index) => (
                 <li key={index} className="flex items-center text-sm p-2 bg-ghibli-cream-lightest rounded-md hover:bg-ghibli-cream-light transition-colors">
                   <PaperClipIcon className="h-5 w-5 text-ghibli-teal mr-2.5 flex-shrink-0" />
                   <a
@@ -175,4 +176,4 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
   );
 };
 
-export default VolunteerApplicationForm;
+export default CharityApplicationForm;

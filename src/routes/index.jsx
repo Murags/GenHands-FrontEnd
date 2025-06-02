@@ -12,6 +12,7 @@ import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import DashboardOverviewPage from '../pages/DashboardPage/DashboardOverviewPage';
 import DashboardNotFoundPage from '../pages/DashboardPage/DashboardNotFoundPage';
 import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersPage';
+import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPage';
 
 // serves as the layout for all /admin routes
 const AdminLayout = () => (
@@ -43,6 +44,7 @@ function AppRoutes() {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<DashboardOverviewPage />} />
         <Route path="users/volunteers" element={<DashboardVolunteersPage />} />
+        <Route path="users/charities" element={<DashboardCharitiesPage />} />
         <Route path="*" element={<DashboardNotFoundPage />} />
       </Route>
 

@@ -35,8 +35,7 @@ const initialNavigation = [
     name: 'User Management',
     icon: UsersIcon,
     children: [
-      { name: 'Donors', href: '/admin/users/donors', icon: UserCircleIcon },
-      { name: 'Recipients', href: '/admin/users/recipients', icon: BuildingStorefrontIcon },
+      { name: 'Charities', href: '/admin/users/charities', icon: BuildingStorefrontIcon },
       { name: 'Volunteers', href: '/admin/users/volunteers', icon: IdentificationIcon },
     ]
   },
