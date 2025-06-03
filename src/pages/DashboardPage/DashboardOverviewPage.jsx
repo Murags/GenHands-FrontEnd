@@ -8,6 +8,9 @@ import {
   GiftIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline';
+import KenyaImpactMap from '../../components/dashboard/KenyaImpactMap';
+import CategoryAnalysisChart from '../../components/dashboard/CategoryAnalysisChart';
+import MonthlyTrendsChart from '../../components/dashboard/MonthlyTrendsChart';
 
 const DashboardCard = ({ title, children, icon: Icon, iconBgColor = 'bg-ghibli-teal', borderColor = 'var(--color-ghibli-brown-light)', className }) => (
   <div className={`bg-ghibli-cream p-5 rounded-lg shadow-ghibli flex items-start ${className}`} style={{ borderColor }}>
@@ -57,6 +60,21 @@ const DashboardOverviewPage = () => {
           <p className="text-3xl font-bold text-ghibli-green">34</p>
           <p className="text-xs mt-1">View Volunteer Roster</p>
         </DashboardCard>
+      </div>
+
+      {/* Kenya Impact Map */}
+      <div className="mb-8">
+        <KenyaImpactMap />
+      </div>
+
+      {/* Category Analysis Chart */}
+      <div className="mb-8">
+        <CategoryAnalysisChart />
+      </div>
+
+      {/* Monthly Trends Chart */}
+      <div className="mb-8">
+        <MonthlyTrendsChart />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
