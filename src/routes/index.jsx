@@ -13,6 +13,11 @@ import DashboardOverviewPage from '../pages/DashboardPage/DashboardOverviewPage'
 import DashboardNotFoundPage from '../pages/DashboardPage/DashboardNotFoundPage';
 import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersPage';
 import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPage';
+import RoleSelectPage from '../pages/AuthPage/RoleSelectPage/RoleSelectPage';
+import DonorSignUpPage from '../pages/AuthPage/SignUpPage/DonorSignUpPage';
+import CharitySignUpPage from '../pages/AuthPage/SignUpPage/CharitySignUpPage';
+import VolunteerSignUpPage from '../pages/AuthPage/SignUpPage/VolunteerSignUpPage';
+import SignInPage from '../pages/AuthPage/SignInPage/SignInPage';
 
 // serves as the layout for all /admin routes
 const AdminLayout = () => (
@@ -58,6 +63,37 @@ function AppRoutes() {
         }
       />
       */}
+
+      <Route
+        path="/auth/select"
+        element={
+          <RoleSelectPage />
+        }
+      />
+      <Route
+        path="/auth/signup/donor"
+        element={
+            <DonorSignUpPage />
+        }
+      />
+      <Route
+        path="/auth/signup/charity"
+        element={
+          <CharitySignUpPage />
+        }
+      />
+      <Route
+        path="/auth/signup/volunteer"
+        element={
+          <VolunteerSignUpPage />
+        }
+      />
+      <Route
+        path="/auth/signin/signin"
+        element={
+          <SignInPage />
+        }
+      />
 
       <Route
         path="*"

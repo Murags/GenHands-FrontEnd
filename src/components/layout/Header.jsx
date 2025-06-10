@@ -22,10 +22,17 @@ const Header = () => (
 
         <div className="flex items-center">
           <RouterLink
-            to="/donate"
+            to="/auth/signin/signin"
+            className="px-4"
+          >
+            Login
+          </RouterLink>
+
+          <RouterLink
+            to="/auth/select"
             className="btn btn-primary text-base lg:text-lg py-2.5 px-7"
           >
-            Donate
+            Sign Up
           </RouterLink>
 
           {/* Mobile menu button */}
