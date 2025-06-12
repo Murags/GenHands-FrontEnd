@@ -13,6 +13,7 @@ import DashboardOverviewPage from '../pages/DashboardPage/DashboardOverviewPage'
 import DashboardNotFoundPage from '../pages/DashboardPage/DashboardNotFoundPage';
 import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersPage';
 import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPage';
+import VolunteerDashboard from '../pages/VolunteerDashboard';
 
 // serves as the layout for all /admin routes
 const AdminLayout = () => (
@@ -38,6 +39,13 @@ function AppRoutes() {
           <PageLayout>
             <ApiStatusPage />
           </PageLayout>
+        }
+      />
+
+      <Route
+        path="/volunteer"
+        element={
+            <VolunteerDashboard />
         }
       />
 
