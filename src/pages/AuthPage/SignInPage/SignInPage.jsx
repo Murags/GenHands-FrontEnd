@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 
 const SignInPage = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -12,13 +13,33 @@ const SignInPage = () => {
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.email || !form.password) {
       setError('Please fill in both fields.');
+      toast.error('Please fill in both fields.');
       return;
     }
-    alert('Logged in!');
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem('token', data.token);
+        toast.success('Login successful!');
+        // Redirect to home for now
+        navigate('/');
+      } else {
+        setError(data.message || 'Login failed');
+        toast.error(data.message || 'Login failed');
+      }
+    } catch (error) {
+      setError(error.message || 'An error occurred during login');
+      toast.error(error.message || 'An error occurred during login');
+    }
   };
 
   return (

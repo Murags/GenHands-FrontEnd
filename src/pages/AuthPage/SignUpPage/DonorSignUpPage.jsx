@@ -1,9 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 
 const DonorSignUpPage = () => {
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setError('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.password) {
+      setError('Please fill in all fields.');
+      toast.error('Please fill in all fields.');
+      return;
+    }
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: `${form.firstName} ${form.lastName}`,
+          email: form.email,
+          password: form.password,
+          role: 'donor',
+          phoneNumber: form.phone
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success('Registration successful! Please log in.');
+        // Optionally, save token and redirect
+        localStorage.setItem('token', data.token);
+        navigate('/auth/signin/signin');
+      } else {
+        setError(data.message || 'Registration failed');
+        toast.error(data.message || 'Registration failed');
+      }
+    } catch {
+      setError('Network error');
+      toast.error('Network error');
+    }
+  };
 
   return (
     <div
@@ -39,7 +88,7 @@ const DonorSignUpPage = () => {
             Join us in giving back to the community. Your generosity makes a big difference!
           </p>
 
-          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">First Name</label>
@@ -47,6 +96,8 @@ const DonorSignUpPage = () => {
                   type="text"
                   name="firstName"
                   required
+                  value={form.firstName}
+                  onChange={handleChange}
                   className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
                   placeholder="Abigail"
                 />
@@ -58,6 +109,8 @@ const DonorSignUpPage = () => {
                   type="text"
                   name="lastName"
                   required
+                  value={form.lastName}
+                  onChange={handleChange}
                   className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
                   placeholder="Mugambi"
                 />
@@ -70,6 +123,8 @@ const DonorSignUpPage = () => {
                 type="email"
                 name="email"
                 required
+                value={form.email}
+                onChange={handleChange}
                 className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
                 placeholder="abigailmugambi7@gmail.com"
               />
@@ -81,6 +136,8 @@ const DonorSignUpPage = () => {
                 type="tel"
                 name="phone"
                 required
+                value={form.phone}
+                onChange={handleChange}
                 pattern="^\+254[0-9]{9}$"
                 title="Enter a valid phone number"
                 className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
@@ -94,12 +151,14 @@ const DonorSignUpPage = () => {
                 type="password"
                 name="password"
                 required
+                value={form.password}
+                onChange={handleChange}
                 minLength={6}
                 className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
                 placeholder="••••••••"
               />
             </div>
-
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <button
               type="submit"
               className="w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition"
