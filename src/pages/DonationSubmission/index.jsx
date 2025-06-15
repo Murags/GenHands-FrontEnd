@@ -15,7 +15,9 @@ import toast from 'react-hot-toast';
 import { submitDonation } from '../../services/donationService';
 import AddressInput from '../../components/AddressInput';
 import { useCharities } from '../../hooks/useCharities';
+import { useCategories } from '../../hooks/useCategories';
 import Autocomplete from '../../components/Autocomplete';
+import LoadingModal from '../../components/LoadingModal';
 
 const DonationSubmission = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -23,6 +25,7 @@ const DonationSubmission = () => {
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   const { data: charities, isLoading: isLoadingCharities, isError: isCharityError } = useCharities();
+  const { categories: donationCategories, isLoading: isLoadingCategories, isError: isCategoriesError } = useCategories();
 
   const charityList = useMemo(() => {
     if (!charities) return [];
@@ -72,8 +75,11 @@ const DonationSubmission = () => {
     }
   };
 
-  const donationCategories = [
-    'Food items', 'Clothing & textiles', 'Books & educational materials', 'Household items', 'Medical supplies', 'Electronics', 'Toys & games', 'Furniture', 'Other',
+  const itemConditions = [
+    { value: 'new', label: 'New' },
+    { value: 'good', label: 'Good' },
+    { value: 'fair', label: 'Fair' },
+    { value: 'poor', label: 'Poor' },
   ];
 
   const urgencyLevels = [
@@ -189,10 +195,24 @@ const DonationSubmission = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">Category *</label>
-                <select {...register(`donationItems.${index}.category`, { required: 'Category is required' })} className="w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent" required>
-                  <option value="">Select category</option>
-                  {donationCategories.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
-                </select>
+                <Controller
+                  name={`donationItems.${index}.category`}
+                  control={control}
+                  rules={{ required: 'Category is required' }}
+                  render={({ field }) => (
+                    <Autocomplete
+                      placeholder={isLoadingCategories ? 'Loading categories...' : 'Search for a category'}
+                      options={donationCategories || []}
+                      value={field.value}
+                      onChange={field.onChange}
+                      optionLabelKey="name"
+                      optionValueKey="name"
+                      isLoading={isLoadingCategories}
+                      isError={isCategoriesError}
+                      required
+                    />
+                  )}
+                />
                 {errors.donationItems?.[index]?.category && <p className="text-red-500 text-sm mt-1">{errors.donationItems[index].category.message}</p>}
               </div>
               <div>
@@ -208,9 +228,9 @@ const DonationSubmission = () => {
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">Condition</label>
                   <select {...register(`donationItems.${index}.condition`)} className="w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent">
-                    <option value="excellent">Excellent</option>
-                    <option value="good">Good</option>
-                    <option value="fair">Fair</option>
+                    {itemConditions.map(condition => (
+                      <option key={condition.value} value={condition.value}>{condition.label}</option>
+                    ))}
                   </select>
                 </div>
                 {fields.length > 1 && <button type="button" onClick={() => remove(index)} className="ml-2 p-2 text-ghibli-red hover:bg-ghibli-red hover:text-white rounded-lg transition-colors"><TrashIcon className="h-4 w-4" /></button>}
@@ -378,6 +398,25 @@ const DonationSubmission = () => {
             </div>
           </div>
         </div>
+        <div className="mt-8 flex justify-end">
+          <button
+            type="submit"
+            disabled={isSubmitting || !isValid}
+            className="px-8 py-3 bg-ghibli-green text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors flex items-center space-x-2 disabled:opacity-50"
+          >
+            {isSubmitting ? (
+              <>
+                <TruckIcon className="h-5 w-5" />
+                <span>Submitting...</span>
+              </>
+            ) : (
+              <>
+                <TruckIcon className="h-5 w-5" />
+                <span>Submit Donation</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
     );
   };
@@ -447,23 +486,9 @@ const DonationSubmission = () => {
               Previous
             </button>
             <div className="text-sm text-ghibli-brown">Step {currentStep} of 4</div>
-            {currentStep < 4 ? (
+            {currentStep < 4 && (
               <button type="button" onClick={handleNext} className={`px-6 py-3 rounded-lg font-medium transition-colors bg-ghibli-teal text-white hover:bg-opacity-90`}>
                 Next
-              </button>
-            ) : (
-              <button type="submit" disabled={isSubmitting || !isValid} className="px-8 py-3 bg-ghibli-green text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors flex items-center space-x-2 disabled:opacity-50">
-                {isSubmitting ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    <span>Submitting...</span>
-                  </>
-                ) : (
-                  <>
-                    <TruckIcon className="h-5 w-5" />
-                    <span>Submit Donation</span>
-                  </>
-                )}
               </button>
             )}
           </div>
@@ -483,6 +508,13 @@ const DonationSubmission = () => {
           </div>
         </div>
       </div>
+
+      {/* Loading Modal */}
+      <LoadingModal
+        isVisible={isSubmitting}
+        message="Submitting your donation..."
+        size="medium"
+      />
     </div>
   );
 };
