@@ -13,6 +13,8 @@ import DashboardOverviewPage from '../pages/DashboardPage/DashboardOverviewPage'
 import DashboardNotFoundPage from '../pages/DashboardPage/DashboardNotFoundPage';
 import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersPage';
 import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPage';
+import VolunteerDashboard from '../pages/VolunteerDashboard';
+import DonationSubmission from '../pages/DonationSubmission';
 import RoleSelectPage from '../pages/AuthPage/RoleSelectPage/RoleSelectPage';
 import DonorSignUpPage from '../pages/AuthPage/SignUpPage/DonorSignUpPage';
 import CharitySignUpPage from '../pages/AuthPage/SignUpPage/CharitySignUpPage';
@@ -43,6 +45,20 @@ function AppRoutes() {
           <PageLayout>
             <ApiStatusPage />
           </PageLayout>
+        }
+      />
+
+      <Route
+        path="/volunteer"
+        element={
+            <VolunteerDashboard />
+        }
+      />
+
+      <Route
+        path="/donate"
+        element={
+            <DonationSubmission />
         }
       />
 
@@ -89,7 +105,7 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/auth/signin/signin"
+        path="/auth/signin"
         element={
           <SignInPage />
         }

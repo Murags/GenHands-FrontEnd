@@ -37,7 +37,7 @@ const CharityApplicationForm = ({ charity, onCloseDrawer }) => {
 
   const verifyUserMutation = useMutation({
     mutationFn: ({ userId, approve }) => verifyUser({ userId, approve }),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['charities'] });
       const statusText = currentStatus === 'Approved' ? 'approved' : 'rejected';
       toast.success(`Charity application ${statusText} successfully!`);

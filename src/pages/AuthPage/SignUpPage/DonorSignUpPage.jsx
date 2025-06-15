@@ -43,7 +43,7 @@ const DonorSignUpPage = () => {
         toast.success('Registration successful! Please log in.');
         // Optionally, save token and redirect
         localStorage.setItem('token', data.token);
-        navigate('/auth/signin/signin');
+        navigate('/auth/signin');
       } else {
         setError(data.message || 'Registration failed');
         toast.error(data.message || 'Registration failed');
@@ -71,7 +71,7 @@ const DonorSignUpPage = () => {
       </button>
 
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
-        
+
         {/* Left: Image */}
         <div className="hidden md:block h-full">
           <img
@@ -171,7 +171,7 @@ const DonorSignUpPage = () => {
           <p className="text-sm text-center font-thin text-black mt-6">
             Already have an account?{' '}
             <span
-              onClick={() => navigate('/auth/signin/signin')}
+              onClick={() => navigate('/auth/signin')}
               className="hover:underline cursor-pointer font-medium"
               style={{ color: '#1f4037' }}
             >
