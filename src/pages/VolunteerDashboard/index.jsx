@@ -7,15 +7,14 @@ import {
   EyeIcon
 } from '@heroicons/react/24/outline';
 
-// Import components
 import Sidebar from './components/Sidebar';
 import StatsCard from './components/StatsCard';
 import PickupRequestsList from './components/PickupRequestsList';
 import PickupFlowManager from './components/PickupFlowManager';
 import ActivePickupsView from './components/ActivePickupsView';
+import AvailabilityView from './components/AvailabilityView';
 import MapComponent from './MapComponent';
 
-// Pickup status constants
 const PICKUP_STATUSES = {
   AVAILABLE: 'available',
   ACCEPTED: 'accepted',
@@ -27,7 +26,6 @@ const PICKUP_STATUSES = {
 };
 
 const VolunteerDashboard = () => {
-  // State management
   const [currentView, setCurrentView] = useState('dashboard');
   const [userLocation, setUserLocation] = useState(null);
   const [pickupRequests, setPickupRequests] = useState([]);
@@ -35,6 +33,7 @@ const VolunteerDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isAvailable, setIsAvailable] = useState(true);
   const [showNearbyOnly, setShowNearbyOnly] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [notifications] = useState([
     { id: 1, message: "New pickup request nearby", time: "10 min ago" },
     { id: 2, message: "Pickup completed successfully", time: "2 hours ago" },
@@ -46,7 +45,6 @@ const VolunteerDashboard = () => {
     rating: 4.8
   });
 
-  // Utility functions
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -74,7 +72,6 @@ const VolunteerDashboard = () => {
     }
   };
 
-  // Mock data - expanded to show all available pickups regardless of distance
   const baseMockPickupRequests = [
     {
       id: 1,
@@ -127,13 +124,15 @@ const VolunteerDashboard = () => {
     }).sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
   };
 
-  // Event handlers
   const handleSectionChange = (section) => {
     setCurrentView(section);
-    // Clear selected pickup when switching views
     if (section !== 'dashboard') {
       setSelectedPickup(null);
     }
+  };
+
+  const handleToggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
   };
 
   const handlePickupSelect = (pickup) => {
@@ -149,12 +148,10 @@ const VolunteerDashboard = () => {
       )
     );
 
-    // Update selected pickup
     if (selectedPickup?.id === pickupId) {
       setSelectedPickup(prev => ({ ...prev, status: newStatus }));
     }
 
-    // Update stats if pickup is completed
     if (newStatus === PICKUP_STATUSES.DELIVERED) {
       setVolunteerStats(prev => ({
         ...prev,
@@ -162,14 +159,12 @@ const VolunteerDashboard = () => {
       }));
     }
 
-    // Auto-switch to active pickups view when a pickup is accepted
     if (newStatus === PICKUP_STATUSES.ACCEPTED && currentView === 'dashboard') {
       setCurrentView('active');
     }
   };
 
   const handleCancelPickup = (pickupId) => {
-    // Reset pickup to available if it was accepted
     if (selectedPickup?.status !== PICKUP_STATUSES.AVAILABLE) {
       setPickupRequests(prev =>
         prev.map(pickup =>
@@ -186,7 +181,6 @@ const VolunteerDashboard = () => {
     setIsAvailable(!isAvailable);
   };
 
-  // Get active pickups (accepted or in progress)
   const getActivePickups = () => {
     return pickupRequests.filter(pickup =>
       pickup.status !== PICKUP_STATUSES.AVAILABLE &&
@@ -194,13 +188,11 @@ const VolunteerDashboard = () => {
     );
   };
 
-  // Filter pickups based on distance preference
   const getFilteredPickups = () => {
     if (!showNearbyOnly) return pickupRequests;
     return pickupRequests.filter(pickup => parseFloat(pickup.distance) <= 10);
   };
 
-  // Initialize location and pickup requests
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -249,7 +241,6 @@ const VolunteerDashboard = () => {
   const activePickups = getActivePickups();
   const filteredPickups = getFilteredPickups();
 
-  // Render different views based on current section
   const renderCurrentView = () => {
     switch (currentView) {
       case 'active':
@@ -263,12 +254,7 @@ const VolunteerDashboard = () => {
         );
 
       case 'availability':
-        return (
-          <div className="p-8 text-center">
-            <h1 className="text-3xl font-bold text-ghibli-dark-blue handwritten mb-4">Availability Settings</h1>
-            <p className="text-ghibli-brown">Manage your availability preferences here.</p>
-          </div>
-        );
+        return <AvailabilityView />;
 
       case 'history':
         return (
@@ -294,10 +280,9 @@ const VolunteerDashboard = () => {
           </div>
         );
 
-      default: // dashboard
+    default:
         return (
           <>
-            {/* Header */}
             <div className="bg-ghibli-cream shadow-sm border-b p-6" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
               <div className="flex items-center justify-between">
                 <div>
@@ -323,7 +308,6 @@ const VolunteerDashboard = () => {
             </div>
 
             <div className="p-6">
-              {/* Stats Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <StatsCard
                   title="Completed Pickups"
@@ -360,7 +344,6 @@ const VolunteerDashboard = () => {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Simplified Pickup Requests List */}
                 <div className="lg:col-span-1">
                   <div className="bg-ghibli-cream rounded-xl shadow-ghibli border" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
                     <div className="p-4 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
@@ -373,7 +356,6 @@ const VolunteerDashboard = () => {
                         </span>
                       </div>
 
-                      {/* Filter Toggle */}
                       <div className="mt-3 flex items-center space-x-2">
                         <button
                           onClick={() => setShowNearbyOnly(!showNearbyOnly)}
@@ -402,7 +384,6 @@ const VolunteerDashboard = () => {
                   </div>
                 </div>
 
-                {/* Map */}
                 <div className="lg:col-span-2">
                   <div className="bg-ghibli-cream rounded-xl shadow-ghibli border" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
                     <div className="p-6 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
@@ -424,7 +405,6 @@ const VolunteerDashboard = () => {
                 </div>
               </div>
 
-              {/* Pickup Flow Manager */}
               <PickupFlowManager
                 selectedPickup={selectedPickup}
                 onUpdateStatus={handleUpdatePickupStatus}
@@ -439,7 +419,6 @@ const VolunteerDashboard = () => {
 
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: 'var(--color-ghibli-cream)' }}>
-      {/* Fixed Sidebar */}
       <Sidebar
         volunteerStats={volunteerStats}
         isAvailable={isAvailable}
@@ -447,10 +426,13 @@ const VolunteerDashboard = () => {
         notifications={notifications}
         activePickups={activePickups}
         onSectionChange={handleSectionChange}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={handleToggleSidebar}
       />
 
-      {/* Main Content - offset by sidebar width */}
-      <div className="flex-1 ml-80 overflow-auto">
+      <div className={`flex-1 overflow-auto transition-all duration-300 p-4 ${
+        isSidebarCollapsed ? 'ml-20' : 'ml-80'
+      }`}>
         {renderCurrentView()}
       </div>
     </div>
