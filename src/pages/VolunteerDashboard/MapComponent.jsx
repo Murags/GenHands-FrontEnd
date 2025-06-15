@@ -12,7 +12,7 @@ L.Icon.Default.mergeOptions({
 
 const MapComponent = ({
   userLocation,
-  pickupRequests,
+  pickups,
   selectedPickup,
   onPickupSelect,
   showRouting = false,
@@ -33,6 +33,9 @@ const MapComponent = ({
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
       }).addTo(mapInstance.current);
+    } else {
+      // If map already exists, just update the view
+      mapInstance.current.setView(userLocation, mapInstance.current.getZoom() || 13);
     }
 
     // Clear existing markers and routing
@@ -201,7 +204,7 @@ const MapComponent = ({
 
     } else {
       // Regular pickup requests view
-      pickupRequests.forEach(pickup => {
+      pickups.forEach(pickup => {
         const isSelected = selectedPickup?.id === pickup.id;
         const isUrgent = pickup.status === 'urgent';
         const isHighPriority = pickup.priority === 'high';
@@ -226,10 +229,11 @@ const MapComponent = ({
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 14px;
             ${isUrgent ? 'animation: pulse 1.5s infinite;' : ''}
             position: relative;
           ">
-            <span style="color: white; font-size: 12px; font-weight: bold;">${pickup.id}</span>
+            📦
             ${isUrgent ? `<div style="
               position: absolute;
               top: -3px;
@@ -369,14 +373,14 @@ const MapComponent = ({
         ]);
         mapInstance.current.fitBounds(group.getBounds().pad(0.1));
       } else {
-        const allLocations = [userLocation, ...pickupRequests.map(p => p.coordinates)];
+        const allLocations = [userLocation, ...pickups.map(p => p.coordinates)];
         const group = new L.featureGroup(allLocations.map(loc => L.marker(loc)));
         mapInstance.current.fitBounds(group.getBounds().pad(0.1));
       }
     }
 
     window.selectPickup = (pickupId) => {
-      const pickup = pickupRequests.find(p => p.id === pickupId);
+      const pickup = pickups.find(p => p.id === pickupId);
       if (pickup) {
         onPickupSelect(pickup);
       }
@@ -387,7 +391,7 @@ const MapComponent = ({
         delete window.selectPickup;
       }
     };
-  }, [userLocation, pickupRequests, selectedPickup, onPickupSelect, showRouting, routingDestination, routingMode]);
+  }, [userLocation, pickups, selectedPickup, onPickupSelect, showRouting, routingDestination, routingMode]);
 
   return (
     <div className="relative w-full h-full">

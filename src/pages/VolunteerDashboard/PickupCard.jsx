@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPinIcon, ClockIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { MapPinIcon, ClockIcon, ExclamationTriangleIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const PickupCard = ({ pickup, isSelected, onSelect, disabled = false }) => {
   const getPriorityBadge = (priority, status) => {
@@ -71,7 +71,7 @@ const PickupCard = ({ pickup, isSelected, onSelect, disabled = false }) => {
               ? 'bg-ghibli-teal shadow-sm'
               : 'bg-ghibli-blue hover:bg-ghibli-teal'
           }`}>
-            {pickup.id}
+            <ChevronRightIcon className="h-5 w-5" />
           </div>
         </div>
       </div>

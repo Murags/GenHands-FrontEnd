@@ -9,14 +9,29 @@ const httpService = axios.create({
   },
 });
 
+httpService.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 const get = (url, config) => httpService.get(url, config);
 const post = (url, data, config) => httpService.post(url, data, config);
 const put = (url, data, config) => httpService.put(url, data, config);
+const patch = (url, data, config) => httpService.patch(url, data, config);
 const remove = (url, config) => httpService.delete(url, config);
 
 export default {
   get,
   post,
   put,
+  patch,
   delete: remove,
 };
