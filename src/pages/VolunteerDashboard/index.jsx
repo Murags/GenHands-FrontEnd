@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CheckCircleIcon,
   TruckIcon,
@@ -11,9 +12,11 @@ import Sidebar from './components/Sidebar';
 import StatsCard from './components/StatsCard';
 import PickupRequestsList from './components/PickupRequestsList';
 import PickupFlowManager from './components/PickupFlowManager';
-import ActivePickupsView from './components/ActivePickupsView';
 import AvailabilityView from './components/AvailabilityView';
 import MapComponent from './MapComponent';
+import { usePickupRequests } from '../../hooks/usePickupRequests';
+import { useUpdatePickupStatus } from '../../hooks/useUpdatePickupStatus';
+import { useMyPickups } from '../../hooks/useMyPickups';
 
 const PICKUP_STATUSES = {
   AVAILABLE: 'available',
@@ -26,13 +29,11 @@ const PICKUP_STATUSES = {
 };
 
 const VolunteerDashboard = () => {
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState('dashboard');
   const [userLocation, setUserLocation] = useState(null);
-  const [pickupRequests, setPickupRequests] = useState([]);
   const [selectedPickup, setSelectedPickup] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [isAvailable, setIsAvailable] = useState(true);
-  const [showNearbyOnly, setShowNearbyOnly] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [notifications] = useState([
     { id: 1, message: "New pickup request nearby", time: "10 min ago" },
@@ -45,86 +46,57 @@ const VolunteerDashboard = () => {
     rating: 4.8
   });
 
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a =
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    const distance = R * c;
-    return distance.toFixed(1);
-  };
+  const {
+    requests: pickupRequests,
+    isLoading: isLoadingAvailable,
+    refetch: refetchAvailable,
+  } = usePickupRequests({ status: 'available' });
 
-  const calculateEstimatedTime = (distance) => {
-    const avgSpeed = 15;
-    const timeInHours = distance / avgSpeed;
-    const minutes = Math.round(timeInHours * 60);
+  const {
+    myPickups,
+    isLoading: isLoadingMyPickups,
+    refetch: refetchMyPickups,
+  } = useMyPickups();
 
-    if (minutes < 60) {
-      return `${minutes} min`;
+  const { mutate: updateStatus } = useUpdatePickupStatus();
+
+  useEffect(() => {
+    let watchId;
+
+    const success = (position) => {
+      setUserLocation([position.coords.latitude, position.coords.longitude]);
+    };
+
+    const error = (err) => {
+      console.error(`ERROR(${err.code}): ${err.message}`);
+      setUserLocation([-1.2921, 36.8219]);
+    };
+
+    if (navigator.geolocation) {
+      watchId = navigator.geolocation.watchPosition(success, error, {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      });
     } else {
-      const hours = Math.floor(minutes / 60);
-      const remainingMinutes = minutes % 60;
-      return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
+      console.error("Geolocation is not supported by this browser.");
+      setUserLocation([-1.2921, 36.8219]); // Fallback
     }
-  };
 
-  const baseMockPickupRequests = [
-    {
-      id: 1,
-      charity: "Nairobi Food Bank",
-      address: "Mama Ngina Street, Nairobi CBD",
-      coordinates: [-1.2864, 36.8172],
-      items: ["Posho", "Rice", "Cooking oil", "Sugar"],
-      contactPerson: "Grace Wanjiku",
-      phone: "+254 712 345 678",
-      priority: "high",
-      status: PICKUP_STATUSES.AVAILABLE,
-      deliveryAddress: "Kibera Community Center, Nairobi"
-    },
-    {
-      id: 2,
-      charity: "Kibera Community Kitchen",
-      address: "Olympic Estate, Kibera",
-      coordinates: [-1.3133, 36.7892],
-      items: ["Ugali flour", "Vegetables", "Beans", "Milk"],
-      contactPerson: "John Otieno",
-      phone: "+254 723 456 789",
-      priority: "medium",
-      status: PICKUP_STATUSES.AVAILABLE,
-      deliveryAddress: "Mathare Youth Center, Nairobi"
-    },
-    {
-      id: 3,
-      charity: "Mathare Children's Home",
-      address: "Mathare North, Nairobi",
-      coordinates: [-1.2833, 36.8667],
-      items: ["School supplies", "Clothes", "Blankets", "Books"],
-      contactPerson: "Sister Mary Njeri",
-      phone: "+254 734 567 890",
-      priority: "low",
-      status: PICKUP_STATUSES.AVAILABLE,
-      deliveryAddress: "Eastlands Primary School, Nairobi"
-    }
-  ];
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+    };
+  }, []);
 
-  const updatePickupRequestsWithDistances = (userLat, userLon) => {
-    return baseMockPickupRequests.map(pickup => {
-      const distance = calculateDistance(userLat, userLon, pickup.coordinates[0], pickup.coordinates[1]);
-      const estimatedTime = calculateEstimatedTime(parseFloat(distance));
-
-      return {
-        ...pickup,
-        distance: `${distance} km`,
-        estimatedTime
-      };
-    }).sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
-  };
 
   const handleSectionChange = (section) => {
+    if (section === 'active') {
+      navigate('/volunteer/active-pickups');
+      return;
+    }
+
     setCurrentView(section);
     if (section !== 'dashboard') {
       setSelectedPickup(null);
@@ -140,94 +112,48 @@ const VolunteerDashboard = () => {
   };
 
   const handleUpdatePickupStatus = (pickupId, newStatus) => {
-    setPickupRequests(prev =>
-      prev.map(pickup =>
-        pickup.id === pickupId
-          ? { ...pickup, status: newStatus }
-          : pickup
-      )
-    );
+    updateStatus({ pickupId, status: newStatus }, {
+      onSuccess: () => {
+        refetchAvailable(); // Refetch the list of available requests
+        refetchMyPickups(); // Refetch the list of my pickups
 
-    if (selectedPickup?.id === pickupId) {
-      setSelectedPickup(prev => ({ ...prev, status: newStatus }));
-    }
-
-    if (newStatus === PICKUP_STATUSES.DELIVERED) {
-      setVolunteerStats(prev => ({
-        ...prev,
-        completedPickups: prev.completedPickups + 1
-      }));
-    }
-
-    if (newStatus === PICKUP_STATUSES.ACCEPTED && currentView === 'dashboard') {
-      setCurrentView('active');
-    }
+        if (selectedPickup?.id === pickupId) {
+          setSelectedPickup(prev => ({ ...prev, status: newStatus }));
+        }
+        if (newStatus === PICKUP_STATUSES.DELIVERED) {
+          setVolunteerStats(prev => ({
+            ...prev,
+            completedPickups: prev.completedPickups + 1
+          }));
+        }
+        if (newStatus === PICKUP_STATUSES.ACCEPTED) {
+          navigate('/volunteer/active-pickups');
+        }
+      }
+    });
   };
 
   const handleCancelPickup = (pickupId) => {
-    if (selectedPickup?.status !== PICKUP_STATUSES.AVAILABLE) {
-      setPickupRequests(prev =>
-        prev.map(pickup =>
-          pickup.id === pickupId
-            ? { ...pickup, status: PICKUP_STATUSES.AVAILABLE }
-            : pickup
-        )
-      );
-    }
-    setSelectedPickup(null);
+    updateStatus({ pickupId, status: 'cancelled' }, { // Use 'cancelled' as per new docs
+      onSuccess: () => {
+        refetchAvailable();
+        refetchMyPickups();
+        setSelectedPickup(null);
+      }
+    });
   };
 
   const handleAvailabilityToggle = () => {
     setIsAvailable(!isAvailable);
   };
 
-  const getActivePickups = () => {
-    return pickupRequests.filter(pickup =>
-      pickup.status !== PICKUP_STATUSES.AVAILABLE &&
-      pickup.status !== PICKUP_STATUSES.DELIVERED
-    );
-  };
+  const activePickups = myPickups.filter(
+    (p) => p.status !== 'delivered' && p.status !== 'cancelled'
+  );
 
-  const getFilteredPickups = () => {
-    if (!showNearbyOnly) return pickupRequests;
-    return pickupRequests.filter(pickup => parseFloat(pickup.distance) <= 10);
-  };
+  const isLoading = isLoadingAvailable || isLoadingMyPickups;
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const userLat = position.coords.latitude;
-          const userLon = position.coords.longitude;
-          setUserLocation([userLat, userLon]);
-
-          const updatedRequests = updatePickupRequestsWithDistances(userLat, userLon);
-          setPickupRequests(updatedRequests);
-          setLoading(false);
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          const defaultLat = -1.2921;
-          const defaultLon = 36.8219;
-          setUserLocation([defaultLat, defaultLon]);
-
-          const updatedRequests = updatePickupRequestsWithDistances(defaultLat, defaultLon);
-          setPickupRequests(updatedRequests);
-          setLoading(false);
-        }
-      );
-    } else {
-      const defaultLat = -1.2921;
-      const defaultLon = 36.8219;
-      setUserLocation([defaultLat, defaultLon]);
-
-      const updatedRequests = updatePickupRequestsWithDistances(defaultLat, defaultLon);
-      setPickupRequests(updatedRequests);
-      setLoading(false);
-    }
-  }, []);
-
-  if (loading) {
+  if (isLoading && !userLocation) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-ghibli-cream">
         <div className="text-center">
@@ -238,23 +164,10 @@ const VolunteerDashboard = () => {
     );
   }
 
-  const activePickups = getActivePickups();
-  const filteredPickups = getFilteredPickups();
-
   const renderCurrentView = () => {
     switch (currentView) {
-      case 'active':
-        return (
-          <ActivePickupsView
-            activePickups={activePickups}
-            onUpdateStatus={handleUpdatePickupStatus}
-            onCancel={handleCancelPickup}
-            userLocation={userLocation}
-          />
-        );
-
       case 'availability':
-        return <AvailabilityView />;
+        return <AvailabilityView isAvailable={isAvailable} onToggle={handleAvailabilityToggle} />;
 
       case 'history':
         return (
@@ -319,8 +232,8 @@ const VolunteerDashboard = () => {
                 />
                 <StatsCard
                   title="Total Requests"
-                  value={volunteerStats.totalRequests}
-                  subtitle="Viewed & accepted"
+                  value={pickupRequests.length}
+                  subtitle="Available now"
                   icon={EyeIcon}
                   bgColor="bg-ghibli-blue"
                   textColor="text-ghibli-blue"
@@ -352,33 +265,18 @@ const VolunteerDashboard = () => {
                           Available Pickups
                         </h2>
                         <span className="text-sm text-ghibli-brown">
-                          {filteredPickups.length} available
-                        </span>
-                      </div>
-
-                      <div className="mt-3 flex items-center space-x-2">
-                        <button
-                          onClick={() => setShowNearbyOnly(!showNearbyOnly)}
-                          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                            showNearbyOnly
-                              ? 'bg-ghibli-teal text-white'
-                              : 'bg-ghibli-brown-light text-ghibli-brown hover:bg-white'
-                          }`}
-                        >
-                          {showNearbyOnly ? 'Nearby Only' : 'Show All'}
-                        </button>
-                        <span className="text-xs text-ghibli-brown">
-                          {showNearbyOnly ? 'Within 10km' : 'All distances'}
+                          {pickupRequests.length} available
                         </span>
                       </div>
                     </div>
 
                     <div className="max-h-96 overflow-y-auto">
                       <PickupRequestsList
-                        pickupRequests={filteredPickups}
+                        pickupRequests={pickupRequests}
                         selectedPickup={selectedPickup}
                         onPickupSelect={handlePickupSelect}
                         isAvailable={isAvailable}
+                        isLoading={isLoading}
                       />
                     </div>
                   </div>
@@ -396,7 +294,7 @@ const VolunteerDashboard = () => {
                     <div className="h-96 lg:h-[600px] rounded-b-xl overflow-hidden">
                       <MapComponent
                         userLocation={userLocation}
-                        pickupRequests={pickupRequests}
+                        pickups={pickupRequests}
                         selectedPickup={selectedPickup}
                         onPickupSelect={handlePickupSelect}
                       />
@@ -424,7 +322,7 @@ const VolunteerDashboard = () => {
         isAvailable={isAvailable}
         onAvailabilityToggle={handleAvailabilityToggle}
         notifications={notifications}
-        activePickups={activePickups}
+        activePickupsCount={activePickups.length}
         onSectionChange={handleSectionChange}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={handleToggleSidebar}
