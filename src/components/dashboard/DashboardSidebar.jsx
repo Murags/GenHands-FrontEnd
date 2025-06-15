@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
+import toast from 'react-hot-toast';
 import {
   HomeIcon,
   ArchiveBoxIcon,
@@ -18,7 +19,8 @@ import {
   TagIcon,
   UserCircleIcon,
   BuildingStorefrontIcon,
-  IdentificationIcon
+  IdentificationIcon,
+  ArrowRightStartOnRectangleIcon
 } from '@heroicons/react/24/outline';
 
 const initialNavigation = [
@@ -52,6 +54,13 @@ function classNames(...classes) {
 const DashboardSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openSubMenus, setOpenSubMenus] = useState({});
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    toast.success('Logged out successfully!');
+    navigate('/');
+  };
 
   const toggleSubMenu = (itemName) => {
     if (!isCollapsed) {
@@ -151,6 +160,15 @@ const DashboardSidebar = () => {
       </nav>
 
       <div className="mt-auto pt-4 border-t border-ghibli-brown-light">
+        <button
+          onClick={handleLogout}
+          className="flex items-center justify-center w-full px-3 py-2.5 rounded-lg text-ghibli-brown hover:bg-ghibli-red-light hover:text-ghibli-dark-blue transition-colors duration-200 ease-in-out focus:outline-none mb-2"
+          title="Logout"
+        >
+          <ArrowRightStartOnRectangleIcon className={classNames('h-6 w-6 flex-shrink-0', isCollapsed ? '' : 'mr-3')} />
+          {!isCollapsed && <span className="font-medium whitespace-nowrap overflow-hidden">Logout</span>}
+          <span className="sr-only">Logout</span>
+        </button>
         <button
           onClick={() => {
             setIsCollapsed(!isCollapsed);

@@ -106,7 +106,7 @@ const RoleSelectPage = () => {
 
       <p className="text-center text-base font-thin mt-6 text-black">
         Already have an account?{' '}
-        <Link to="/auth/signin/signin" className="text-green-600 font-thin hover:underline">
+        <Link to="/auth/signin" className="text-green-600 font-thin hover:underline">
           Log in
         </Link>
       </p>

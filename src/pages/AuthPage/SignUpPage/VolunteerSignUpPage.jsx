@@ -45,7 +45,7 @@ const VolunteerSignUpPage = () => {
       const data = await res.json();
       if (res.ok) {
         toast.success('Application submitted! Please wait for admin approval.');
-        navigate('/auth/signin/signin');
+        navigate('/auth/signin');
       } else {
         setError(data.message || 'Registration failed');
         toast.error(data.message || 'Registration failed');
@@ -73,7 +73,7 @@ const VolunteerSignUpPage = () => {
       </button>
 
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
-        
+
         {/* Left: Image */}
         <div className="hidden md:block h-full">
           <img
@@ -184,7 +184,7 @@ const VolunteerSignUpPage = () => {
           <p className="text-sm text-center text-black font-thin mt-6">
             Already have an account?{' '}
             <span
-              onClick={() => navigate('/auth/signin/signin')}
+              onClick={() => navigate('/auth/signin')}
               className="hover:underline cursor-pointer font-medium"
               style={{ color: '#004e92' }}
             >

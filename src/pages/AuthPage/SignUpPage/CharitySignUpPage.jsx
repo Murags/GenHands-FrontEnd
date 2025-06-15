@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+import AddressInput from '../../../components/AddressInput';
 
 const CharitySignUpPage = () => {
   const [form, setForm] = useState({
     charityName: '',
     category: '',
-    location: '',
+    location: { address: '', coordinates: null },
     description: '',
     registrationNumber: '',
     email: '',
@@ -27,6 +28,10 @@ const CharitySignUpPage = () => {
     setError('');
   };
 
+  const handleLocationChange = (location) => {
+    setForm(prev => ({ ...prev, location: { address: location.address, coordinates: location.coordinates } }));
+  };
+
   const handleFileChange = (e) => {
     setDocuments(e.target.files);
   };
@@ -35,7 +40,20 @@ const CharitySignUpPage = () => {
     e.preventDefault();
     const formData = new FormData();
     // Append all fields
-    Object.entries(form).forEach(([key, value]) => formData.append(key, value));
+    Object.entries(form).forEach(([key, value]) => {
+      if (key === 'location') {
+        if (value.coordinates) {
+          formData.append('location', JSON.stringify({
+            "coordinates": value.coordinates
+          }));
+          formData.append('address', value.address); // Also send text address
+        } else {
+            formData.append('address', value.address); // if no coords, send text address
+        }
+      } else {
+        formData.append(key, value)
+      }
+    });
     // Append files
     for (let i = 0; i < documents.length; i++) {
       formData.append('documents', documents[i]);
@@ -52,7 +70,7 @@ const CharitySignUpPage = () => {
       const data = await res.json();
       if (res.ok) {
         toast.success('Application submitted! Please wait for admin approval.');
-        navigate('/auth/signin/signin');
+        navigate('/auth/signin');
       } else {
         setError(data.message || 'Registration failed');
         toast.error(data.message || 'Registration failed');
@@ -133,22 +151,22 @@ const CharitySignUpPage = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700">Location</label>
-              <input
-                type="text"
-                name="location" 
-                required value={form.location} 
-                onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
-                placeholder="Muthaiga North Rd, Nairobi, Kenya"
+              <AddressInput
+                label="Organization Location"
+                value={form.location.address}
+                onChange={(address) => handleLocationChange({ address, coordinates: form.location.coordinates })}
+                onLocationSelect={handleLocationChange}
+                placeholder="Search for your organization's address"
+                required
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700">Mission Statement</label>
               <textarea
-                name="description" 
-                required value={form.description} 
-                onChange={handleChange} 
+                name="description"
+                required value={form.description}
+                onChange={handleChange}
                 className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                 rows="3"
                 placeholder="Our mission is to..."
@@ -159,8 +177,8 @@ const CharitySignUpPage = () => {
               <label className="block text-sm font-medium text-gray-700">Registration Number</label>
               <input
                 type="text"
-                name="registrationNumber" 
-                required value={form.registrationNumber} 
+                name="registrationNumber"
+                required value={form.registrationNumber}
                 onChange={handleChange}
                 className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                 placeholder="REG-123456"
@@ -171,8 +189,8 @@ const CharitySignUpPage = () => {
               <label className="block text-sm font-medium text-gray-700">Email Address</label>
               <input
                 type="email"
-                name="email" 
-                required value={form.email} 
+                name="email"
+                required value={form.email}
                 onChange={handleChange}
                 className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                 placeholder="contact@charity.org"
@@ -183,8 +201,8 @@ const CharitySignUpPage = () => {
               <label className="block text-sm font-medium text-gray-700">Phone Number</label>
               <input
                 type="tel"
-                name="phoneNumber" 
-                required value={form.phoneNumber} 
+                name="phoneNumber"
+                required value={form.phoneNumber}
                 onChange={handleChange}
                 pattern="^\+254[0-9]{9}$"
                 minLength={10}
@@ -198,8 +216,8 @@ const CharitySignUpPage = () => {
                 <label className="block text-sm font-medium text-gray-700">Contact Person First Name</label>
                 <input
                   type="text"
-                  name="contactFirstName" 
-                  required value={form.contactFirstName} 
+                  name="contactFirstName"
+                  required value={form.contactFirstName}
                   onChange={handleChange}
                   className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                   placeholder="William"
@@ -209,8 +227,8 @@ const CharitySignUpPage = () => {
                 <label className="block text-sm font-medium text-gray-700">Contact Person Last Name</label>
                 <input
                   type="text"
-                  name="contactLastName" 
-                  required value={form.contactLastName} 
+                  name="contactLastName"
+                  required value={form.contactLastName}
                   onChange={handleChange}
                   className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                   placeholder="Odhiambo"
@@ -223,8 +241,8 @@ const CharitySignUpPage = () => {
                 <label className="block text-sm font-medium text-gray-700">Contact Person's Email</label>
                 <input
                   type="email"
-                  name="contactEmail" 
-                  required value={form.contactEmail} 
+                  name="contactEmail"
+                  required value={form.contactEmail}
                   onChange={handleChange}
                   className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                   placeholder="williamodhiambo8@gmail.com"
@@ -234,8 +252,8 @@ const CharitySignUpPage = () => {
                 <label className="block text-sm font-medium text-gray-700">Contact Person's Phone</label>
                 <input
                   type="tel"
-                  name="contactPhone" 
-                  required value={form.contactPhone} 
+                  name="contactPhone"
+                  required value={form.contactPhone}
                   onChange={handleChange}
                   minLength={10}
                   className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
@@ -243,7 +261,7 @@ const CharitySignUpPage = () => {
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700">Password</label>
               <input
@@ -261,8 +279,8 @@ const CharitySignUpPage = () => {
               <label className="block text-sm font-medium text-gray-700">Upload Verification Documents</label>
               <input
                 type="file"
-                name="documents" 
-                multiple required accept=".pdf,.doc,.docx,.jpg,.png" 
+                name="documents"
+                multiple required accept=".pdf,.doc,.docx,.jpg,.png"
                 onChange={handleFileChange}
                 className="w-full mt-1 border border-black rounded-md px-2 py-1 text-black"
               />
@@ -280,7 +298,7 @@ const CharitySignUpPage = () => {
           <p className="text-sm text-center text-black font-thin mt-6">
             Already verified?{' '}
             <span
-              onClick={() => navigate('/auth/signin/signin')}
+              onClick={() => navigate('/auth/signin')}
               className="hover:underline cursor-pointer font-medium"
               style={{ color: '#005AA7' }}
             >

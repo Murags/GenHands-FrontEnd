@@ -105,7 +105,7 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/auth/signin/signin"
+        path="/auth/signin"
         element={
           <SignInPage />
         }

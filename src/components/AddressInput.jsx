@@ -14,6 +14,7 @@ import { searchLocations, getNearbyPlaces, getCurrentLocation } from '../service
 const AddressInput = ({
   value,
   onChange,
+  onLocationSelect,
   placeholder = "Search for places, addresses, or landmarks",
   label = "Location",
   required = false,
@@ -34,6 +35,7 @@ const AddressInput = ({
   const inputRef = useRef(null);
   const suggestionsRef = useRef(null);
   const debounceRef = useRef(null);
+  const justSelected = useRef(false);
 
   // Get user location on mount
   useEffect(() => {
@@ -64,6 +66,11 @@ const AddressInput = ({
   }, []);
 
   useEffect(() => {
+    if (justSelected.current) {
+      justSelected.current = false;
+      return;
+    }
+
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
@@ -73,10 +80,10 @@ const AddressInput = ({
         setIsLoading(true);
         try {
           const results = await searchLocations(value, {
-            limit: 6, // Reduced to avoid rate limiting
+            limit: 6,
             userLocation: userLocation,
             includeCategories: true,
-            searchRadius: 25 // Smaller radius to reduce API load
+            searchRadius: 25
           });
           setSuggestions(results);
           setActiveTab('search');
@@ -84,8 +91,6 @@ const AddressInput = ({
         } catch (error) {
           console.error('Error fetching suggestions:', error);
           setSuggestions([]);
-
-          // Show fallback suggestions for common areas
           if (value.toLowerCase().includes('westla')) {
             setSuggestions([{
               id: 'fallback-westlands',
@@ -105,7 +110,7 @@ const AddressInput = ({
         } finally {
           setIsLoading(false);
         }
-      }, 500); // Increased debounce time to reduce API calls
+      }, 500);
     } else {
       setSuggestions([]);
       if (showSuggestions) {
@@ -144,13 +149,24 @@ const AddressInput = ({
   const handleInputChange = (e) => {
     const newValue = e.target.value;
     onChange(newValue);
+    if (onLocationSelect) {
+      onLocationSelect({ address: newValue, coordinates: null });
+    }
     setSelectedIndex(-1);
   };
 
   // Handle suggestion selection
   const handleSuggestionSelect = (suggestion) => {
+    justSelected.current = true;
     const address = suggestion.address || suggestion.name || suggestion;
     onChange(address);
+
+    if (onLocationSelect) {
+      onLocationSelect({
+        address: address,
+        coordinates: suggestion.coordinates
+      });
+    }
 
     // Add to search history
     const newHistoryItem = {
