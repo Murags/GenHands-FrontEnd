@@ -29,6 +29,7 @@ const SignInPage = () => {
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.role);
         toast.success('Login successful!');
         const { role } = data;
         switch (role) {
