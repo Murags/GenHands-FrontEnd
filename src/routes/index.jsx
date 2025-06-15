@@ -5,6 +5,9 @@ import { Route, Routes, Outlet } from 'react-router-dom';
 import PageLayout from '../components/layout/PageLayout';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
 
+// Components
+import ProtectedRoute from '../components/auth/ProtectedRoute';
+
 // Pages
 import HomePage from '../pages/HomePage/HomePage';
 import ApiStatusPage from '../pages/ApiStatusPage/ApiStatusPage';
@@ -53,25 +56,31 @@ function AppRoutes() {
       <Route
         path="/volunteer"
         element={
+          <ProtectedRoute allowedRoles={['volunteer']}>
             <VolunteerDashboard />
+          </ProtectedRoute>
         }
       />
 
       <Route
         path="/volunteer/active-pickups"
         element={
+          <ProtectedRoute allowedRoles={['volunteer']}>
             <ActivePickups />
+          </ProtectedRoute>
         }
       />
 
       <Route
         path="/donate"
         element={
+          <ProtectedRoute allowedRoles={['donor']}>
             <DonationSubmission />
+          </ProtectedRoute>
         }
       />
 
-      <Route path="/admin" element={<AdminLayout />}>
+      <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']}><AdminLayout /></ProtectedRoute>}>
         <Route index element={<DashboardOverviewPage />} />
         <Route path="users/volunteers" element={<DashboardVolunteersPage />} />
         <Route path="users/charities" element={<DashboardCharitiesPage />} />
