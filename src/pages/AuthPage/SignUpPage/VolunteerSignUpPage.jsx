@@ -86,14 +86,14 @@ const VolunteerSignUpPage = () => {
         {/* Right: Form */}
         <div className="p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-3xl font-medium text-black mb-4">Sign Up as a Volunteer</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <p className="text-black text-sm mb-6">
             Dedicate your time and skills to make a difference in the community. Join us in our mission to help those in need!
           </p>
 
           <form className="space-y-5" onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">First Name</label>
+                <label className="block text-sm font-medium text-black">First Name</label>
                 <input
                   type="text"
                   name="firstName"
@@ -106,7 +106,7 @@ const VolunteerSignUpPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Last Name</label>
+                <label className="block text-sm font-medium text-black">Last Name</label>
                 <input
                   type="text"
                   name="lastName"
@@ -120,7 +120,7 @@ const VolunteerSignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Email Address</label>
+              <label className="block text-sm font-medium text-black">Email Address</label>
               <input
                 type="email"
                 name="email"
@@ -133,7 +133,7 @@ const VolunteerSignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <label className="block text-sm font-medium text-black">Phone Number</label>
               <input
                 type="tel"
                 name="phone"
@@ -148,7 +148,7 @@ const VolunteerSignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <label className="block text-sm font-medium text-black">Password</label>
               <input
                 type="password"
                 name="password"
@@ -162,7 +162,7 @@ const VolunteerSignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Upload Verification Documents</label>
+              <label className="block text-sm font-medium text-black">Upload Verification Documents</label>
               <input
                 type="file"
                 required
