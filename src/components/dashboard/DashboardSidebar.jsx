@@ -22,16 +22,14 @@ import {
   IdentificationIcon,
   ArrowRightStartOnRectangleIcon
 } from '@heroicons/react/24/outline';
+import { FiHome, FiUsers, FiHeart, FiGrid } from 'react-icons/fi';
 
 const initialNavigation = [
   { name: 'Overview', href: '/admin', icon: HomeIcon },
   {
-    name: 'Item Management',
-    icon: ArchiveBoxIcon,
-    children: [
-      { name: 'All Items', href: '/admin/items/all', icon: Squares2X2Icon },
-      { name: 'Categories', href: '/admin/items/categories', icon: TagIcon },
-    ]
+    name: 'Categories',
+    icon: TagIcon,
+    href: '/admin/items/categories',
   },
   {
     name: 'User Management',
