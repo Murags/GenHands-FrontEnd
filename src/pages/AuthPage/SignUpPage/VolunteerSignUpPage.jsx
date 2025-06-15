@@ -1,9 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 
-const DonorSignUpPage = () => {
+const VolunteerSignUpPage = () => {
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: ''
+  });
+  const [documents, setDocuments] = useState([]);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setError('');
+  };
+
+  const handleFileChange = (e) => {
+    setDocuments(e.target.files);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    // Append all fields
+    Object.entries(form).forEach(([key, value]) => formData.append(key, value));
+    // Append files
+    for (let i = 0; i < documents.length; i++) {
+      formData.append('documents', documents[i]);
+    }
+    // Required fields for backend
+    formData.append('role', 'volunteer');
+    formData.append('name', `${form.firstName} ${form.lastName}`);
+
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/register/volunteer', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success('Application submitted! Please wait for admin approval.');
+        navigate('/auth/signin/signin');
+      } else {
+        setError(data.message || 'Registration failed');
+        toast.error(data.message || 'Registration failed');
+      }
+    } catch {
+      setError('Network error');
+      toast.error('Network error');
+    }
+  };
 
   return (
     <div
@@ -39,7 +90,7 @@ const DonorSignUpPage = () => {
             Dedicate your time and skills to make a difference in the community. Join us in our mission to help those in need!
           </p>
 
-          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-5" onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">First Name</label>
@@ -47,7 +98,9 @@ const DonorSignUpPage = () => {
                   type="text"
                   name="firstName"
                   required
-                  className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                  value={form.firstName}
+                  onChange={handleChange}
+                  className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                   placeholder="Vanessa"
                 />
               </div>
@@ -58,7 +111,9 @@ const DonorSignUpPage = () => {
                   type="text"
                   name="lastName"
                   required
-                  className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                  value={form.lastName}
+                  onChange={handleChange}
+                  className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                   placeholder="Achieng"
                 />
               </div>
@@ -70,7 +125,9 @@ const DonorSignUpPage = () => {
                 type="email"
                 name="email"
                 required
-                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                 placeholder="vanessachieng9@gmail.com"
               />
             </div>
@@ -81,9 +138,11 @@ const DonorSignUpPage = () => {
                 type="tel"
                 name="phone"
                 required
+                value={form.phone}
+                onChange={handleChange}
                 pattern="^\+254[0-9]{9}$"
                 title="Enter a valid phone number"
-                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                 placeholder="+254 712 345 678 (without spaces)"
               />
             </div>
@@ -95,7 +154,9 @@ const DonorSignUpPage = () => {
                 name="password"
                 required
                 minLength={6}
-                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                value={form.password}
+                onChange={handleChange}
+                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                 placeholder="••••••••"
               />
             </div>
@@ -106,10 +167,11 @@ const DonorSignUpPage = () => {
                 type="file"
                 required
                 accept=".pdf,.doc,.docx,.jpg,.png"
-                className="w-full mt-1 border border-black rounded-md px-2 py-1"
+                onChange={handleFileChange}
+                className="w-full mt-1 border border-black rounded-md px-2 py-1 text-black"
               />
             </div>
-
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <button
               type="submit"
               className="w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition"
@@ -135,4 +197,4 @@ const DonorSignUpPage = () => {
   );
 };
 
-export default DonorSignUpPage;
+export default VolunteerSignUpPage;
