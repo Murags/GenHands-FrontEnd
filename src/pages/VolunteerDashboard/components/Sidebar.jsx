@@ -8,7 +8,10 @@ import {
   BellIcon,
   CogIcon,
   ChartBarIcon,
-  ClipboardDocumentListIcon
+  ClipboardDocumentListIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Bars3Icon
 } from '@heroicons/react/24/outline';
 
 const Sidebar = ({
@@ -17,7 +20,9 @@ const Sidebar = ({
   onAvailabilityToggle,
   notifications,
   activePickups = [],
-  onSectionChange
+  onSectionChange,
+  isCollapsed = false,
+  onToggleCollapse
 }) => {
   const [activeSection, setActiveSection] = useState('dashboard');
 
@@ -26,7 +31,7 @@ const Sidebar = ({
     { id: 'active', label: 'Active Pickups', icon: TruckIcon, badge: activePickups.length },
     { id: 'availability', label: 'Availability', icon: CalendarIcon },
     { id: 'history', label: 'My History', icon: ClipboardDocumentListIcon },
-    // { id: 'notifications', label: 'Notifications', icon: BellIcon, badge: notifications.length },
+    { id: 'notifications', label: 'Notifications', icon: BellIcon, badge: notifications.length },
     { id: 'settings', label: 'Settings', icon: CogIcon }
   ];
 
@@ -38,65 +43,114 @@ const Sidebar = ({
   };
 
   return (
-    <div className="fixed left-0 top-0 w-80 bg-ghibli-cream border-r shadow-ghibli h-screen overflow-y-auto z-10" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
-      {/* Profile Section */}
-      <div className="p-6 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
-        <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-ghibli-teal rounded-full flex items-center justify-center">
-            <UserIcon className="h-8 w-8 text-white" />
-          </div>
-          <div>
-            <h2 className="text-xl font-bold text-ghibli-dark-blue handwritten">Sarah Volunteer</h2>
-            <div className="flex items-center space-x-2 mt-1">
-              <StarIcon className="h-4 w-4 text-ghibli-yellow" />
-              <span className="text-sm font-semibold text-ghibli-dark-blue">{volunteerStats.rating}</span>
-              <span className="text-xs text-ghibli-brown">Rating</span>
-            </div>
-          </div>
-        </div>
+    <div className={`fixed left-0 top-0 bg-ghibli-cream border-r shadow-ghibli h-screen overflow-y-auto overflow-x-hidden z-10 transition-all duration-300 ${
+      isCollapsed ? 'w-20' : 'w-80'
+    }`} style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
 
-        <div className="mt-4 p-3 bg-white rounded-lg shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-ghibli-dark-blue">Available for Pickups</span>
+      {/* Collapse Toggle Button */}
+      <div className="absolute -right-3 top-6 z-20">
+        <button
+          onClick={onToggleCollapse}
+          className="w-6 h-6 bg-ghibli-teal text-white rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-90 transition-colors"
+        >
+          {isCollapsed ? (
+            <ChevronRightIcon className="h-4 w-4" />
+          ) : (
+            <ChevronLeftIcon className="h-4 w-4" />
+          )}
+        </button>
+      </div>
+
+      {/* Profile Section */}
+      <div className={`border-b ${isCollapsed ? 'p-4' : 'p-6'}`} style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
+        {isCollapsed ? (
+          // Collapsed Profile
+          <div className="flex flex-col items-center space-y-2">
+            <div className="w-12 h-12 bg-ghibli-teal rounded-full flex items-center justify-center">
+              <UserIcon className="h-6 w-6 text-white" />
+            </div>
+            <div className="flex items-center">
+              <StarIcon className="h-3 w-3 text-ghibli-yellow" />
+              <span className="text-xs font-semibold text-ghibli-dark-blue ml-1">{volunteerStats.rating}</span>
+            </div>
+            {/* Collapsed Availability Toggle */}
             <button
               onClick={onAvailabilityToggle}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              className={`w-8 h-4 rounded-full transition-colors ${
                 isAvailable ? 'bg-ghibli-green' : 'bg-ghibli-brown-light'
               }`}
+              title={isAvailable ? 'Available for pickups' : 'Unavailable'}
             >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  isAvailable ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
+              <div className={`w-3 h-3 bg-white rounded-full transition-transform ${
+                isAvailable ? 'translate-x-4' : 'translate-x-0.5'
+              }`} />
             </button>
           </div>
-          <p className="text-xs text-ghibli-brown mt-1">
-            {isAvailable ? 'You\'ll receive new pickup requests' : 'You won\'t receive new requests'}
-          </p>
-        </div>
+        ) : (
+          // Expanded Profile
+          <>
+            <div className="flex items-center space-x-3">
+              <div className="w-14 h-14 bg-ghibli-teal rounded-full flex items-center justify-center flex-shrink-0">
+                <UserIcon className="h-7 w-7 text-white" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h2 className="text-lg font-bold text-ghibli-dark-blue handwritten truncate">Sarah Volunteer</h2>
+                <div className="flex items-center space-x-2 mt-1">
+                  <StarIcon className="h-4 w-4 text-ghibli-yellow flex-shrink-0" />
+                  <span className="text-sm font-semibold text-ghibli-dark-blue">{volunteerStats.rating}</span>
+                  <span className="text-xs text-ghibli-brown">Rating</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Availability Toggle */}
+            <div className="mt-4 p-3 bg-white rounded-lg shadow-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-ghibli-dark-blue truncate mr-2">Available for Pickups</span>
+                <button
+                  onClick={onAvailabilityToggle}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
+                    isAvailable ? 'bg-ghibli-green' : 'bg-ghibli-brown-light'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      isAvailable ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+              </div>
+              <p className="text-xs text-ghibli-brown mt-1 leading-tight">
+                {isAvailable ? 'You\'ll receive new pickup requests' : 'You won\'t receive new requests'}
+              </p>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Navigation Menu */}
-      <div className="p-6">
-        <h3 className="text-lg font-semibold text-ghibli-dark-blue mb-4 handwritten">Menu</h3>
+      <div className={`${isCollapsed ? 'p-2' : 'p-6'}`}>
+        {!isCollapsed && (
+          <h3 className="text-lg font-semibold text-ghibli-dark-blue mb-4 handwritten">Menu</h3>
+        )}
         <nav className="space-y-2">
           {menuItems.map((item) => (
             <button
               key={item.id}
               onClick={() => handleSectionChange(item.id)}
-              className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all ${
+              className={`w-full flex items-center ${isCollapsed ? 'justify-center p-3' : 'justify-between px-4 py-3'} rounded-lg transition-all relative ${
                 activeSection === item.id
                   ? 'bg-ghibli-teal text-white shadow-sm'
                   : 'text-ghibli-brown hover:bg-white hover:shadow-sm'
               }`}
+              title={isCollapsed ? item.label : ''}
             >
-              <div className="flex items-center space-x-3">
-                <item.icon className="h-5 w-5" />
-                <span className="font-medium">{item.label}</span>
+              <div className={`flex items-center ${isCollapsed ? '' : 'space-x-3 min-w-0 flex-1'}`}>
+                <item.icon className="h-5 w-5 flex-shrink-0" />
+                {!isCollapsed && <span className="font-medium truncate">{item.label}</span>}
               </div>
-              {item.badge > 0 && (
-                <span className={`text-xs px-2 py-1 rounded-full ${
+              {!isCollapsed && item.badge > 0 && (
+                <span className={`text-xs px-2 py-1 rounded-full flex-shrink-0 ${
                   activeSection === item.id
                     ? 'bg-white text-ghibli-teal'
                     : 'bg-ghibli-red text-white'
@@ -104,10 +158,28 @@ const Sidebar = ({
                   {item.badge}
                 </span>
               )}
+              {isCollapsed && item.badge > 0 && (
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-ghibli-red text-white text-xs rounded-full flex items-center justify-center">
+                  {item.badge > 9 ? '9+' : item.badge}
+                </div>
+              )}
             </button>
           ))}
         </nav>
       </div>
+
+      {/* Collapsed Menu Button - show when collapsed */}
+      {isCollapsed && (
+        <div className="p-4 border-t" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
+          <button
+            onClick={onToggleCollapse}
+            className="w-full p-3 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center"
+            title="Expand sidebar"
+          >
+            <Bars3Icon className="h-5 w-5" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
