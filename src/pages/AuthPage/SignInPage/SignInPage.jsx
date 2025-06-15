@@ -41,6 +41,9 @@ const SignInPage = () => {
           case 'charity':
             navigate('/charity');
             break;
+          case 'donor':
+            navigate('/donate');
+            break;
           default:
             navigate('/');
         }
