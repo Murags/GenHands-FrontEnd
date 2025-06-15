@@ -2,64 +2,6 @@
 
 import { geocodeAddress, calculateDistance, calculateEstimatedTime, getCurrentLocation } from './geocodingService';
 
-/**
- * Mock charity data that would come from your backend
- * Includes name, address, and pre-defined coordinates
- */
-const MOCK_CHARITIES = [
-  {
-    id: 'charity-1',
-    name: "Nairobi Food Bank",
-    address: "Industrial Area, Off Nanyuki Road, Nairobi",
-    coordinates: [-1.3149, 36.8433]
-  },
-  {
-    id: 'charity-2',
-    name: "Kibera Community Kitchen",
-    address: "Olympic, Kibera, Nairobi",
-    coordinates: [-1.3125, 36.7845]
-  },
-  {
-    id: 'charity-3',
-    name: "Mathare Children's Home",
-    address: "Juja Road, Mathare, Nairobi",
-    coordinates: [-1.2650, 36.8617]
-  },
-  {
-    id: 'charity-4',
-    name: "Eastlands Primary School Support",
-    address: "Donholm, Nairobi",
-    coordinates: [-1.2933, 36.8997]
-  },
-  {
-    id: 'charity-5',
-    name: "Mama Ngina Women's Group",
-    address: "Kawangware, Nairobi",
-    coordinates: [-1.2882, 36.7505]
-  }
-];
-
-/**
- * Fetches the list of registered charities from the backend
- */
-export const getCharities = async () => {
-  try {
-    // In production, this would be a real API call:
-    // const response = await fetch('/api/charities');
-    // if (!response.ok) throw new Error('Failed to fetch charities');
-    // return await response.json();
-
-    // Simulate API call
-    console.log('Fetching list of charities...');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return MOCK_CHARITIES;
-
-  } catch (error) {
-    console.error('Error fetching charities:', error);
-    return [];
-  }
-};
-
 export const transformDonationToPickupRequest = (donationData, submissionId) => {
   // Calculate priority based on urgency level and item types
   const calculatePriority = (urgencyLevel, items, requiresRefrigeration) => {
@@ -408,7 +350,6 @@ export const PICKUP_REQUEST_FORMAT = {
 };
 
 export default {
-  getCharities,
   submitDonation,
   getPickupRequests,
   updatePickupStatus,

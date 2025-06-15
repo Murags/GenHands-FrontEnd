@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   MapPinIcon,
   PhoneIcon,
@@ -13,15 +13,27 @@ import {
   InformationCircleIcon,
   BuildingOfficeIcon
 } from '@heroicons/react/24/outline';
-import { submitDonation, getCharities } from '../../services/donationService';
+import { submitDonation } from '../../services/donationService';
 import AddressInput from '../../components/AddressInput';
+import { useCharities } from '../../hooks/useCharities';
+import Autocomplete from '../../components/Autocomplete';
 
 const DonationSubmission = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
-  const [charityList, setCharityList] = useState([]);
+
+  const { data: charities, isLoading: isLoadingCharities, isError: isCharityError } = useCharities();
+
+  const charityList = useMemo(() => {
+    if (!charities) return [];
+    return charities.map(charity => ({
+      ...charity,
+      displayName: charity.charityName || charity.name
+    }));
+  }, [charities]);
+
   const [formData, setFormData] = useState({
     // Donor Information
     donorName: '',
@@ -80,7 +92,7 @@ const DonationSubmission = () => {
     { value: 'high', label: 'High Priority', description: 'Urgent - same day pickup', color: 'text-ghibli-red' }
   ];
 
-  // Get user location and charity list on component mount
+  // Get user location on component mount
   useEffect(() => {
     // Get user's current location to improve pickup geocoding
     if (navigator.geolocation) {
@@ -97,14 +109,6 @@ const DonationSubmission = () => {
     } else {
       setUserLocation([-1.2921, 36.8219]);
     }
-
-    // Fetch the list of charities for the destination dropdown
-    const fetchCharities = async () => {
-      const charities = await getCharities();
-      setCharityList(charities);
-    };
-
-    fetchCharities();
   }, []);
 
   const handleInputChange = (field, value) => {
@@ -133,14 +137,14 @@ const DonationSubmission = () => {
         }));
         return;
     }
-    const selectedCharity = charityList.find(c => c.id === charityId);
+    const selectedCharity = charityList.find(c => c._id === charityId);
     if (selectedCharity) {
         setFormData(prev => ({
             ...prev,
-            preferredCharityId: selectedCharity.id,
-            preferredCharity: selectedCharity.name,
-            deliveryAddress: selectedCharity.address,
-            deliveryCoordinates: selectedCharity.coordinates,
+            preferredCharityId: selectedCharity._id,
+            preferredCharity: selectedCharity.displayName,
+            deliveryAddress: selectedCharity.address || 'Not specified',
+            deliveryCoordinates: selectedCharity.location?.coordinates,
         }));
     }
   };
@@ -515,25 +519,19 @@ const DonationSubmission = () => {
           <h3 className="text-lg font-semibold text-ghibli-dark-blue">Delivery Destination</h3>
 
           <div>
-            <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">
-              Deliver to Charity *
-            </label>
-            <div className="relative">
-              <BuildingOfficeIcon className="absolute left-3 top-3 h-5 w-5 text-ghibli-brown" />
-              <select
-                value={formData.preferredCharityId}
-                onChange={(e) => handleCharityChange(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent appearance-none bg-white"
-                required
-              >
-                <option value="">Select a destination charity</option>
-                {charityList.map(charity => (
-                  <option key={charity.id} value={charity.id}>
-                    {charity.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <Autocomplete
+              label="Deliver to Charity *"
+              icon={BuildingOfficeIcon}
+              placeholder={isLoadingCharities ? 'Loading charities...' : "Search for a destination charity"}
+              options={charityList}
+              value={formData.preferredCharityId}
+              onChange={handleCharityChange}
+              optionLabelKey="displayName"
+              optionValueKey="_id"
+              isLoading={isLoadingCharities}
+              isError={isCharityError}
+              required
+            />
             {formData.deliveryAddress && (
               <p className="mt-2 text-sm text-ghibli-brown">
                 <MapPinIcon className="h-4 w-4 inline-block mr-1" />
