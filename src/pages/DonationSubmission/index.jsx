@@ -206,7 +206,7 @@ const DonationSubmission = () => {
                       value={field.value}
                       onChange={field.onChange}
                       optionLabelKey="name"
-                      optionValueKey="name"
+                      optionValueKey="_id"
                       isLoading={isLoadingCategories}
                       isError={isCategoriesError}
                       required
@@ -357,14 +357,17 @@ const DonationSubmission = () => {
           <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
             <h3 className="text-lg font-semibold text-ghibli-dark-blue mb-4">Donation Items</h3>
             <div className="space-y-3">
-              {watchedData.donationItems?.map((item, index) => (
-                <div key={index} className="p-3 bg-ghibli-cream-lightest rounded-lg">
-                  <p className="font-medium text-ghibli-dark-blue">{item.category}</p>
-                  <p className="text-sm text-ghibli-brown">{item.description}</p>
-                  {item.quantity && <p className="text-sm text-ghibli-brown">Quantity: {item.quantity}</p>}
-                  <p className="text-sm text-ghibli-brown">Condition: {item.condition}</p>
-                </div>
-              ))}
+              {watchedData.donationItems?.map((item, index) => {
+                const categoryName = donationCategories?.find(cat => cat._id === item.category)?.name || item.category;
+                return (
+                  <div key={index} className="p-3 bg-ghibli-cream-lightest rounded-lg">
+                    <p className="font-medium text-ghibli-dark-blue">{categoryName}</p>
+                    <p className="text-sm text-ghibli-brown">{item.description}</p>
+                    {item.quantity && <p className="text-sm text-ghibli-brown">Quantity: {item.quantity}</p>}
+                    <p className="text-sm text-ghibli-brown">Condition: {item.condition}</p>
+                  </div>
+                );
+              })}
             </div>
             {watchedData.totalWeight && <p className="mt-3 text-sm"><strong>Total Weight:</strong> {watchedData.totalWeight}</p>}
           </div>

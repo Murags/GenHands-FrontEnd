@@ -15,6 +15,7 @@ import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersP
 import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPage';
 import DashboardCategoriesPage from '../pages/DashboardPage/DashboardCategoriesPage';
 import VolunteerDashboard from '../pages/VolunteerDashboard';
+import ActivePickups from '../pages/ActivePickups';
 import DonationSubmission from '../pages/DonationSubmission';
 import RoleSelectPage from '../pages/AuthPage/RoleSelectPage/RoleSelectPage';
 import DonorSignUpPage from '../pages/AuthPage/SignUpPage/DonorSignUpPage';
@@ -53,6 +54,13 @@ function AppRoutes() {
         path="/volunteer"
         element={
             <VolunteerDashboard />
+        }
+      />
+
+      <Route
+        path="/volunteer/active-pickups"
+        element={
+            <ActivePickups />
         }
       />
 
