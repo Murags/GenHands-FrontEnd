@@ -30,8 +30,20 @@ const SignInPage = () => {
       if (res.ok) {
         localStorage.setItem('token', data.token);
         toast.success('Login successful!');
-        // Redirect to home for now
-        navigate('/');
+        const { role } = data;
+        switch (role) {
+          case 'admin':
+            navigate('/admin');
+            break;
+          case 'volunteer':
+            navigate('/volunteer');
+            break;
+          case 'charity':
+            navigate('/charity');
+            break;
+          default:
+            navigate('/');
+        }
       } else {
         setError(data.message || 'Login failed');
         toast.error(data.message || 'Login failed');
@@ -52,11 +64,11 @@ const SignInPage = () => {
         <FiArrowLeft size={20} />
       </button>
       <div className="flex flex-col md:flex-row bg-white shadow-2xl overflow-hidden max-w-6xl w-full min-h-[575px]">
-        
+
         {/* Left Image */}
         <div className="md:w-1/2 bg-white p-2 flex items-center justify-center h-[575px]">
           <img
-            src="https://img.freepik.com/free-photo/hands-different-ethnicities-skin-color-coming-together-sign-diversity_23-2151763147.jpg?ga=GA1.1.1446853444.1749456613&semt=ais_items_boosted&w=740" 
+            src="https://img.freepik.com/free-photo/hands-different-ethnicities-skin-color-coming-together-sign-diversity_23-2151763147.jpg?ga=GA1.1.1446853444.1749456613&semt=ais_items_boosted&w=740"
             alt="Hands"
             className="rounded-1xl object-cover w-full h-72 md:h-full"
           />

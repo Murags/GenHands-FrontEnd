@@ -114,6 +114,14 @@ const DonationSubmission = () => {
     }));
   };
 
+  const handlePickupLocationChange = (location) => {
+    setFormData(prev => ({
+      ...prev,
+      pickupAddress: location.address,
+      pickupCoordinates: location.coordinates
+    }));
+  };
+
   const handleCharityChange = (charityId) => {
     if (!charityId) {
         setFormData(prev => ({
@@ -321,6 +329,7 @@ const DonationSubmission = () => {
               label="Pickup Address *"
               value={formData.pickupAddress}
               onChange={(value) => handleInputChange('pickupAddress', value)}
+              onLocationSelect={handlePickupLocationChange}
               placeholder="Search for your location, business, or landmark"
               required
               showNearbyPlaces={true}

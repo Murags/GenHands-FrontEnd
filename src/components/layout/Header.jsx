@@ -22,7 +22,7 @@ const Header = () => (
 
         <div className="flex items-center">
           <RouterLink
-            to="/auth/signin/signin"
+            to="/auth/signin"
             className="px-4"
           >
             Login

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import {
   UserIcon,
   StarIcon,
@@ -11,7 +13,8 @@ import {
   ClipboardDocumentListIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  Bars3Icon
+  Bars3Icon,
+  ArrowRightStartOnRectangleIcon
 } from '@heroicons/react/24/outline';
 
 const Sidebar = ({
@@ -25,13 +28,19 @@ const Sidebar = ({
   onToggleCollapse
 }) => {
   const [activeSection, setActiveSection] = useState('dashboard');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    toast.success('Logged out successfully!');
+    navigate('/');
+  };
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: ChartBarIcon },
     { id: 'active', label: 'Active Pickups', icon: TruckIcon, badge: activePickups.length },
     { id: 'availability', label: 'Availability', icon: CalendarIcon },
     { id: 'history', label: 'My History', icon: ClipboardDocumentListIcon },
-    { id: 'notifications', label: 'Notifications', icon: BellIcon, badge: notifications.length },
     { id: 'settings', label: 'Settings', icon: CogIcon }
   ];
 
@@ -166,6 +175,19 @@ const Sidebar = ({
             </button>
           ))}
         </nav>
+      </div>
+
+      <div className={`absolute bottom-0 w-full ${isCollapsed ? 'p-2' : 'p-6'}`}>
+          <button
+              onClick={handleLogout}
+              className={`w-full flex items-center ${isCollapsed ? 'justify-center p-3' : 'justify-between px-4 py-3'} rounded-lg transition-all text-ghibli-brown hover:bg-ghibli-red-light hover:shadow-sm`}
+              title={isCollapsed ? 'Logout' : ''}
+            >
+              <div className={`flex items-center ${isCollapsed ? '' : 'space-x-3 min-w-0 flex-1'}`}>
+                <ArrowRightStartOnRectangleIcon className="h-5 w-5 flex-shrink-0" />
+                {!isCollapsed && <span className="font-medium truncate">Logout</span>}
+              </div>
+            </button>
       </div>
 
       {/* Collapsed Menu Button - show when collapsed */}
