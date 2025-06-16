@@ -84,10 +84,10 @@ const SignInPage = () => {
           <span className="absolute top-20 left-20 text-5xl">✨</span>
           <span className="absolute bottom-20 right-20 text-5xl">✨</span>
 
-          <h2 className="text-3xl font-extrabold font-sans text-gray-800 mb-6 text-center">Welcome Back!</h2>
+          <h2 className="text-3xl font-extrabold font-sans text-black mb-6 text-center">Welcome Back!</h2>
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium font-sans text-gray-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium font-sans text-black mb-1">
                 Email
               </label>
               <input
@@ -96,14 +96,14 @@ const SignInPage = () => {
                 type="email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
                 autoComplete="email"
                 placeholder="janny.jonyo@strathmore.edu"
 
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium font-sans text-gray-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium font-sans text-black mb-1">
                 Password
               </label>
               <input
@@ -112,7 +112,7 @@ const SignInPage = () => {
                 type="password"
                 value={form.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
                 autoComplete="current-password"
                 placeholder="••••••••"
               />

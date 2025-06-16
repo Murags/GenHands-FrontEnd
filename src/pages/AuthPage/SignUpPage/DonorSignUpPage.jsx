@@ -84,54 +84,54 @@ const DonorSignUpPage = () => {
         {/* Right: Form */}
         <div className="p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-3xl font-medium text-black mb-4">Sign Up as a Donor</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <p className="text-black text-sm mb-6">
             Join us in giving back to the community. Your generosity makes a big difference!
           </p>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">First Name</label>
+                <label className="block text-sm font-medium text-black">First Name</label>
                 <input
                   type="text"
                   name="firstName"
                   required
                   value={form.firstName}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                  className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                   placeholder="Abigail"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Last Name</label>
+                <label className="block text-sm font-medium text-black">Last Name</label>
                 <input
                   type="text"
                   name="lastName"
                   required
                   value={form.lastName}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                  className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                   placeholder="Mugambi"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Email Address</label>
+              <label className="block text-sm font-medium text-black">Email Address</label>
               <input
                 type="email"
                 name="email"
                 required
                 value={form.email}
                 onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                 placeholder="abigailmugambi7@gmail.com"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <label className="block text-sm font-medium text-black">Phone Number</label>
               <input
                 type="tel"
                 name="phone"
@@ -140,13 +140,13 @@ const DonorSignUpPage = () => {
                 onChange={handleChange}
                 pattern="^\+254[0-9]{9}$"
                 title="Enter a valid phone number"
-                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                 placeholder="+254 712 345 678 (without spaces)"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <label className="block text-sm font-medium text-black">Password</label>
               <input
                 type="password"
                 name="password"
@@ -154,7 +154,7 @@ const DonorSignUpPage = () => {
                 value={form.password}
                 onChange={handleChange}
                 minLength={6}
-                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm"
+                className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
                 placeholder="••••••••"
               />
             </div>
