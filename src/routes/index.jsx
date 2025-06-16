@@ -19,6 +19,7 @@ import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPag
 import DashboardCategoriesPage from '../pages/DashboardPage/DashboardCategoriesPage';
 import VolunteerDashboard from '../pages/VolunteerDashboard';
 import ActivePickups from '../pages/ActivePickups';
+import CharityDashboard from '../pages/CharityDashboard';
 import DonationSubmission from '../pages/DonationSubmission';
 import RoleSelectPage from '../pages/AuthPage/RoleSelectPage/RoleSelectPage';
 import DonorSignUpPage from '../pages/AuthPage/SignUpPage/DonorSignUpPage';
@@ -26,9 +27,14 @@ import CharitySignUpPage from '../pages/AuthPage/SignUpPage/CharitySignUpPage';
 import VolunteerSignUpPage from '../pages/AuthPage/SignUpPage/VolunteerSignUpPage';
 import SignInPage from '../pages/AuthPage/SignInPage/SignInPage';
 
-// serves as the layout for all /admin routes
 const AdminLayout = () => (
-  <DashboardLayout>
+  <DashboardLayout role="admin">
+    <Outlet />
+  </DashboardLayout>
+);
+
+const CharityLayout = () => (
+  <DashboardLayout role="charity">
     <Outlet />
   </DashboardLayout>
 );
@@ -70,6 +76,18 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/charity" element={<ProtectedRoute allowedRoles={['charity']}><CharityLayout /></ProtectedRoute>}>
+        <Route index element={<CharityDashboard />} />
+        <Route path="requirements" element={<DashboardNotFoundPage />} />
+        <Route path="donations" element={<DashboardNotFoundPage />} />
+        <Route path="tracking" element={<DashboardNotFoundPage />} />
+        <Route path="thank-you" element={<DashboardNotFoundPage />} />
+        <Route path="reports" element={<DashboardNotFoundPage />} />
+        <Route path="profile" element={<DashboardNotFoundPage />} />
+        <Route path="settings" element={<DashboardNotFoundPage />} />
+        <Route path="*" element={<DashboardNotFoundPage />} />
+      </Route>
 
       <Route
         path="/donate"
