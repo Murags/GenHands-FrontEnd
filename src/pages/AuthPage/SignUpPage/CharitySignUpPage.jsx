@@ -110,13 +110,13 @@ const CharitySignUpPage = () => {
         {/* Right: Form */}
         <div className="p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-3xl font-medium text-black mb-4">Sign Up as a Charity</h2>
-          <p className="text-gray-600 text-sm mb-6">
+          <p className="text-black text-sm mb-6">
             Register your organization and get support for your mission!
           </p>
 
           <form className="space-y-5" onSubmit={handleSubmit} encType="multipart/form-data">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Organization Name</label>
+              <label className="block text-sm font-medium text-black">Organization Name</label>
               <input
                 type="text"
                 name="charityName"
@@ -128,7 +128,7 @@ const CharitySignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Organization Type</label>
+              <label className="block text-sm font-medium text-black">Organization Type</label>
               <select
                 name="category"
                 required value={form.category}
@@ -136,21 +136,21 @@ const CharitySignUpPage = () => {
                 className="w-full mt-1 px-4 py-2 border border-black rounded-md shadow-sm text-black"
               >
                 <option value="">Select type</option>
-                <option value="ngo">Children & Youth</option>
-                <option value="cbo">Hunger & Food Aid</option>
-                <option value="religious">Emergency Relief</option>
-                <option value="foundation">Healthcare & Medical</option>
-                <option value="foundation">Poverty & Homelessness</option>
-                <option value="foundation">Animals & Wildlife</option>
-                <option value="foundation">Elderly & Disabled Care</option>
-                <option value="foundation">Community Development</option>
-                <option value="foundation">Education & Schools</option>
-                <option value="foundation">Environmental Conservation</option>
+                <option value="Children & Youth">Children & Youth</option>
+                <option value="Hunger & Food Aid">Hunger & Food Aid</option>
+                <option value="Emergency Relief">Emergency Relief</option>
+                <option value="Healthcare & Medical">Healthcare & Medical</option>
+                <option value="Poverty & Homelessness">Poverty & Homelessness</option>
+                <option value="Animals & Wildlife">Animals & Wildlife</option>
+                <option value="Elderly & Disabled Care">Elderly & Disabled Care</option>
+                <option value="Community Development">Community Development</option>
+                <option value="Education & Schools">Education & Schools</option>
+                <option value="Environmental Conservation">Environmental Conservation</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Location</label>
+              <label className="block text-sm font-medium text-black">Location</label>
               <AddressInput
                 label="Organization Location"
                 value={form.location.address}
@@ -162,7 +162,7 @@ const CharitySignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Mission Statement</label>
+              <label className="block text-sm font-medium text-black">Mission Statement</label>
               <textarea
                 name="description"
                 required value={form.description}
@@ -174,7 +174,7 @@ const CharitySignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Registration Number</label>
+              <label className="block text-sm font-medium text-black">Registration Number</label>
               <input
                 type="text"
                 name="registrationNumber"
@@ -186,7 +186,7 @@ const CharitySignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Email Address</label>
+              <label className="block text-sm font-medium text-black">Email Address</label>
               <input
                 type="email"
                 name="email"
@@ -198,7 +198,7 @@ const CharitySignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <label className="block text-sm font-medium text-black">Phone Number</label>
               <input
                 type="tel"
                 name="phoneNumber"
@@ -213,7 +213,7 @@ const CharitySignUpPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Contact Person First Name</label>
+                <label className="block text-sm font-medium text-black">Contact Person First Name</label>
                 <input
                   type="text"
                   name="contactFirstName"
@@ -224,7 +224,7 @@ const CharitySignUpPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Contact Person Last Name</label>
+                <label className="block text-sm font-medium text-black">Contact Person Last Name</label>
                 <input
                   type="text"
                   name="contactLastName"
@@ -238,7 +238,7 @@ const CharitySignUpPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Contact Person's Email</label>
+                <label className="block text-sm font-medium text-black">Contact Person's Email</label>
                 <input
                   type="email"
                   name="contactEmail"
@@ -249,7 +249,7 @@ const CharitySignUpPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Contact Person's Phone</label>
+                <label className="block text-sm font-medium text-black">Contact Person's Phone</label>
                 <input
                   type="tel"
                   name="contactPhone"
@@ -263,7 +263,7 @@ const CharitySignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <label className="block text-sm font-medium text-black">Password</label>
               <input
                 type="password"
                 name="password"
@@ -276,7 +276,7 @@ const CharitySignUpPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Upload Verification Documents</label>
+              <label className="block text-sm font-medium text-black">Upload Verification Documents</label>
               <input
                 type="file"
                 name="documents"
