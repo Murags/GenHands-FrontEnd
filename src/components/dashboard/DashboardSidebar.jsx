@@ -20,42 +20,109 @@ import {
   UserCircleIcon,
   BuildingStorefrontIcon,
   IdentificationIcon,
-  ArrowRightStartOnRectangleIcon
+  ArrowRightStartOnRectangleIcon,
+  PlusIcon,
+  EyeIcon,
+  MapPinIcon,
+  HeartIcon,
+  GiftIcon,
+  DocumentTextIcon
 } from '@heroicons/react/24/outline';
 import { FiHome, FiUsers, FiHeart, FiGrid } from 'react-icons/fi';
 
-const initialNavigation = [
-  { name: 'Overview', href: '/admin', icon: HomeIcon },
-  {
-    name: 'Categories',
-    icon: TagIcon,
-    href: '/admin/items/categories',
-  },
-  {
-    name: 'User Management',
-    icon: UsersIcon,
-    children: [
-      { name: 'Charities', href: '/admin/users/charities', icon: BuildingStorefrontIcon },
-      { name: 'Volunteers', href: '/admin/users/volunteers', icon: IdentificationIcon },
-    ]
-  },
-  { name: 'Donation Requests', href: '/admin/requests', icon: ClipboardDocumentCheckIcon },
-  { name: 'Logistics', href: '/admin/logistics', icon: TruckIcon },
-  { name: 'Reports', href: '/admin/reports', icon: ChartPieIcon },
-  { name: 'Settings', href: '/admin/settings', icon: CogIcon },
-];
+const getNavigationByRole = (role) => {
+  switch (role) {
+    case 'admin':
+      return [
+        { name: 'Overview', href: '/admin', icon: HomeIcon },
+        {
+          name: 'Categories',
+          icon: TagIcon,
+          href: '/admin/items/categories',
+        },
+        {
+          name: 'User Management',
+          icon: UsersIcon,
+          children: [
+            { name: 'Charities', href: '/admin/users/charities', icon: BuildingStorefrontIcon },
+            { name: 'Volunteers', href: '/admin/users/volunteers', icon: IdentificationIcon },
+          ]
+        },
+        { name: 'Donation Requests', href: '/admin/requests', icon: ClipboardDocumentCheckIcon },
+        { name: 'Logistics', href: '/admin/logistics', icon: TruckIcon },
+        { name: 'Reports', href: '/admin/reports', icon: ChartPieIcon },
+        { name: 'Settings', href: '/admin/settings', icon: CogIcon },
+      ];
+
+    case 'charity':
+      return [
+        { name: 'Dashboard', href: '/charity', icon: HomeIcon },
+        { name: 'Post Requirements', href: '/charity/requirements', icon: PlusIcon },
+        { name: 'Incoming Donations', href: '/charity/donations', icon: GiftIcon },
+        { name: 'Delivery Tracking', href: '/charity/tracking', icon: TruckIcon },
+        { name: 'Thank You Notes', href: '/charity/thank-you', icon: HeartIcon },
+        { name: 'Reports & Analytics', href: '/charity/reports', icon: ChartPieIcon },
+        { name: 'Organization Profile', href: '/charity/profile', icon: BuildingStorefrontIcon },
+        { name: 'Settings', href: '/charity/settings', icon: CogIcon },
+      ];
+
+    case 'volunteer':
+      return [
+        { name: 'Dashboard', href: '/volunteer', icon: HomeIcon },
+        { name: 'Active Missions', href: '/volunteer/active-pickups', icon: TruckIcon },
+        { name: 'Available Pickups', href: '/volunteer', icon: EyeIcon },
+        { name: 'History', href: '/volunteer/history', icon: ClockIcon },
+        { name: 'Profile', href: '/volunteer/profile', icon: UserCircleIcon },
+        { name: 'Settings', href: '/volunteer/settings', icon: CogIcon },
+      ];
+
+    case 'donor':
+      return [
+        { name: 'Make Donation', href: '/donate', icon: HomeIcon },
+        { name: 'My Donations', href: '/donor/donations', icon: ClipboardDocumentCheckIcon },
+        { name: 'Track Donations', href: '/donor/tracking', icon: MapPinIcon },
+        { name: 'Profile', href: '/donor/profile', icon: UserCircleIcon },
+        { name: 'Settings', href: '/donor/settings', icon: CogIcon },
+      ];
+
+    default:
+      return [
+        { name: 'Overview', href: '/admin', icon: HomeIcon },
+      ];
+  }
+};
+
+const getTitleByRole = (role) => {
+  switch (role) {
+    case 'admin':
+      return 'GenHands Admin';
+    case 'charity':
+      return 'Charity Portal';
+    case 'volunteer':
+      return 'Volunteer Hub';
+    case 'donor':
+      return 'Donor Portal';
+    default:
+      return 'GenHands';
+  }
+};
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const DashboardSidebar = () => {
+const DashboardSidebar = ({ role }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openSubMenus, setOpenSubMenus] = useState({});
   const navigate = useNavigate();
 
+  const userRole = role || localStorage.getItem('role') || 'admin';
+  const navigation = getNavigationByRole(userRole);
+  const title = getTitleByRole(userRole);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     toast.success('Logged out successfully!');
     navigate('/');
   };
@@ -80,13 +147,13 @@ const DashboardSidebar = () => {
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 17.7472V20.9998" />
         </svg>
         {!isCollapsed && (
-          <h2 className="text-2xl font-semibold handwritten whitespace-nowrap overflow-hidden" style={{ color: 'var(--color-ghibli-dark-blue)' }}>GenHands Admin</h2>
+          <h2 className="text-2xl font-semibold handwritten whitespace-nowrap overflow-hidden" style={{ color: 'var(--color-ghibli-dark-blue)' }}>{title}</h2>
         )}
       </div>
 
       <nav className="flex-grow">
         <ul className="space-y-1">
-          {initialNavigation.map((item) => (
+          {navigation.map((item) => (
             <li key={item.name}>
               {item.children && !isCollapsed ? (
                 <>
@@ -133,7 +200,7 @@ const DashboardSidebar = () => {
               ) : (
                 <NavLink
                   to={item.href || (item.children && item.children[0]?.href) || '#'}
-                  end={item.href === '/admin' && !item.children}
+                  end={item.href === '/admin' || item.href === '/charity' || item.href === '/volunteer' || item.href === '/donate'}
                   data-tooltip-id="sidebar-nav-tooltip"
                   data-tooltip-content={isCollapsed ? item.name : ''}
                   data-tooltip-place="right"
