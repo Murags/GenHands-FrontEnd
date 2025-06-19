@@ -17,6 +17,8 @@ import DashboardNotFoundPage from '../pages/DashboardPage/DashboardNotFoundPage'
 import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersPage';
 import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPage';
 import DashboardCategoriesPage from '../pages/DashboardPage/DashboardCategoriesPage';
+import DonorDashboard from '../pages/DonorDashboard';
+import CharityDetailsPage from '../pages/DonorDashboard/components/CharityDetailsPage';
 import VolunteerDashboard from '../pages/VolunteerDashboard';
 import ActivePickups from '../pages/ActivePickups';
 import CharityDashboard from '../pages/CharityDashboard';
@@ -56,6 +58,48 @@ function AppRoutes() {
           <PageLayout>
             <ApiStatusPage />
           </PageLayout>
+        }
+      />
+
+      <Route
+        path="/donor"
+        element={
+          <ProtectedRoute allowedRoles={['donor']}>
+            <DonorDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/donor/my-donations"
+        element={
+          <ProtectedRoute allowedRoles={['donor']}>
+            <DonorDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/donor/profile"
+        element={
+          <ProtectedRoute allowedRoles={['donor']}>
+            <DonorDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/donor/settings"
+        element={
+          <ProtectedRoute allowedRoles={['donor']}>
+            <DonorDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/charityDetails/:id"
+        element={
+          <ProtectedRoute allowedRoles={['donor']}>
+            <CharityDetailsPage />
+          </ProtectedRoute>
         }
       />
 
