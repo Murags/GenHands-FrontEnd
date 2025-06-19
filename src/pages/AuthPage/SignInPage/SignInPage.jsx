@@ -30,6 +30,19 @@ const SignInPage = () => {
       if (res.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('role', data.role);
+
+        // Store donor info if role is donor
+        if (data.role === 'donor') {
+          localStorage.setItem(
+            'donor',
+            JSON.stringify({
+              name: data.name,
+              email: data.email,
+              id: data._id || data.id,
+            })
+          );
+        }
+
         toast.success('Login successful!');
         const { role } = data;
         switch (role) {
@@ -43,7 +56,7 @@ const SignInPage = () => {
             navigate('/charity');
             break;
           case 'donor':
-            navigate('/donate');
+            navigate('/donor');
             break;
           default:
             navigate('/');
