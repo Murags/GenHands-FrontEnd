@@ -41,7 +41,7 @@ const DonorSidebar = () => {
 
   return (
     <aside
-      className={`sticky top-0 left-0 h-screen z-30 transition-all duration-300 bg-gradient-to-b from-indigo-100 via-white to-indigo-100 shadow-2xl font-sans
+      className={`sticky top-0 left-0 h-screen z-30 transition-all duration-300 bg-gradient-to-b from-indigo-200 via-white to-indigo-100 shadow-2xl font-sans
         ${isCollapsed ? 'w-20' : 'w-72'} flex flex-col`}
       style={{ minWidth: isCollapsed ? '5rem' : '18rem' }}
     >

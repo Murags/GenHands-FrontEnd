@@ -1,7 +1,7 @@
 import React from 'react';
 
 const DonationCard = ({ donation }) => (
-  <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-102 justify-between border border-gray-100 cursor-pointer hover:shadow-2xl transition group border border-gray-100">
+  <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-112 justify-between border border-gray-100 cursor-pointer hover:shadow-2xl transition group border border-gray-100">
     <div>
       {/* Organization Name and Type */}
       <div className="flex items-center gap-2 mb-3">

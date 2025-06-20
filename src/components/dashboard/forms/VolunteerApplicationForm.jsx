@@ -47,7 +47,7 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["volunteers"] });
       const statusText = currentStatus === "Approved" ? "approved" : "rejected";
-      toast.success(`Volunteer application ${statusText} successfully!`);
+      toast.success(`Volunteer application ${statusText} successfully and email notification sent!`);
       onCloseDrawer();
     },
     onError: (err) => {
@@ -150,7 +150,7 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
                 // If doc is a string, treat it as a file path
                 const isString = typeof doc === "string";
                 const url = isString
-                  ? `http://localhost:3000/${doc.replace(/^\/+/, "")}` // Adjust base URL if needed
+                  ? `http://localhost:3000/${doc.replace(/^\/+/, "")}`
                   : doc.url;
                 const name = isString
                   ? doc.split("/").pop()
