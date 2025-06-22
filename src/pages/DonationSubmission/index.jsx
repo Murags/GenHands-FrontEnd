@@ -18,6 +18,8 @@ import { useCharities } from '../../hooks/useCharities';
 import { useCategories } from '../../hooks/useCategories';
 import Autocomplete from '../../components/Autocomplete';
 import LoadingModal from '../../components/LoadingModal';
+import { FiArrowLeft } from 'react-icons/fi';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const DonationSubmission = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -26,6 +28,10 @@ const DonationSubmission = () => {
 
   const { data: charities, isLoading: isLoadingCharities, isError: isCharityError } = useCharities();
   const { categories: donationCategories, isLoading: isLoadingCategories, isError: isCategoriesError } = useCategories();
+
+  const navigate = useNavigate();
+  const locationRouter = useLocation();
+  const preselectedCharityId = locationRouter.state?.charityId;
 
   const charityList = useMemo(() => {
     if (!charities) return [];
@@ -46,6 +52,7 @@ const DonationSubmission = () => {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
+      charityId: preselectedCharityId || '',
       organizationType: 'individual',
       donationItems: [{ category: '', description: '', quantity: '', condition: 'good' }],
       requiresRefrigeration: false,
@@ -115,6 +122,15 @@ const DonationSubmission = () => {
 
   const renderStep1 = () => (
     <div className="space-y-6">
+      {/* Back Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="fixed top-4 left-4 bg-white border-1 border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
+        aria-label="Go back"
+      >
+        <FiArrowLeft size={20} />
+      </button>
+      
        <div className="text-center mb-8">
          <h2 className="text-2xl font-bold text-ghibli-dark-blue handwritten mb-2">Donor Information</h2>
          <p className="text-ghibli-brown">Tell us about yourself and pickup location</p>
