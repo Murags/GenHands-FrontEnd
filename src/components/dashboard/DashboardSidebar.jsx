@@ -9,7 +9,7 @@ import {
   ClipboardDocumentCheckIcon,
   TruckIcon,
   ChartPieIcon,
-  CogIcon,
+  Cog6ToothIcon as CogIcon,
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
   ChevronDownIcon,
@@ -26,9 +26,11 @@ import {
   MapPinIcon,
   HeartIcon,
   GiftIcon,
-  DocumentTextIcon
+  DocumentTextIcon,
+  ChartBarIcon
 } from '@heroicons/react/24/outline';
 import { FiHome, FiUsers, FiHeart, FiGrid } from 'react-icons/fi';
+import { useAuth } from '../../hooks/useAuth';
 
 const getNavigationByRole = (role) => {
   switch (role) {
@@ -112,6 +114,7 @@ function classNames(...classes) {
 const DashboardSidebar = ({ role }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openSubMenus, setOpenSubMenus] = useState({});
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const userRole = role || localStorage.getItem('role') || 'admin';
@@ -119,10 +122,7 @@ const DashboardSidebar = ({ role }) => {
   const title = getTitleByRole(userRole);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    toast.success('Logged out successfully!');
-    navigate('/');
+    logout();
   };
 
   const toggleSubMenu = (itemName) => {

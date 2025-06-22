@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import toast from 'react-hot-toast';
+import { useAuth } from '../../../hooks/useAuth';
 
 const VolunteerSignUpPage = () => {
   const [form, setForm] = useState({
@@ -12,12 +12,12 @@ const VolunteerSignUpPage = () => {
     password: ''
   });
   const [documents, setDocuments] = useState([]);
-  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { registerVolunteer, isLoading, error, clearError } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError('');
+    clearError();
   };
 
   const handleFileChange = (e) => {
@@ -26,33 +26,18 @@ const VolunteerSignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    // Append all fields
-    Object.entries(form).forEach(([key, value]) => formData.append(key, value));
-    // Append files
-    for (let i = 0; i < documents.length; i++) {
-      formData.append('documents', documents[i]);
+    if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.password) {
+      return;
     }
-    // Required fields for backend
-    formData.append('role', 'volunteer');
-    formData.append('name', `${form.firstName} ${form.lastName}`);
+    if (!documents || documents.length === 0) {
+      return;
+    }
 
     try {
-      const res = await fetch('http://localhost:3000/api/auth/register/volunteer', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      if (res.ok) {
-        toast.success('Application submitted! Please wait for admin approval.');
-        navigate('/auth/signin');
-      } else {
-        setError(data.message || 'Registration failed');
-        toast.error(data.message || 'Registration failed');
-      }
-    } catch {
-      setError('Network error');
-      toast.error('Network error');
+      await registerVolunteer(form, documents);
+    } catch (err) {
+      // Error is already handled by the hook
+      console.error('Registration error:', err);
     }
   };
 
@@ -174,10 +159,11 @@ const VolunteerSignUpPage = () => {
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <button
               type="submit"
-              className="w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition"
+              disabled={isLoading}
+              className="w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ background: 'linear-gradient(to right, #000428, #004e92)' }}
             >
-              Submit Application
+              {isLoading ? 'Submitting Application...' : 'Submit Application'}
             </button>
           </form>
 
