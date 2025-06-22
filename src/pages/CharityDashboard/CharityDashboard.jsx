@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   TruckIcon,
   ClockIcon,
@@ -8,24 +8,24 @@ import {
   PlusIcon,
   GiftIcon,
   HeartIcon,
-  DocumentTextIcon
+  DocumentTextIcon,
+  ListBulletIcon,
 } from '@heroicons/react/24/outline';
+import { useCharityNeeds } from '../../hooks/useCharityNeeds';
 
 const CharityDashboard = () => {
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState('overview');
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (location.pathname === '/charity') {
-      setActiveTab('overview');
-    }
-  }, [location.pathname]);
+  // Fetch charity needs for stats
+  const { charityNeeds } = useCharityNeeds();
 
   const charityStats = {
     totalRequirements: 24,
     incomingDonations: 18,
     pendingDeliveries: 8,
-    thankYouNotesSent: 156
+    thankYouNotesSent: 156,
+    needsListActive: !!charityNeeds
   };
 
   const recentRequirements = [
@@ -130,8 +130,28 @@ const CharityDashboard = () => {
     </div>
   );
 
-  const renderOverview = () => (
+  return (
     <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-ghibli-dark-blue handwritten">Charity Dashboard</h1>
+            <p className="text-ghibli-brown mt-1">Manage your needs, track donations, and express gratitude</p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-ghibli-teal rounded-full flex items-center justify-center">
+              <HeartIcon className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <p className="font-semibold text-ghibli-dark-blue">Nairobi Food Bank</p>
+              <p className="text-sm text-ghibli-brown">Serving the community since 2020</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Active Requirements"
@@ -167,14 +187,22 @@ const CharityDashboard = () => {
         />
       </div>
 
+      {/* Quick Actions */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
         <h2 className="text-xl font-semibold text-ghibli-dark-blue handwritten mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="bg-ghibli-blue text-white p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3">
-            <PlusIcon className="h-6 w-6" />
-            <span className="font-medium">Post New Requirement</span>
+          <button
+            onClick={() => navigate('/charity/requirements')}
+            className={`p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3 ${
+              charityNeeds ? 'bg-ghibli-blue text-white' : 'bg-ghibli-green text-white'
+            }`}
+          >
+            <ListBulletIcon className="h-6 w-6" />
+            <span className="font-medium">
+              {charityNeeds ? 'Manage Requirements' : 'Create Requirements List'}
+            </span>
           </button>
-          <button className="bg-ghibli-green text-white p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3">
+          <button className="bg-ghibli-teal text-white p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3">
             <GiftIcon className="h-6 w-6" />
             <span className="font-medium">View Donations</span>
           </button>
@@ -185,6 +213,68 @@ const CharityDashboard = () => {
         </div>
       </div>
 
+      {/* Needs List Status */}
+      {charityNeeds ? (
+        <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-ghibli-dark-blue handwritten">Current Requirements List</h2>
+            <span className="px-3 py-1 bg-ghibli-green text-white rounded-full text-sm font-medium">
+              Active
+            </span>
+          </div>
+          <div className="space-y-3">
+            {charityNeeds.needsStatement && (
+              <div className="p-4 bg-ghibli-cream-lightest rounded-lg">
+                <p className="text-ghibli-brown">{charityNeeds.needsStatement}</p>
+              </div>
+            )}
+            <div className="flex flex-wrap gap-2">
+              {charityNeeds.neededCategories?.slice(0, 5).map((categoryId, index) => (
+                <span
+                  key={categoryId || index}
+                  className="px-3 py-1 bg-ghibli-teal text-white rounded-full text-sm font-medium"
+                >
+                  Category {index + 1}
+                </span>
+              ))}
+              {charityNeeds.neededCategories?.length > 5 && (
+                <span className="px-3 py-1 bg-ghibli-brown-light text-ghibli-brown rounded-full text-sm font-medium">
+                  +{charityNeeds.neededCategories.length - 5} more
+                </span>
+              )}
+            </div>
+            <div className="flex justify-end">
+              <button
+                onClick={() => navigate('/charity/requirements')}
+                className="text-ghibli-blue hover:text-ghibli-dark-blue text-sm font-medium"
+              >
+                Manage Requirements List →
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
+          <div className="text-center py-8">
+            <ListBulletIcon className="h-16 w-16 text-ghibli-brown-light mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-ghibli-dark-blue mb-2">
+              No Requirements List Created Yet
+            </h3>
+            <p className="text-ghibli-brown mb-4">
+              Create a requirements list to let donors know what your organization needs most.
+            </p>
+            <button
+              onClick={() => navigate('/charity/requirements')}
+              className="flex items-center space-x-2 px-6 py-3 bg-ghibli-green text-white rounded-lg hover:bg-opacity-90 transition-colors mx-auto"
+            >
+              <PlusIcon className="h-5 w-5" />
+              <span>Create Your First Requirements List</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Recent Requirements Posted */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light">
         <div className="p-6 border-b border-ghibli-brown-light">
           <div className="flex items-center justify-between">
@@ -233,6 +323,7 @@ const CharityDashboard = () => {
         </div>
       </div>
 
+      {/* Recent Incoming Donations */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light">
         <div className="p-6 border-b border-ghibli-brown-light">
           <div className="flex items-center justify-between">
@@ -290,30 +381,6 @@ const CharityDashboard = () => {
           })}
         </div>
       </div>
-    </div>
-  );
-
-  return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-ghibli-dark-blue handwritten">Charity Dashboard</h1>
-            <p className="text-ghibli-brown mt-1">Post requirements, track donations, and express gratitude</p>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-ghibli-teal rounded-full flex items-center justify-center">
-              <HeartIcon className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <p className="font-semibold text-ghibli-dark-blue">Nairobi Food Bank</p>
-              <p className="text-sm text-ghibli-brown">Serving the community since 2020</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {renderOverview()}
     </div>
   );
 };
