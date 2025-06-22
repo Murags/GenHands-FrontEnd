@@ -137,12 +137,19 @@ const ActivePickups = () => {
   };
 
   const startNavigation = (mission) => {
+    if (showRouting) {
+      setShowRouting(false);
+      setRoutingDestination(null);
+      return;
+    }
+
     const isDeliveryPhase = [PICKUP_STATUSES.PICKED_UP, PICKUP_STATUSES.EN_ROUTE_DELIVERY].includes(mission.status);
+
     const destination = {
       coordinates: isDeliveryPhase ? mission.destinationCoordinates : mission.pickupCoordinates,
       address: isDeliveryPhase ? mission.deliveryAddress : mission.pickupAddress,
-      name: isDeliveryPhase ? 'Delivery Location' : mission.charity,
-      isDelivery: isDeliveryPhase
+      name: isDeliveryPhase ? mission.charity : 'Pickup Location',
+      isDelivery: isDeliveryPhase,
     };
 
     setRoutingDestination(destination);
@@ -220,80 +227,6 @@ const ActivePickups = () => {
     );
   }
 
-  if (showRouting && routingDestination) {
-    return (
-      <div className="min-h-screen bg-ghibli-cream p-6">
-        <div className="max-w-7xl mx-auto space-y-6">
-          <div className="flex items-center justify-between bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-4">
-            <div className="flex items-center space-x-4">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                routingDestination.isDelivery ? 'bg-ghibli-green' : 'bg-ghibli-blue'
-              }`}>
-                {routingDestination.isDelivery ? (
-                  <TruckIcon className="h-6 w-6 text-white" />
-                ) : (
-                  <MapPinIcon className="h-6 w-6 text-white" />
-                )}
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-ghibli-dark-blue handwritten">
-                  {routingDestination.isDelivery ? 'Delivering to' : 'Navigating to'} {routingDestination.name}
-                </h1>
-                <p className="text-ghibli-brown">{routingDestination.address}</p>
-              </div>
-            </div>
-            <button
-              onClick={closeRouting}
-              className="p-2 hover:bg-ghibli-cream rounded-lg transition-colors"
-            >
-              <XMarkIcon className="h-6 w-6 text-ghibli-brown" />
-            </button>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light overflow-hidden">
-            <div className="h-[600px]">
-              <MapComponent
-                userLocation={userLocation}
-                pickups={[selectedMission]}
-                selectedPickup={selectedMission}
-                onPickupSelect={() => {}}
-                showRouting={true}
-                routingDestination={routingDestination.coordinates}
-                routingMode={routingDestination.isDelivery ? 'delivery' : 'pickup'}
-              />
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <button
-                onClick={() => callContact(selectedMission.phone)}
-                className="flex items-center justify-center space-x-2 bg-ghibli-green text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
-              >
-                <PhoneIcon className="h-5 w-5" />
-                <span>Call Contact</span>
-              </button>
-
-              <button
-                onClick={() => handleStatusUpdate(selectedMission.id, getStatusInfo(selectedMission.status).nextStatus)}
-                className="bg-ghibli-teal text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
-              >
-                {getStatusInfo(selectedMission.status).nextAction}
-              </button>
-
-              <button
-                onClick={closeRouting}
-                className="bg-ghibli-brown-light text-ghibli-brown px-4 py-3 rounded-lg font-medium hover:bg-white transition-colors"
-              >
-                Back to Details
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-ghibli-cream p-6">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -324,7 +257,7 @@ const ActivePickups = () => {
               <div className="p-4 border-b border-ghibli-brown-light">
                 <h3 className="text-lg font-semibold text-ghibli-dark-blue handwritten">Your Missions</h3>
               </div>
-              <div className="divide-y divide-ghibli-brown-light">
+              <div className="divide-y divide-ghibli-brown-light max-h-[70vh] overflow-y-auto">
                 {activePickups.map((pickup) => {
                   const statusInfo = getStatusInfo(pickup.status);
                   const isSelected = selectedMission?.id === pickup.id;
@@ -363,6 +296,18 @@ const ActivePickups = () => {
           <div className="lg:col-span-2">
             {selectedMission ? (
               <div className="space-y-6">
+                <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light overflow-hidden">
+                   <div className="h-[400px]">
+                      <MapComponent
+                        userLocation={userLocation}
+                        selectedPickup={selectedMission}
+                        showRouting={showRouting}
+                        routingDestination={routingDestination?.coordinates}
+                        routingMode={routingDestination?.isDelivery ? 'delivery' : 'pickup'}
+                      />
+                   </div>
+                </div>
+
                 <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light">
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
@@ -403,16 +348,19 @@ const ActivePickups = () => {
                       >
                         <MapIcon className="h-5 w-5" />
                         <span>
-                          {[PICKUP_STATUSES.PICKED_UP, PICKUP_STATUSES.EN_ROUTE_DELIVERY].includes(selectedMission.status)
-                            ? 'Navigate to Delivery'
-                            : 'Navigate to Pickup'
+                          {showRouting
+                            ? 'Close Navigation'
+                            : [PICKUP_STATUSES.PICKED_UP, PICKUP_STATUSES.EN_ROUTE_DELIVERY].includes(selectedMission.status)
+                              ? 'Navigate to Delivery'
+                              : 'Navigate to Pickup'
                           }
                         </span>
                       </button>
 
                       <button
                         onClick={() => callContact(selectedMission.phone)}
-                        className="flex items-center justify-center space-x-2 bg-ghibli-green text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
+                        disabled
+                        className="flex items-center justify-center space-x-2 bg-ghibli-green text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <PhoneIcon className="h-5 w-5" />
                         <span>Call Contact</span>
@@ -467,7 +415,7 @@ const ActivePickups = () => {
                         <div className="space-y-2 text-sm">
                           <p className="text-ghibli-brown">{selectedMission.deliveryAddress}</p>
                           <p className="text-ghibli-brown">
-                            <span className="font-medium">Created:</span> {new Date(selectedMission.createdAt).toLocaleDateString()}
+                            <span className="font-medium">Charity:</span> {selectedMission.charity}
                           </p>
                           <p className="text-ghibli-brown">
                             <span className="font-medium">Last Updated:</span> {new Date(selectedMission.updatedAt).toLocaleDateString()}

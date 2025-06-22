@@ -13,6 +13,7 @@ import StatsCard from './components/StatsCard';
 import PickupRequestsList from './components/PickupRequestsList';
 import PickupFlowManager from './components/PickupFlowManager';
 import AvailabilityView from './components/AvailabilityView';
+import HistoryView from './components/HistoryView';
 import MapComponent from './MapComponent';
 import { usePickupRequests } from '../../hooks/usePickupRequests';
 import { useUpdatePickupStatus } from '../../hooks/useUpdatePickupStatus';
@@ -170,12 +171,7 @@ const VolunteerDashboard = () => {
         return <AvailabilityView isAvailable={isAvailable} onToggle={handleAvailabilityToggle} />;
 
       case 'history':
-        return (
-          <div className="p-8 text-center">
-            <h1 className="text-3xl font-bold text-ghibli-dark-blue handwritten mb-4">Mission History</h1>
-            <p className="text-ghibli-brown">View your completed pickups and delivery history.</p>
-          </div>
-        );
+        return <HistoryView />;
 
       case 'notifications':
         return (

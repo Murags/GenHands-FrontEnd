@@ -58,12 +58,10 @@ const getNavigationByRole = (role) => {
       return [
         { name: 'Dashboard', href: '/charity', icon: HomeIcon },
         { name: 'Post Requirements', href: '/charity/requirements', icon: PlusIcon },
+        { name: 'All Donations', href: '/charity/all-donations', icon: ArchiveBoxIcon },
         { name: 'Incoming Donations', href: '/charity/donations', icon: GiftIcon },
-        { name: 'Delivery Tracking', href: '/charity/tracking', icon: TruckIcon },
         { name: 'Thank You Notes', href: '/charity/thank-you', icon: HeartIcon },
-        { name: 'Reports & Analytics', href: '/charity/reports', icon: ChartPieIcon },
         { name: 'Organization Profile', href: '/charity/profile', icon: BuildingStorefrontIcon },
-        { name: 'Settings', href: '/charity/settings', icon: CogIcon },
       ];
 
     case 'volunteer':
