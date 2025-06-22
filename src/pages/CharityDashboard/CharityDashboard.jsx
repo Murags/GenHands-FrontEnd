@@ -10,15 +10,25 @@ import {
   HeartIcon,
   DocumentTextIcon,
   ListBulletIcon,
+  ArrowPathIcon,
 } from '@heroicons/react/24/outline';
 import { useCharityNeeds } from '../../hooks/useCharityNeeds';
+import { useCharityDashboardStats } from '../../hooks/useCharityDashboardStats';
 
 const CharityDashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Fetch charity needs for stats
   const { charityNeeds } = useCharityNeeds();
+  const {
+    data: statsResponse,
+    isLoading: isLoadingStats,
+    isError: isStatsError,
+    error: statsError,
+    refetch: refetchStats
+  } = useCharityDashboardStats();
+
+  const dashboardStats = statsResponse?.data || null;
 
   const charityStats = {
     totalRequirements: 24,
@@ -115,13 +125,21 @@ const CharityDashboard = () => {
     return statusMap[status] || statusMap.pending;
   };
 
-  const StatCard = ({ title, value, subtitle, icon: Icon, bgColor, textColor }) => (
+  const StatCard = ({ title, value, subtitle, icon: Icon, bgColor, textColor, isLoading }) => (
     <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-ghibli-brown">{title}</p>
-          <p className={`text-3xl font-bold ${textColor} mt-2`}>{value}</p>
-          <p className="text-sm text-ghibli-brown mt-1">{subtitle}</p>
+          {isLoading ? (
+            <div className="flex items-center mt-2">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ghibli-blue"></div>
+            </div>
+          ) : (
+            <>
+              <p className={`text-3xl font-bold ${textColor} mt-2`}>{value}</p>
+              <p className="text-sm text-ghibli-brown mt-1">{subtitle}</p>
+            </>
+          )}
         </div>
         <div className={`w-12 h-12 ${bgColor} rounded-lg flex items-center justify-center`}>
           <Icon className="h-6 w-6 text-white" />
@@ -139,58 +157,90 @@ const CharityDashboard = () => {
             <h1 className="text-3xl font-bold text-ghibli-dark-blue handwritten">Charity Dashboard</h1>
             <p className="text-ghibli-brown mt-1">Manage your needs, track donations, and express gratitude</p>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-ghibli-teal rounded-full flex items-center justify-center">
-              <HeartIcon className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <p className="font-semibold text-ghibli-dark-blue">Nairobi Food Bank</p>
-              <p className="text-sm text-ghibli-brown">Serving the community since 2020</p>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => refetchStats()}
+              className="p-2 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors rounded-lg hover:bg-ghibli-cream-lightest"
+              title="Refresh Statistics"
+              disabled={isLoadingStats}
+            >
+              <ArrowPathIcon className={`h-5 w-5 ${isLoadingStats ? 'animate-spin' : ''}`} />
+            </button>
+            <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-ghibli-teal rounded-full flex items-center justify-center">
+                <HeartIcon className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <p className="font-semibold text-ghibli-dark-blue">Nairobi Food Bank</p>
+                <p className="text-sm text-ghibli-brown">Serving the community since 2020</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Stats Error Message */}
+      {isStatsError && (
+        <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
+          <div className="flex items-center justify-center py-4">
+            <ExclamationTriangleIcon className="h-8 w-8 text-ghibli-red mr-3" />
+            <div>
+              <p className="text-ghibli-red font-medium">Failed to load dashboard statistics</p>
+              <button
+                onClick={() => refetchStats()}
+                className="text-ghibli-blue hover:text-ghibli-dark-blue text-sm font-medium mt-1"
+              >
+                Try again
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Active Requirements"
-          value={charityStats.totalRequirements}
-          subtitle="Items needed"
+          value={dashboardStats?.activeRequirements?.count ?? 0}
+          subtitle={dashboardStats?.activeRequirements?.label ?? "Items needed"}
           icon={DocumentTextIcon}
           bgColor="bg-ghibli-blue"
           textColor="text-ghibli-blue"
+          isLoading={isLoadingStats}
         />
         <StatCard
           title="Incoming Donations"
-          value={charityStats.incomingDonations}
-          subtitle="From generous donors"
+          value={dashboardStats?.incomingDonations?.count ?? 0}
+          subtitle={dashboardStats?.incomingDonations?.label ?? "From generous donors"}
           icon={GiftIcon}
           bgColor="bg-ghibli-green"
           textColor="text-ghibli-green"
+          isLoading={isLoadingStats}
         />
         <StatCard
           title="Pending Deliveries"
-          value={charityStats.pendingDeliveries}
-          subtitle="Awaiting pickup"
+          value={dashboardStats?.pendingDeliveries?.count ?? 0}
+          subtitle={dashboardStats?.pendingDeliveries?.label ?? "Awaiting pickup"}
           icon={TruckIcon}
           bgColor="bg-ghibli-yellow"
           textColor="text-ghibli-yellow"
+          isLoading={isLoadingStats}
         />
         <StatCard
           title="Thank You Notes"
-          value={charityStats.thankYouNotesSent}
-          subtitle="Gratitude expressed"
+          value={dashboardStats?.thankYouNotes?.count ?? 0}
+          subtitle={dashboardStats?.thankYouNotes?.label ?? "Gratitude expressed"}
           icon={HeartIcon}
           bgColor="bg-ghibli-red"
           textColor="text-ghibli-red"
+          isLoading={isLoadingStats}
         />
       </div>
 
       {/* Quick Actions */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
         <h2 className="text-xl font-semibold text-ghibli-dark-blue handwritten mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <button
             onClick={() => navigate('/charity/requirements')}
             className={`p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3 ${
@@ -202,11 +252,24 @@ const CharityDashboard = () => {
               {charityNeeds ? 'Manage Requirements' : 'Create Requirements List'}
             </span>
           </button>
-          <button className="bg-ghibli-teal text-white p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3">
-            <GiftIcon className="h-6 w-6" />
-            <span className="font-medium">View Donations</span>
+          <button
+            onClick={() => navigate('/charity/all-donations')}
+            className="bg-ghibli-brown text-white p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3"
+          >
+            <DocumentTextIcon className="h-6 w-6" />
+            <span className="font-medium">All Donations</span>
           </button>
-          <button className="bg-ghibli-red text-white p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3">
+          <button
+            onClick={() => navigate('/charity/donations')}
+            className="bg-ghibli-teal text-white p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3"
+          >
+            <GiftIcon className="h-6 w-6" />
+            <span className="font-medium">Incoming Donations</span>
+          </button>
+          <button
+            onClick={() => navigate('/charity/thank-you')}
+            className="bg-ghibli-red text-white p-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-3"
+          >
             <HeartIcon className="h-6 w-6" />
             <span className="font-medium">Send Thank You</span>
           </button>
@@ -328,9 +391,20 @@ const CharityDashboard = () => {
         <div className="p-6 border-b border-ghibli-brown-light">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-ghibli-dark-blue handwritten">Recent Incoming Donations</h2>
-            <button className="text-ghibli-blue hover:text-ghibli-dark-blue text-sm font-medium">
-              View All
-            </button>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => navigate('/charity/thank-you')}
+                className="text-ghibli-red hover:text-ghibli-dark-blue text-sm font-medium"
+              >
+                Send Thank You Notes
+              </button>
+              <button
+                onClick={() => navigate('/charity/donations')}
+                className="text-ghibli-blue hover:text-ghibli-dark-blue text-sm font-medium"
+              >
+                View All
+              </button>
+            </div>
           </div>
         </div>
         <div className="divide-y divide-ghibli-brown-light">
