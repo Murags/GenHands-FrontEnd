@@ -14,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useCharityNeeds } from '../../hooks/useCharityNeeds';
 import { useCharityDashboardStats } from '../../hooks/useCharityDashboardStats';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 const CharityDashboard = () => {
   const location = useLocation();
@@ -27,6 +28,8 @@ const CharityDashboard = () => {
     error: statsError,
     refetch: refetchStats
   } = useCharityDashboardStats();
+
+  const { user: currentUser, loading: userLoading } = useCurrentUser();
 
   const dashboardStats = statsResponse?.data || null;
 
@@ -168,11 +171,36 @@ const CharityDashboard = () => {
             </button>
             <div className="flex items-center space-x-2">
               <div className="w-10 h-10 bg-ghibli-teal rounded-full flex items-center justify-center">
-                <HeartIcon className="h-5 w-5 text-white" />
+                {currentUser?.profilePictureUrl ? (
+                  <img
+                    src={currentUser.profilePictureUrl}
+                    alt="Profile"
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="text-white font-bold">
+                    {currentUser?.name?.charAt(0)?.toUpperCase() || <HeartIcon className="h-5 w-5 text-white" />}
+                  </span>
+                )}
               </div>
               <div>
-                <p className="font-semibold text-ghibli-dark-blue">Nairobi Food Bank</p>
-                <p className="text-sm text-ghibli-brown">Serving the community since 2020</p>
+                {userLoading ? (
+                  <div className="space-y-1">
+                    <div className="h-4 bg-ghibli-cream-lightest rounded animate-pulse w-32"></div>
+                    <div className="h-3 bg-ghibli-cream-lightest rounded animate-pulse w-24"></div>
+                  </div>
+                ) : (
+                  <>
+                    <p className="font-semibold text-ghibli-dark-blue">
+                      {currentUser?.charityName || currentUser?.name || 'Charity Organization'}
+                    </p>
+                    <p className="text-sm text-ghibli-brown">
+                      {currentUser?.description ||
+                       currentUser?.category ||
+                       'Serving the community with compassion'}
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           </div>
