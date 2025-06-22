@@ -48,8 +48,8 @@ const getNavigationByRole = (role) => {
             { name: 'Volunteers', href: '/admin/users/volunteers', icon: IdentificationIcon },
           ]
         },
-        { name: 'Donation Requests', href: '/admin/requests', icon: ClipboardDocumentCheckIcon },
-        { name: 'Logistics', href: '/admin/logistics', icon: TruckIcon },
+        // { name: 'Donation Requests', href: '/admin/requests', icon: ClipboardDocumentCheckIcon },
+        // { name: 'Logistics', href: '/admin/logistics', icon: TruckIcon },
         { name: 'Reports', href: '/admin/reports', icon: ChartPieIcon },
         { name: 'Settings', href: '/admin/settings', icon: CogIcon },
       ];

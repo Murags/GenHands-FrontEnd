@@ -470,8 +470,8 @@ const DonationSubmission = () => {
         <button onClick={() => { reset(); setCurrentStep(1); setSubmissionSuccess(false); }} className="px-6 py-3 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
           Submit Another Donation
         </button>
-        <button onClick={() => (window.location.href = '/')} className="px-6 py-3 bg-ghibli-brown text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
-          Return to Home
+        <button onClick={() => (window.location.href = '/donor-dashboard')} className="px-6 py-3 bg-ghibli-brown text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
+          View Donations
         </button>
       </div>
     </div>
