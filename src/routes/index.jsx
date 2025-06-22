@@ -22,6 +22,7 @@ import CharityDetailsPage from '../pages/DonorDashboard/components/CharityDetail
 import VolunteerDashboard from '../pages/VolunteerDashboard';
 import ActivePickups from '../pages/ActivePickups';
 import CharityDashboard from '../pages/CharityDashboard';
+import RequirementsPage from '../pages/CharityDashboard/RequirementsPage';
 import DonationSubmission from '../pages/DonationSubmission';
 import RoleSelectPage from '../pages/AuthPage/RoleSelectPage/RoleSelectPage';
 import DonorSignUpPage from '../pages/AuthPage/SignUpPage/DonorSignUpPage';
@@ -123,7 +124,7 @@ function AppRoutes() {
 
       <Route path="/charity" element={<ProtectedRoute allowedRoles={['charity']}><CharityLayout /></ProtectedRoute>}>
         <Route index element={<CharityDashboard />} />
-        <Route path="requirements" element={<DashboardNotFoundPage />} />
+        <Route path="requirements" element={<RequirementsPage />} />
         <Route path="donations" element={<DashboardNotFoundPage />} />
         <Route path="tracking" element={<DashboardNotFoundPage />} />
         <Route path="thank-you" element={<DashboardNotFoundPage />} />
