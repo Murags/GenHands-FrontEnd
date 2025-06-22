@@ -1,73 +1,29 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import toast from 'react-hot-toast';
+import { useAuth } from '../../../hooks/useAuth';
 
 const SignInPage = () => {
   const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login, isLoading, error, clearError } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError('');
+    clearError();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.email || !form.password) {
-      setError('Please fill in both fields.');
-      toast.error('Please fill in both fields.');
       return;
     }
+
     try {
-      const res = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('role', data.role);
-
-        // Store donor info if role is donor
-        if (data.role === 'donor') {
-          localStorage.setItem(
-            'donor',
-            JSON.stringify({
-              name: data.name,
-              email: data.email,
-              id: data._id || data.id,
-            })
-          );
-        }
-
-        toast.success('Login successful!');
-        const { role } = data;
-        switch (role) {
-          case 'admin':
-            navigate('/admin');
-            break;
-          case 'volunteer':
-            navigate('/volunteer');
-            break;
-          case 'charity':
-            navigate('/charity');
-            break;
-          case 'donor':
-            navigate('/donor');
-            break;
-          default:
-            navigate('/');
-        }
-      } else {
-        setError(data.message || 'Login failed');
-        toast.error(data.message || 'Login failed');
-      }
-    } catch (error) {
-      setError(error.message || 'An error occurred during login');
-      toast.error(error.message || 'An error occurred during login');
+      await login(form);
+    } catch (err) {
+      // Error is already handled by the hook
+      console.error('Login error:', err);
     }
   };
 
@@ -112,7 +68,7 @@ const SignInPage = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
                 autoComplete="email"
                 placeholder="janny.jonyo@strathmore.edu"
-
+                required
               />
             </div>
             <div>
@@ -128,15 +84,17 @@ const SignInPage = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-black"
                 autoComplete="current-password"
                 placeholder="••••••••"
+                required
               />
             </div>
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <button
               type="submit"
-              className="w-full py-2 px-4 mt-4 hover:brightness-110 text-white font-semibold rounded-lg transition duration-300"
+              disabled={isLoading}
+              className="w-full py-2 px-4 mt-4 hover:brightness-110 text-white font-semibold rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ background: "linear-gradient(to right,rgb(21, 122, 255), #1b53a7,rgb(54, 20, 243))" }}
             >
-              Log In
+              {isLoading ? 'Logging in...' : 'Log In'}
             </button>
           </form>
 

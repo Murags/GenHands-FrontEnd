@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   UserIcon,
   HeartIcon,
@@ -9,13 +9,13 @@ import {
   ChevronRightIcon,
   Bars3Icon,
 } from '@heroicons/react/24/outline';
-import toast from 'react-hot-toast';
+import { useAuth } from '../../../hooks/useAuth';
 
 const DonorSidebar = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [donor, setDonor] = useState({ name: '', email: '' });
+  const { logout } = useAuth();
 
   useEffect(() => {
     const stored = localStorage.getItem('donor');
@@ -31,10 +31,7 @@ const DonorSidebar = () => {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('donor');
-    toast.success('Logged out successfully!');
-    navigate('/');
+    logout();
   };
 
   return (
