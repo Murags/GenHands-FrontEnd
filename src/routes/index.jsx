@@ -52,9 +52,7 @@ function AppRoutes() {
       <Route
         path="/"
         element={
-          <PageLayout>
-            <HomePage />
-          </PageLayout>
+          <HomePage />
         }
       />
       <Route
