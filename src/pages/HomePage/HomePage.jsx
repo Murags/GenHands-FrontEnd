@@ -29,6 +29,7 @@ function HomePage() {
   // Split current and next phrase into words
   const currentWords = phrases[phraseIdx].split(' ');
   const nextPhraseIdx = (phraseIdx + 1) % phrases.length;
+  // eslint-disable-next-line
   const nextWords = phrases[nextPhraseIdx].split(' ');
 
   // Animation timing
@@ -159,10 +160,10 @@ function HomePage() {
               Donate Now
             </Link>
             <Link
-              to="/explore-causes"
+              to="/charities"
               className="btn btn-secondary text-lg md:text-xl py-3 flex-1 text-center"
             >
-              Explore Causes
+              Explore Charities
             </Link>
           </div>
         </div>
