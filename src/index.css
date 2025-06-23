@@ -1,6 +1,6 @@
-@import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
 
 @theme {
   --color-ghibli-blue: #71A6D1;
@@ -11,6 +11,7 @@
   --color-ghibli-cream: #F9F4E7;
   --color-ghibli-dark-blue: #2D5877;
   --color-ghibli-teal: #5DA3A6;
+  --color-ghibli-cream-lightest: #fdfcf7;
 
   --font-sans: 'Inter', sans-serif;
   --font-serif: 'Playfair Display', serif;
@@ -93,6 +94,70 @@
     50% {
       transform: translateY(-10px);
     }
+  }
+}
+
+/* Leaflet Map Styles */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  font-family: inherit;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+}
+
+.leaflet-routing-container {
+  display: none !important;
+}
+
+.user-location-marker,
+.pickup-location-marker {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Custom marker animations */
+.user-location-marker > div {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pickup-location-marker:hover > div {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Loading spinner */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
