@@ -17,11 +17,16 @@ import DashboardNotFoundPage from '../pages/DashboardPage/DashboardNotFoundPage'
 import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersPage';
 import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPage';
 import DashboardCategoriesPage from '../pages/DashboardPage/DashboardCategoriesPage';
+import AdminReportsPage from '../pages/DashboardPage/AdminReportsPage';
 import DonorDashboard from '../pages/DonorDashboard';
 import CharityDetailsPage from '../pages/DonorDashboard/components/CharityDetailsPage';
 import VolunteerDashboard from '../pages/VolunteerDashboard';
 import ActivePickups from '../pages/ActivePickups';
 import CharityDashboard from '../pages/CharityDashboard';
+import RequirementsPage from '../pages/CharityDashboard/RequirementsPage';
+import AllDonationsPage from '../pages/CharityDashboard/AllDonationsPage';
+import IncomingDonationsPage from '../pages/CharityDashboard/IncomingDonationsPage';
+import ThankYouNotesPage from '../pages/CharityDashboard/ThankYouNotesPage';
 import DonationSubmission from '../pages/DonationSubmission';
 import RoleSelectPage from '../pages/AuthPage/RoleSelectPage/RoleSelectPage';
 import DonorSignUpPage from '../pages/AuthPage/SignUpPage/DonorSignUpPage';
@@ -123,11 +128,11 @@ function AppRoutes() {
 
       <Route path="/charity" element={<ProtectedRoute allowedRoles={['charity']}><CharityLayout /></ProtectedRoute>}>
         <Route index element={<CharityDashboard />} />
-        <Route path="requirements" element={<DashboardNotFoundPage />} />
-        <Route path="donations" element={<DashboardNotFoundPage />} />
-        <Route path="tracking" element={<DashboardNotFoundPage />} />
-        <Route path="thank-you" element={<DashboardNotFoundPage />} />
-        <Route path="reports" element={<DashboardNotFoundPage />} />
+        <Route path="requirements" element={<RequirementsPage />} />
+        <Route path="all-donations" element={<AllDonationsPage />} />
+        <Route path="donations" element={<IncomingDonationsPage />} />
+        <Route path="thank-you" element={<ThankYouNotesPage />} />
+        {/* <Route path="reports" element={<DashboardNotFoundPage />} /> */}
         <Route path="profile" element={<DashboardNotFoundPage />} />
         <Route path="settings" element={<DashboardNotFoundPage />} />
         <Route path="*" element={<DashboardNotFoundPage />} />
@@ -147,6 +152,7 @@ function AppRoutes() {
         <Route path="users/volunteers" element={<DashboardVolunteersPage />} />
         <Route path="users/charities" element={<DashboardCharitiesPage />} />
         <Route path="items/categories" element={<DashboardCategoriesPage />} />
+        <Route path="reports" element={<AdminReportsPage />} />
         <Route path="*" element={<DashboardNotFoundPage />} />
       </Route>
 

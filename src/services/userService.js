@@ -1,4 +1,6 @@
-import http from './httpService';
+import httpService from './httpService';
+
+const API_BASE_URL = '/auth';
 
 const getUsers = async (role = null, status = null) => {
   const url = '/auth/users';
@@ -8,7 +10,7 @@ const getUsers = async (role = null, status = null) => {
   if (status) params.status = status;
 
   const config = Object.keys(params).length > 0 ? { params } : {};
-  const response = await http.get(url, config);
+  const response = await httpService.get(url, config);
   return response.data;
 };
 
@@ -21,12 +23,37 @@ const verifyUser = async ({ userId, approve }) => {
   const url = `/auth/verify/${userId}`;
   const data = { action: approve ? 'approve' : 'reject' };
 
-  const response = await http.put(url, data);
+  const response = await httpService.put(url, data);
   return response.data;
 };
 
+// New user profile service
+export const userService = {
+  /**
+   * Get current user profile
+   * @returns {Promise<Object>} Current user data
+   */
+  getCurrentUser: async () => {
+    try {
+      const response = await httpService.get(`${API_BASE_URL}/me`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching current user:', error);
+      throw error;
+    }
+  },
+
+  // Include existing functions for backward compatibility
+  getUsers,
+  getPendingVerificationUsers,
+  verifyUser
+};
+
+// Export individual functions for backward compatibility
 export {
   getUsers,
   getPendingVerificationUsers,
-  verifyUser,
+  verifyUser
 };
+
+export default userService;

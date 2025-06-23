@@ -16,6 +16,7 @@ import {
   Bars3Icon,
   ArrowRightStartOnRectangleIcon
 } from '@heroicons/react/24/outline';
+import { useAuth } from '../../../hooks/useAuth';
 
 const Sidebar = ({
   volunteerStats,
@@ -28,12 +29,11 @@ const Sidebar = ({
   onToggleCollapse
 }) => {
   const [activeSection, setActiveSection] = useState('dashboard');
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    toast.success('Logged out successfully!');
-    navigate('/');
+    logout();
   };
 
   const menuItems = [
