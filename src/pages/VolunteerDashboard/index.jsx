@@ -39,12 +39,11 @@ const VolunteerDashboard = () => {
   const [notifications] = useState([
     { id: 1, message: "New pickup request nearby", time: "10 min ago" },
     { id: 2, message: "Pickup completed successfully", time: "2 hours ago" },
-    { id: 3, message: "Rating updated: 4.8 stars", time: "1 day ago" }
+    { id: 3, message: "You have new available pickups", time: "1 day ago" }
   ]);
   const [volunteerStats, setVolunteerStats] = useState({
     completedPickups: 5,
-    totalRequests: 12,
-    rating: 4.8
+    totalRequests: 12
   });
 
   const {
@@ -217,7 +216,7 @@ const VolunteerDashboard = () => {
             </div>
 
             <div className="p-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 <StatsCard
                   title="Completed Pickups"
                   value={volunteerStats.completedPickups}
@@ -227,20 +226,12 @@ const VolunteerDashboard = () => {
                   textColor="text-ghibli-green"
                 />
                 <StatsCard
-                  title="Total Requests"
+                  title="Available Requests"
                   value={pickupRequests.length}
                   subtitle="Available now"
                   icon={EyeIcon}
                   bgColor="bg-ghibli-blue"
                   textColor="text-ghibli-blue"
-                />
-                <StatsCard
-                  title="Volunteer Rating"
-                  value={`${volunteerStats.rating}⭐`}
-                  subtitle="Community feedback"
-                  icon={MapPinIcon}
-                  bgColor="bg-ghibli-yellow"
-                  textColor="text-ghibli-yellow"
                 />
                 <StatsCard
                   title="Active Missions"
@@ -318,7 +309,7 @@ const VolunteerDashboard = () => {
         isAvailable={isAvailable}
         onAvailabilityToggle={handleAvailabilityToggle}
         notifications={notifications}
-        activePickupsCount={activePickups.length}
+        activePickups={activePickups}
         onSectionChange={handleSectionChange}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={handleToggleSidebar}
