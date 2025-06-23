@@ -88,6 +88,8 @@ const authService = {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('donor');
+    localStorage.removeItem('volunteer');
+    localStorage.removeItem('charity');
     // Add other role-specific cleanup as needed
   },
 
@@ -107,21 +109,55 @@ const authService = {
     return donor ? JSON.parse(donor) : null;
   },
 
+  getVolunteerInfo() {
+    const volunteer = localStorage.getItem('volunteer');
+    return volunteer ? JSON.parse(volunteer) : null;
+  },
+
+  getCharityInfo() {
+    const charity = localStorage.getItem('charity');
+    return charity ? JSON.parse(charity) : null;
+  },
+
+  getCurrentUserInfo() {
+    const role = this.getCurrentRole();
+    switch (role) {
+      case 'donor':
+        return this.getDonorInfo();
+      case 'volunteer':
+        return this.getVolunteerInfo();
+      case 'charity':
+        return this.getCharityInfo();
+      default:
+        return null;
+    }
+  },
+
   // Store user data after login
   storeUserData(userData) {
     localStorage.setItem('token', userData.token);
     localStorage.setItem('role', userData.role);
 
-    // Store donor-specific info
-    if (userData.role === 'donor') {
-      localStorage.setItem(
-        'donor',
-        JSON.stringify({
-          name: userData.name,
-          email: userData.email,
-          id: userData._id || userData.id,
-        })
-      );
+    // Store role-specific info
+    const userInfo = {
+      name: userData.name,
+      email: userData.email,
+      id: userData._id || userData.id,
+    };
+
+    switch (userData.role) {
+      case 'donor':
+        localStorage.setItem('donor', JSON.stringify(userInfo));
+        break;
+      case 'volunteer':
+        localStorage.setItem('volunteer', JSON.stringify(userInfo));
+        break;
+      case 'charity':
+        localStorage.setItem('charity', JSON.stringify({
+          ...userInfo,
+          charityName: userData.charityName || userData.organizationName,
+        }));
+        break;
     }
   },
 

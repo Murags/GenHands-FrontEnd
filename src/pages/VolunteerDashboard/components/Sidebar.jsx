@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
   UserIcon,
-  StarIcon,
   CheckCircleIcon,
   TruckIcon,
   CalendarIcon,
@@ -29,8 +28,16 @@ const Sidebar = ({
   onToggleCollapse
 }) => {
   const [activeSection, setActiveSection] = useState('dashboard');
-  const { logout } = useAuth();
+  const [volunteerInfo, setVolunteerInfo] = useState({ name: '', email: '' });
+  const { logout, getVolunteerInfo } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const volunteer = getVolunteerInfo();
+    if (volunteer) {
+      setVolunteerInfo(volunteer);
+    }
+  }, [getVolunteerInfo]);
 
   const handleLogout = () => {
     logout();
@@ -78,10 +85,6 @@ const Sidebar = ({
             <div className="w-12 h-12 bg-ghibli-teal rounded-full flex items-center justify-center">
               <UserIcon className="h-6 w-6 text-white" />
             </div>
-            <div className="flex items-center">
-              <StarIcon className="h-3 w-3 text-ghibli-yellow" />
-              <span className="text-xs font-semibold text-ghibli-dark-blue ml-1">{volunteerStats.rating}</span>
-            </div>
             {/* Collapsed Availability Toggle */}
             <button
               onClick={onAvailabilityToggle}
@@ -103,12 +106,12 @@ const Sidebar = ({
                 <UserIcon className="h-7 w-7 text-white" />
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-lg font-bold text-ghibli-dark-blue handwritten truncate">Sarah Volunteer</h2>
-                <div className="flex items-center space-x-2 mt-1">
-                  <StarIcon className="h-4 w-4 text-ghibli-yellow flex-shrink-0" />
-                  <span className="text-sm font-semibold text-ghibli-dark-blue">{volunteerStats.rating}</span>
-                  <span className="text-xs text-ghibli-brown">Rating</span>
-                </div>
+                <h2 className="text-lg font-bold text-ghibli-dark-blue handwritten truncate">
+                  {volunteerInfo.name || 'Volunteer'}
+                </h2>
+                <p className="text-sm text-ghibli-brown truncate">
+                  {volunteerInfo.email || ''}
+                </p>
               </div>
             </div>
 
