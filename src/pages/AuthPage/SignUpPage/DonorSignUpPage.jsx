@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import toast from 'react-hot-toast';
+import { useAuth } from '../../../hooks/useAuth';
 
 const DonorSignUpPage = () => {
   const [form, setForm] = useState({
@@ -11,46 +11,25 @@ const DonorSignUpPage = () => {
     phone: '',
     password: ''
   });
-  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { registerDonor, isLoading, error, clearError } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError('');
+    clearError();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.password) {
-      setError('Please fill in all fields.');
-      toast.error('Please fill in all fields.');
       return;
     }
+
     try {
-      const res = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: `${form.firstName} ${form.lastName}`,
-          email: form.email,
-          password: form.password,
-          role: 'donor',
-          phoneNumber: form.phone
-        })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        toast.success('Registration successful! Please log in.');
-        // Optionally, save token and redirect
-        localStorage.setItem('token', data.token);
-        navigate('/auth/signin');
-      } else {
-        setError(data.message || 'Registration failed');
-        toast.error(data.message || 'Registration failed');
-      }
-    } catch {
-      setError('Network error');
-      toast.error('Network error');
+      await registerDonor(form);
+    } catch (err) {
+      // Error is already handled by the hook
+      console.error('Registration error:', err);
     }
   };
 
@@ -161,10 +140,11 @@ const DonorSignUpPage = () => {
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <button
               type="submit"
-              className="w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition"
+              disabled={isLoading}
+              className="w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ background: 'linear-gradient(to right, #1f4037, #99f2c8)' }}
             >
-              Create Account
+              {isLoading ? 'Creating Account...' : 'Create Account'}
             </button>
           </form>
 

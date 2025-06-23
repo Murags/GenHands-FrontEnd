@@ -12,7 +12,7 @@ import {
   BuildingOfficeIcon,
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
-import { submitDonation } from '../../services/donationService';
+import donationService from '../../services/donationService';
 import AddressInput from '../../components/AddressInput';
 import { useCharities } from '../../hooks/useCharities';
 import { useCategories } from '../../hooks/useCategories';
@@ -72,7 +72,7 @@ const DonationSubmission = () => {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      await submitDonation(data);
+      await donationService.submitDonation(data);
       setSubmissionSuccess(true);
       setCurrentStep(5);
     } catch (error) {
@@ -130,7 +130,7 @@ const DonationSubmission = () => {
       >
         <FiArrowLeft size={20} />
       </button>
-      
+
        <div className="text-center mb-8">
          <h2 className="text-2xl font-bold text-ghibli-dark-blue handwritten mb-2">Donor Information</h2>
          <p className="text-ghibli-brown">Tell us about yourself and pickup location</p>
@@ -470,8 +470,8 @@ const DonationSubmission = () => {
         <button onClick={() => { reset(); setCurrentStep(1); setSubmissionSuccess(false); }} className="px-6 py-3 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
           Submit Another Donation
         </button>
-        <button onClick={() => (window.location.href = '/')} className="px-6 py-3 bg-ghibli-brown text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
-          Return to Home
+        <button onClick={() => (window.location.href = '/donor-dashboard')} className="px-6 py-3 bg-ghibli-brown text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
+          View Donations
         </button>
       </div>
     </div>

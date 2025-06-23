@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import toast from 'react-hot-toast';
+import { useAuth } from '../../../hooks/useAuth';
 import AddressInput from '../../../components/AddressInput';
 
 const CharitySignUpPage = () => {
@@ -20,12 +20,12 @@ const CharitySignUpPage = () => {
     password: ''
   });
   const [documents, setDocuments] = useState([]);
-  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { registerCharity, isLoading, error, clearError } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError('');
+    clearError();
   };
 
   const handleLocationChange = (location) => {
@@ -38,46 +38,28 @@ const CharitySignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    // Append all fields
-    Object.entries(form).forEach(([key, value]) => {
-      if (key === 'location') {
-        if (value.coordinates) {
-          formData.append('location', JSON.stringify({
-            "coordinates": value.coordinates
-          }));
-          formData.append('address', value.address); // Also send text address
-        } else {
-            formData.append('address', value.address); // if no coords, send text address
-        }
-      } else {
-        formData.append(key, value)
-      }
-    });
-    // Append files
-    for (let i = 0; i < documents.length; i++) {
-      formData.append('documents', documents[i]);
+
+    // Basic validation
+    const requiredFields = [
+      'charityName', 'category', 'description', 'registrationNumber',
+      'email', 'phoneNumber', 'contactFirstName', 'contactLastName',
+      'contactEmail', 'contactPhone', 'password'
+    ];
+
+    const missingFields = requiredFields.filter(field => !form[field]);
+    if (missingFields.length > 0 || !form.location.address) {
+      return;
     }
-    // Required fields for backend
-    formData.append('role', 'charity');
-    formData.append('name', `${form.contactFirstName} ${form.contactLastName}`);
+
+    if (!documents || documents.length === 0) {
+      return;
+    }
 
     try {
-      const res = await fetch('http://localhost:3000/api/auth/register/charity', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      if (res.ok) {
-        toast.success('Application submitted! Please wait for admin approval.');
-        navigate('/auth/signin');
-      } else {
-        setError(data.message || 'Registration failed');
-        toast.error(data.message || 'Registration failed');
-      }
-    } catch {
-      setError('Network error');
-      toast.error('Network error');
+      await registerCharity(form, documents);
+    } catch (err) {
+      // Error is already handled by the hook
+      console.error('Registration error:', err);
     }
   };
 
@@ -288,10 +270,11 @@ const CharitySignUpPage = () => {
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <button
               type="submit"
-              className="w-full py-3 px-4 hover:brighntess-110 text-white font-semibold rounded-md shadow transition text-black"
+              disabled={isLoading}
+              className="w-full py-3 px-4 hover:brightness-110 text-white font-semibold rounded-md shadow transition disabled:opacity-50 disabled:cursor-not-allowed text-black"
               style={{ background: 'linear-gradient(90deg, #005AA7, #FFFDE4)' }}
             >
-              Submit Application
+              {isLoading ? 'Submitting Application...' : 'Submit Application'}
             </button>
           </form>
 
