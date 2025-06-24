@@ -35,7 +35,7 @@ const Header = ({ transparent }) => (
           {/* Links */}
           <nav className={`hidden md:flex items-center space-x-6 lg:space-x-8 font-normal font-medium ${transparent ? 'text-white' : 'text-black'}`}>
             <RouterLink to="/" className="text-base lg:text-lg hover:underline">Home</RouterLink>
-            <RouterLink to="/causes" className="text-base lg:text-lg hover:underline">Charities</RouterLink>
+            <RouterLink to="/charities" className="text-base lg:text-lg hover:underline">Charities</RouterLink>
             <RouterLink to="/about" className="text-base lg:text-lg hover:underline">About</RouterLink>
             <RouterLink to="/contact" className="text-base lg:text-lg hover:underline">Contact</RouterLink>
           </nav>
