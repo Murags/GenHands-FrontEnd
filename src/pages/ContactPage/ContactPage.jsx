@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../components/layout/Header";
 import Footer from "../../components/layout/Footer";
+import emailjs from 'emailjs-com';
 
 const ContactPage = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -18,8 +19,12 @@ const ContactPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    // Here you could integrate with an API or email service
+    emailjs.sendForm('service_2ltxgqe', 'template_rjuqote', e.target, 'Mrohe2aLF4bupcKlX')
+    .then((result) => {
+        setSubmitted(true);
+    }, (error) => {
+        alert('Something went wrong. Please try again.');
+    });
   };
 
   return (
@@ -54,17 +59,14 @@ const ContactPage = () => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label
-                  className="block text-gray-700 font-semibold mb-2"
-                  htmlFor="name"
-                >
+                <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
                   Name
                 </label>
                 <input
                   className="w-full px-4 py-3 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                   type="text"
                   id="name"
-                  name="name"
+                  name="name" // <-- matches {{name}}
                   value={form.name}
                   onChange={handleChange}
                   required
@@ -72,17 +74,14 @@ const ContactPage = () => {
                 />
               </div>
               <div>
-                <label
-                  className="block text-gray-700 font-semibold mb-2"
-                  htmlFor="email"
-                >
+                <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
                   Email
                 </label>
                 <input
                   className="w-full px-4 py-3 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                   type="email"
                   id="email"
-                  name="email"
+                  name="email" // <-- matches {{email}}
                   value={form.email}
                   onChange={handleChange}
                   required
@@ -90,16 +89,13 @@ const ContactPage = () => {
                 />
               </div>
               <div>
-                <label
-                  className="block text-gray-700 font-semibold mb-2"
-                  htmlFor="message"
-                >
+                <label htmlFor="message" className="block text-gray-700 font-semibold mb-2">
                   Message
                 </label>
                 <textarea
                   className="w-full px-4 py-3 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition resize-none"
                   id="message"
-                  name="message"
+                  name="message" // <-- matches {{message}}
                   rows={5}
                   value={form.message}
                   onChange={handleChange}
