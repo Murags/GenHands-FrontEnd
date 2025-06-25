@@ -35,6 +35,8 @@ import VolunteerSignUpPage from '../pages/AuthPage/SignUpPage/VolunteerSignUpPag
 import SignInPage from '../pages/AuthPage/SignInPage/SignInPage';
 import AboutPage from '../pages/AboutPage/AboutPage';
 import ContactPage from '../pages/ContactPage/ContactPage';
+import PrivacyPolicyPage from '../pages/PrivacyPolicyPage/PrivacyPolicyPage';
+import TermsPage from '../pages/TermsPage/TermsPage';
 
 const AdminLayout = () => (
   <DashboardLayout role="admin">
@@ -67,6 +69,18 @@ function AppRoutes() {
         path="/contact"
         element={
           <ContactPage />
+        }
+      />
+      <Route
+        path="/privacy"
+        element={
+          <PrivacyPolicyPage />
+        }
+      />
+      <Route
+        path="/terms"
+        element={
+          <TermsPage />
         }
       />
       <Route

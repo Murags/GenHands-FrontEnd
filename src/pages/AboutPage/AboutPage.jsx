@@ -10,6 +10,7 @@ const AboutPage = () => {
 
   useEffect(() => {
     setIsVisible(true);
+    window.scrollTo(0, 0); // Scroll to top on mount
     
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });

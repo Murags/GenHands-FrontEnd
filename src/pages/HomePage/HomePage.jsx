@@ -74,6 +74,10 @@ function HomePage() {
     // eslint-disable-next-line
   }, [animatingOut]);
 
+  useEffect(() => {
+      window.scrollTo(0, 0); // Scroll to top on mount
+    }, []);
+
   // Render animated words
   const renderWords = () => (
     <span>
@@ -150,7 +154,6 @@ function HomePage() {
           <p className="font-sans font-thin text-2xl mb-12 text-white">
             transforms lives.
           </p>
-          {/* BUTTONS: Equal width, side by side, fixed container width */}
           <div className="flex gap-6 w-[32rem] max-w-full mt-6"
                style={{ minWidth: '20rem' }}>
             <Link

@@ -30,8 +30,8 @@ const Footer = () => (
         <div>
           <h3 className="font-serif text-lg font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--color-ghibli-yellow)' }}>Legal</h3>
           <ul className="space-y-2 text-sm font-sans">
-            <li><RouterLink to="/privacy" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Privacy</RouterLink></li>
-            <li><RouterLink to="/terms" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Terms</RouterLink></li>
+            <li><RouterLink to="/privacy" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Privacy Policy</RouterLink></li>
+            <li><RouterLink to="/terms" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Terms & Conditions</RouterLink></li>
             <li><RouterLink to="/apiStatus" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>API Status</RouterLink></li>
           </ul>
         </div>
