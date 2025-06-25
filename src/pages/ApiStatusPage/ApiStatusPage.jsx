@@ -7,6 +7,7 @@ function ApiStatusPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top on mount
     const checkApi = async () => {
       setIsLoading(true);
       setError(null);
@@ -24,7 +25,7 @@ function ApiStatusPage() {
   }, []);
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', textAlign: 'center' }}>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', textAlign: 'center', marginTop: '120px' }}>
       <h1>API Status</h1>
       {isLoading ? (
         <p>Loading...</p>

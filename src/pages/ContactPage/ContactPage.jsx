@@ -9,6 +9,7 @@ const ContactPage = () => {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top on mount
     // Trigger the animation after mount
     setTimeout(() => setShowForm(true), 100);
   }, []);
@@ -20,9 +21,9 @@ const ContactPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     emailjs.sendForm('service_2ltxgqe', 'template_rjuqote', e.target, 'Mrohe2aLF4bupcKlX')
-    .then((result) => {
+    .then(() => {
         setSubmitted(true);
-    }, (error) => {
+    }, () => {
         alert('Something went wrong. Please try again.');
     });
   };
@@ -123,6 +124,7 @@ const ContactPage = () => {
                   <a
                     target="_blank"
                     href="https://mail.google.com/mail/?view=cm&to=jannyjonyo1@gmail.com"
+                    rel="noopener noreferrer"
                     className="text-sm text-blue-600 hover:underline break-all"
                   >
                     jannyjonyo1@gmail.com
@@ -150,6 +152,7 @@ const ContactPage = () => {
                   <a
                     target="_blank"
                     href="https://mail.google.com/mail/?view=cm&to=dennis.mukoma@strathmore.edu"
+                    rel="noopener noreferrer"
                     className="text-sm text-blue-600 hover:underline break-all"
                   >
                     dennis.mukoma@strathmore.edu
