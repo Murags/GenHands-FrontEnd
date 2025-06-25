@@ -167,10 +167,10 @@ const AboutPage = () => {
             {values.map((value, index) => (
               <div
                 key={index}
-                className="group relative bg-white/70 backdrop-blur-lg rounded-2xl p-6 border border-amber-200 hover:border-blue-300 transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl"
+                className="cursor-pointer group relative bg-white/70 backdrop-blur-lg rounded-2xl p-6 border border-amber-200 hover:border-blue-300 transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 <div
-                  className={`cursor-pointer absolute inset-0 bg-gradient-to-br ${value.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500`}
+                  className={`absolute inset-0 bg-gradient-to-br ${value.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500`}
                 ></div>
                 <div className="relative z-10">
                   <div className="text-4xl mb-4 group-hover:scale-125 transition-transform duration-300">
@@ -199,7 +199,7 @@ const AboutPage = () => {
             {/* Team Member 1 */}
             <div className="group relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-amber-400 rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
-              <div className="relative bg-white/80 backdrop-blur-lg rounded-3xl p-8 border border-amber-200 hover:border-blue-300 transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl">
+              <div className="cursor-pointer relative bg-white/80 backdrop-blur-lg rounded-3xl p-8 border border-amber-200 hover:border-blue-300 transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl">
                 <div className="relative mb-6">
                   <img
                     src={Janny}
@@ -243,7 +243,7 @@ const AboutPage = () => {
             {/* Team Member 2 */}
             <div className="group relative">
               <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-blue-400 rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
-              <div className="relative bg-white/80 backdrop-blur-lg rounded-3xl p-8 border border-blue-200 hover:border-amber-300 transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl">
+              <div className="cursor-pointer relative bg-white/80 backdrop-blur-lg rounded-3xl p-8 border border-blue-200 hover:border-amber-300 transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl">
                 <div className="relative mb-6">
                   <img
                     src="https://randomuser.me/api/portraits/men/32.jpg"
@@ -300,14 +300,14 @@ const AboutPage = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link
               to="/auth/signin"
-              className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-amber-600 rounded-full font-bold text-white overflow-hidden hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
+              className="cursor-pointer group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-amber-600 rounded-full font-bold text-white overflow-hidden hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
             >
               <span className="relative z-10">Start Giving Today</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Link>
             <a
               href="#top"
-              className="group px-8 py-4 bg-white/80 backdrop-blur border-2 border-amber-300 rounded-full font-bold text-gray-800 hover:bg-white hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="cursor-pointer group px-8 py-4 bg-white/80 backdrop-blur border-2 border-amber-300 rounded-full font-bold text-gray-800 hover:bg-white hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Learn More About Our Impact
             </a>
