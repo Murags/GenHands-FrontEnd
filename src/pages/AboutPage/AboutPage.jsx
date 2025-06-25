@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import Janny from '../../assets/Janny.jpeg';
+import Dennis from '../../assets/Dennis.png';
 
 const AboutPage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -246,7 +247,7 @@ const AboutPage = () => {
               <div className="cursor-pointer relative bg-white/80 backdrop-blur-lg rounded-3xl p-8 border border-blue-200 hover:border-amber-300 transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl">
                 <div className="relative mb-6">
                   <img
-                    src="https://randomuser.me/api/portraits/men/32.jpg"
+                    src={Dennis}
                     alt="Dennis Mukoma"
                     className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-blue-200 group-hover:border-amber-400 transition-all duration-300 shadow-lg"
                   />
