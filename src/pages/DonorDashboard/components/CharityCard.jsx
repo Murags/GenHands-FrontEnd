@@ -33,7 +33,7 @@ const CharityCard = ({ charity }) => {
 
   return (
     <div
-      className="relative bg-white rounded-2xl shadow-ghibli p-6 cursor-pointer hover:shadow-lg transition-all duration-200 group border border-ghibli-brown-light flex flex-col h-96 hover:scale-105"
+      className="relative bg-white rounded-2xl shadow-ghibli p-6 cursor-pointer hover:shadow-lg transition-all duration-200 group border border-ghibli-brown-light flex flex-col h-96"
       onClick={handleCardClick}
       tabIndex={0}
       role="button"
