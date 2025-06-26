@@ -29,6 +29,7 @@ function HomePage() {
   // Split current and next phrase into words
   const currentWords = phrases[phraseIdx].split(' ');
   const nextPhraseIdx = (phraseIdx + 1) % phrases.length;
+  // eslint-disable-next-line
   const nextWords = phrases[nextPhraseIdx].split(' ');
 
   // Animation timing
@@ -72,6 +73,10 @@ function HomePage() {
     return () => timeouts.forEach(clearTimeout);
     // eslint-disable-next-line
   }, [animatingOut]);
+
+  useEffect(() => {
+      window.scrollTo(0, 0); // Scroll to top on mount
+    }, []);
 
   // Render animated words
   const renderWords = () => (
@@ -149,7 +154,6 @@ function HomePage() {
           <p className="font-sans font-thin text-2xl mb-12 text-white">
             transforms lives.
           </p>
-          {/* BUTTONS: Equal width, side by side, fixed container width */}
           <div className="flex gap-6 w-[32rem] max-w-full mt-6"
                style={{ minWidth: '20rem' }}>
             <Link
@@ -159,10 +163,10 @@ function HomePage() {
               Donate Now
             </Link>
             <Link
-              to="/explore-causes"
+              to="/charities"
               className="btn btn-secondary text-lg md:text-xl py-3 flex-1 text-center"
             >
-              Explore Causes
+              Explore Charities
             </Link>
           </div>
         </div>
