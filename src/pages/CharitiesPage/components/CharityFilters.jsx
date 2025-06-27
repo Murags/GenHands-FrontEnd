@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   TagIcon,
-  CheckCircleIcon,
   ChevronDownIcon,
   XMarkIcon,
   FunnelIcon
@@ -150,19 +149,11 @@ const CategoryMultiSelect = ({
 const CharityFilters = ({
   selectedCategories,
   onCategoriesChange,
-  verificationFilter,
-  onVerificationFilterChange,
   categories,
   onClearFilters,
   hasActiveFilters
 }) => {
   const [showAdvanced, setShowAdvanced] = useState(false);
-
-  const verificationOptions = [
-    { value: 'all', label: 'All Charities', count: null },
-    { value: 'verified', label: 'Verified Only', count: null },
-    { value: 'pending', label: 'Pending Verification', count: null }
-  ];
 
   return (
     <div className="space-y-4">
@@ -188,42 +179,20 @@ const CharityFilters = ({
         )}
       </div>
 
-      {showAdvanced && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-ghibli-cream-lightest rounded-xl border border-ghibli-brown-light">
-          <div>
-            <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">
-              Categories
-            </label>
-            <CategoryMultiSelect
-              categories={categories}
-              selectedCategories={selectedCategories}
-              onCategoriesChange={onCategoriesChange}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">
-              Verification Status
-            </label>
-            <div className="relative">
-              <select
-                value={verificationFilter}
-                onChange={(e) => onVerificationFilterChange(e.target.value)}
-                className="w-full px-4 py-3 border border-ghibli-brown-light rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-ghibli-teal focus:border-ghibli-teal transition-all appearance-none"
-              >
-                {verificationOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <CheckCircleIcon className="h-5 w-5 text-ghibli-teal" />
-              </div>
+              {showAdvanced && (
+          <div className="p-4 bg-ghibli-cream-lightest rounded-xl border border-ghibli-brown-light">
+            <div>
+              <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">
+                Categories
+              </label>
+              <CategoryMultiSelect
+                categories={categories}
+                selectedCategories={selectedCategories}
+                onCategoriesChange={onCategoriesChange}
+              />
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {hasActiveFilters && (
         <div className="flex flex-wrap items-center gap-2 p-3 bg-ghibli-blue bg-opacity-10 rounded-lg border border-ghibli-blue border-opacity-20">
@@ -234,18 +203,6 @@ const CharityFilters = ({
               {selectedCategories.length} categories
               <button
                 onClick={() => onCategoriesChange([])}
-                className="hover:bg-white hover:bg-opacity-20 rounded-full p-0.5"
-              >
-                <XMarkIcon className="h-3 w-3" />
-              </button>
-            </span>
-          )}
-
-          {verificationFilter !== 'all' && (
-            <span className="inline-flex items-center gap-1 px-2 py-1 bg-ghibli-blue text-white text-xs rounded-full">
-              {verificationOptions.find(opt => opt.value === verificationFilter)?.label}
-              <button
-                onClick={() => onVerificationFilterChange('all')}
                 className="hover:bg-white hover:bg-opacity-20 rounded-full p-0.5"
               >
                 <XMarkIcon className="h-3 w-3" />
