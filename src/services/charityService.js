@@ -12,3 +12,5 @@ export const getCharities = async () => {
     throw error;
   }
 };
+
+
