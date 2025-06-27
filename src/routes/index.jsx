@@ -33,6 +33,10 @@ import DonorSignUpPage from '../pages/AuthPage/SignUpPage/DonorSignUpPage';
 import CharitySignUpPage from '../pages/AuthPage/SignUpPage/CharitySignUpPage';
 import VolunteerSignUpPage from '../pages/AuthPage/SignUpPage/VolunteerSignUpPage';
 import SignInPage from '../pages/AuthPage/SignInPage/SignInPage';
+import AboutPage from '../pages/AboutPage/AboutPage';
+import ContactPage from '../pages/ContactPage/ContactPage';
+import PrivacyPolicyPage from '../pages/PrivacyPolicyPage/PrivacyPolicyPage';
+import TermsPage from '../pages/TermsPage/TermsPage';
 
 const AdminLayout = () => (
   <DashboardLayout role="admin">
@@ -52,9 +56,31 @@ function AppRoutes() {
       <Route
         path="/"
         element={
-          <PageLayout>
-            <HomePage />
-          </PageLayout>
+          <HomePage />
+        }
+      />
+      <Route
+        path="/about"
+        element={
+          <AboutPage />
+        }
+      />
+      <Route
+        path="/contact"
+        element={
+          <ContactPage />
+        }
+      />
+      <Route
+        path="/privacy"
+        element={
+          <PrivacyPolicyPage />
+        }
+      />
+      <Route
+        path="/terms"
+        element={
+          <TermsPage />
         }
       />
       <Route
@@ -106,12 +132,11 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-
       <Route
-        path="/charityDetails/:id"
+        path="/donate"
         element={
           <ProtectedRoute allowedRoles={['donor']}>
-            <CharityDetailsPage />
+            <DonationSubmission />
           </ProtectedRoute>
         }
       />
@@ -124,7 +149,6 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-
       <Route
         path="/volunteer/active-pickups"
         element={
@@ -134,6 +158,14 @@ function AppRoutes() {
         }
       />
 
+      <Route
+        path="/charityDetails/:id"
+        element={
+          <ProtectedRoute allowedRoles={['donor']}>
+            <CharityDetailsPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/charity" element={<ProtectedRoute allowedRoles={['charity']}><CharityLayout /></ProtectedRoute>}>
         <Route index element={<CharityDashboard />} />
         <Route path="requirements" element={<RequirementsPage />} />
@@ -146,15 +178,6 @@ function AppRoutes() {
         <Route path="*" element={<DashboardNotFoundPage />} />
       </Route>
 
-      <Route
-        path="/donate"
-        element={
-          <ProtectedRoute allowedRoles={['donor']}>
-            <DonationSubmission />
-          </ProtectedRoute>
-        }
-      />
-
       <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']}><AdminLayout /></ProtectedRoute>}>
         <Route index element={<DashboardOverviewPage />} />
         <Route path="users/volunteers" element={<DashboardVolunteersPage />} />
@@ -163,17 +186,6 @@ function AppRoutes() {
         <Route path="reports" element={<AdminReportsPage />} />
         <Route path="*" element={<DashboardNotFoundPage />} />
       </Route>
-
-      {/*
-      <Route
-        path="/about"
-        element={
-          <PageLayout>
-            <AboutPage />
-          </PageLayout>
-        }
-      />
-      */}
 
       <Route
         path="/auth/select"
