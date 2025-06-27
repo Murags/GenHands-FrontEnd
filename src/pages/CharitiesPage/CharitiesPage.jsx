@@ -18,7 +18,6 @@ const CharitiesPage = () => {
   const [search, setSearch] = useState('');
   const [location, setLocation] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [verificationFilter, setVerificationFilter] = useState('all');
 
   const navigate = useNavigate();
   const { data: charities = [], isLoading } = useCharities();
@@ -45,8 +44,12 @@ const CharitiesPage = () => {
     navigate(`/charities/${charityId}`);
   };
 
-  // Filter charities based on search, location, categories, and verification status
+    // Filter charities based on search, location, and categories (only show verified charities)
   const filteredCharities = charities.filter(charity => {
+    // Only show verified charities
+    const isVerified = charity.isVerified || charity.verificationStatus === 'verified';
+    if (!isVerified) return false;
+
     // Search filter
     const matchesSearch = !search ||
       charity.charityName?.toLowerCase().includes(search.toLowerCase()) ||
@@ -84,23 +87,16 @@ const CharitiesPage = () => {
       return false;
     })();
 
-    // Verification filter
-    const isVerified = charity.isVerified || charity.verificationStatus === 'verified';
-    const matchesVerification = verificationFilter === 'all' ||
-      (verificationFilter === 'verified' && isVerified) ||
-      (verificationFilter === 'pending' && !isVerified);
-
-    return matchesSearch && matchesLocation && matchesCategories && matchesVerification;
+    return matchesSearch && matchesLocation && matchesCategories;
   });
 
   const clearFilters = () => {
     setSearch('');
     setLocation('');
     setSelectedCategories([]);
-    setVerificationFilter('all');
   };
 
-  const hasActiveFilters = search || location || selectedCategories.length > 0 || verificationFilter !== 'all';
+  const hasActiveFilters = search || location || selectedCategories.length > 0;
 
   return (
     <PageLayout>
@@ -156,8 +152,6 @@ const CharitiesPage = () => {
             <CharityFilters
               selectedCategories={selectedCategories}
               onCategoriesChange={setSelectedCategories}
-              verificationFilter={verificationFilter}
-              onVerificationFilterChange={setVerificationFilter}
               categories={categories}
               onClearFilters={clearFilters}
               hasActiveFilters={hasActiveFilters}
