@@ -12,6 +12,9 @@
   --color-ghibli-dark-blue: #2D5877;
   --color-ghibli-teal: #5DA3A6;
   --color-ghibli-cream-lightest: #fdfcf7;
+  --color-ghibli-brown-light: #A88B73;
+  --color-ghibli-teal-lightest: #E8F4F5;
+  --color-ghibli-red-light: #E8B8BC;
 
   --font-sans: 'Inter', sans-serif;
   --font-serif: 'Playfair Display', serif;
@@ -94,6 +97,13 @@
     50% {
       transform: translateY(-10px);
     }
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
 }
 
