@@ -66,7 +66,7 @@ const DonationCard = ({ donation }) => {
 
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-ghibli p-6 flex flex-col justify-between border border-ghibli-brown-light hover:shadow-lg transition-all duration-200" style={{ minHeight: '28rem' }}>
+      <div className="bg-white rounded-2xl shadow-ghibli p-6 flex flex-col justify-between border border-ghibli-brown-light hover:shadow-sm transition-shadow duration-200" style={{ minHeight: '28rem' }}>
         <div>
           <div className="flex items-center gap-2 mb-3">
             <h2 className="text-lg font-bold text-ghibli-dark-blue handwritten">
@@ -120,14 +120,17 @@ const DonationCard = ({ donation }) => {
           {/* Items */}
           <div className="mb-3">
             <span className="font-semibold text-sm text-ghibli-dark-blue">Items:</span>
-            <ul className="list-disc ml-5 text-sm text-ghibli-brown mt-1">
+            <ul className="ml-2 text-sm text-ghibli-brown mt-1 space-y-1">
               {donation.donationItems?.map((item, idx) => (
-                <li key={idx}>
-                  {item.quantity} x {getCategoryName(item.category)}
-                  {item.description && ` - ${item.description}`}
-                  {item.condition && (
-                    <span className="ml-2 text-xs text-ghibli-brown opacity-70">({item.condition})</span>
-                  )}
+                <li key={idx} className="flex items-start gap-2">
+                  <span className="text-ghibli-teal mt-1 flex-shrink-0">•</span>
+                  <span className="flex-1">
+                    {item.quantity} x {getCategoryName(item.category)}
+                    {item.description && ` - ${item.description}`}
+                    {item.condition && (
+                      <span className="ml-2 text-xs text-ghibli-brown opacity-70">({item.condition})</span>
+                    )}
+                  </span>
                 </li>
               ))}
             </ul>
