@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import heroVideo from '../../assets/Volunteers.mp4';
+import Header from '../../components/layout/Header';
+import Footer from '../../components/layout/Footer';
 
 const Icon = ({ path, className = 'w-8 h-8', iconColor = 'var(--color-ghibli-cream)' }) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke={iconColor} className={className}>
@@ -7,29 +10,168 @@ const Icon = ({ path, className = 'w-8 h-8', iconColor = 'var(--color-ghibli-cre
   </svg>
 );
 
-function HomePage() {
-  return (
-    <div className="flex flex-col">
-      <main className="flex-grow">
-        <section className="py-20 md:py-28 text-center">
-          <div className="max-w-5xl mx-auto px-6">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 text-shadow">
-              Give Hope, Create Change.
-            </h1>
-            <p className="handwritten text-2xl md:text-3xl mb-12 max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--color-ghibli-brown)' }}>
-              Join us in making a meaningful impact. Your contribution empowers communities and transforms lives.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-              <Link to="/donate" className="btn btn-primary text-lg md:text-xl py-3">
-                Donate Now
-              </Link>
-              <Link to="/explore-causes" className="btn btn-secondary text-lg md:text-xl py-3">
-                Explore Causes
-              </Link>
-            </div>
-          </div>
-        </section>
+const phrases = [
+  "Create Change.",
+  "Inspire Dreams.",
+  "Empower Others.",
+  "Build Futures.",
+  "Spread Kindness."
+];
 
+function HomePage() {
+  // Track scroll for header transparency
+  const [scrolled, setScrolled] = useState(false);
+  // Phrase animation state
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const [showingWords, setShowingWords] = useState([]);
+  const [animatingOut, setAnimatingOut] = useState(false);
+
+  // Split current and next phrase into words
+  const currentWords = phrases[phraseIdx].split(' ');
+  const nextPhraseIdx = (phraseIdx + 1) % phrases.length;
+  // eslint-disable-next-line
+  const nextWords = phrases[nextPhraseIdx].split(' ');
+
+  // Animation timing
+  const wordDelay = 250; // ms between each word
+  const phraseDelay = 3000; // ms phrase stays before animating out
+
+  // Animate in on mount and when phraseIdx changes
+  useEffect(() => {
+    setAnimatingOut(false);
+    setShowingWords([]);
+    let timeouts = [];
+    // Animate in each word
+    currentWords.forEach((_, i) => {
+      timeouts.push(setTimeout(() => {
+        setShowingWords((words) => [...words, currentWords[i]]);
+      }, i * wordDelay));
+    });
+    // Start animating out after phraseDelay
+    timeouts.push(setTimeout(() => setAnimatingOut(true), phraseDelay));
+    return () => timeouts.forEach(clearTimeout);
+    // eslint-disable-next-line
+  }, [phraseIdx]);
+
+  // Animate out word by word
+  useEffect(() => {
+    if (!animatingOut) return;
+    let timeouts = [];
+    for (let i = 0; i < currentWords.length; i++) {
+      timeouts.push(setTimeout(() => {
+        setShowingWords((words) => {
+          const newWords = [...words];
+          newWords[i] = null;
+          return newWords;
+        });
+      }, i * wordDelay));
+    }
+    // After all words are out, show next phrase
+    timeouts.push(setTimeout(() => {
+      setPhraseIdx((idx) => (idx + 1) % phrases.length);
+    }, currentWords.length * wordDelay + 300));
+    return () => timeouts.forEach(clearTimeout);
+    // eslint-disable-next-line
+  }, [animatingOut]);
+
+  useEffect(() => {
+      window.scrollTo(0, 0); // Scroll to top on mount
+    }, []);
+
+  // Render animated words
+  const renderWords = () => (
+    <span>
+      {currentWords.map((word, i) => (
+        <span
+          key={i}
+          className={`
+            inline-block transition-all duration-500 ease-in-out
+            ${showingWords[i] ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}
+            mr-2
+          `}
+          style={{ transitionDelay: `${i * 60}ms` }}
+        >
+          {word}
+        </span>
+      ))}
+    </span>
+  );
+
+  // Header transparency effect
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <div className="relative" style={{ overflowX: 'hidden' }}>
+      <Header transparent={!scrolled} />
+      {/* Video Hero Section */}
+      <section
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{
+          width: '100vw',
+          height: '100vh',
+          minHeight: '100vh',
+          minWidth: '100vw',
+        }}
+      >
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          src={heroVideo}
+        />
+        {/*<div className="absolute inset-0 bg-black/40 z-10"></div>*/}
+        <div className="absolute bottom-10 left-12 text-left">
+          <div
+            className="font-sans text-white text-7xl font-medium mb-8 text-shadow relative flex flex-col items-start overflow-hidden"
+            style={{ height: '10.0rem', minHeight: '10.0rem' }}
+          >
+            <span>Give Hope</span>
+            <span
+              className="block"
+              style={{
+                minHeight: '3=2.5rem',
+                display: 'inline-block',
+                willChange: 'transform, opacity',
+                marginTop: '0.5rem'
+              }}
+            >
+              {renderWords()}
+            </span>
+          </div>
+          <p className="font-sans font-thin text-2xl text-white">
+            Join us in making a meaningful impact. Your  
+          </p>
+          <p className="font-sans font-thin text-2xl text-white">
+            contribution empowers communities and 
+          </p>
+          <p className="font-sans font-thin text-2xl mb-12 text-white">
+            transforms lives.
+          </p>
+          <div className="flex gap-6 w-[32rem] max-w-full mt-6"
+               style={{ minWidth: '20rem' }}>
+            <Link
+              to="/donate"
+              className="btn btn-primary text-lg md:text-xl py-3 flex-1 text-center"
+            >
+              Donate Now
+            </Link>
+            <Link
+              to="/charities"
+              className="btn btn-secondary text-lg md:text-xl py-3 flex-1 text-center"
+            >
+              Explore Charities
+            </Link>
+          </div>
+        </div>
+      </section>
+      <main className="flex-grow">
         <section className="py-16 md:py-24">
           <div className="max-w-5xl mx-auto px-6">
             <div className="text-center mb-12 md:mb-16">
@@ -66,6 +208,7 @@ function HomePage() {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }
