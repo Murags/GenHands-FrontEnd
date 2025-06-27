@@ -83,6 +83,14 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/donor/thank-you-notes"
+        element={
+          <ProtectedRoute allowedRoles={['donor']}>
+            <DonorDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/donor/profile"
         element={
           <ProtectedRoute allowedRoles={['donor']}>
