@@ -37,6 +37,8 @@ import AboutPage from '../pages/AboutPage/AboutPage';
 import ContactPage from '../pages/ContactPage/ContactPage';
 import PrivacyPolicyPage from '../pages/PrivacyPolicyPage/PrivacyPolicyPage';
 import TermsPage from '../pages/TermsPage/TermsPage';
+import CharitiesPage from '../pages/CharitiesPage/CharitiesPage';
+import PublicCharityDetailsPage from '../pages/CharitiesPage/components/PublicCharityDetailsPage';
 
 const AdminLayout = () => (
   <DashboardLayout role="admin">
@@ -84,6 +86,18 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/charities"
+        element={
+          <CharitiesPage />
+        }
+      />
+      <Route
+        path="/charities/:id"
+        element={
+          <PublicCharityDetailsPage />
+        }
+      />
+      <Route
         path="/apiStatus"
         element={
           <PageLayout>
@@ -102,6 +116,14 @@ function AppRoutes() {
       />
       <Route
         path="/donor/my-donations"
+        element={
+          <ProtectedRoute allowedRoles={['donor']}>
+            <DonorDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/donor/thank-you-notes"
         element={
           <ProtectedRoute allowedRoles={['donor']}>
             <DonorDashboard />

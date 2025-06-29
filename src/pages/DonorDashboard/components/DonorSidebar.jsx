@@ -4,6 +4,7 @@ import {
   UserIcon,
   HeartIcon,
   GiftIcon,
+  ChatBubbleLeftEllipsisIcon,
   ArrowRightStartOnRectangleIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -27,6 +28,7 @@ const DonorSidebar = () => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: HeartIcon, to: '/donor' },
     { id: 'my-donations', label: 'My Donations', icon: GiftIcon, to: '/donor/my-donations' },
+    { id: 'thank-you-notes', label: 'Thank You Notes', icon: ChatBubbleLeftEllipsisIcon, to: '/donor/thank-you-notes' },
     { id: 'profile', label: 'Profile', icon: UserIcon, to: '/donor/profile' },
   ];
 
