@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCharities } from '../../hooks/useCharities';
 import { useCategories } from '../../hooks/useCategories';
@@ -15,6 +15,14 @@ import {
 import toast from 'react-hot-toast';
 
 const CharitiesPage = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top on mount
+    setTimeout(() => setIsVisible(true),
+    50); // Delay for smoothness
+  }, []);
+
   const [search, setSearch] = useState('');
   const [location, setLocation] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -26,7 +34,6 @@ const CharitiesPage = () => {
 
   const handleDonateClick = (charityId) => {
     if (!isAuthenticated()) {
-      toast.error('Please log in to make a donation');
       navigate('/auth/signin', { state: { returnTo: `/charities/${charityId}` } });
       return;
     }
@@ -44,7 +51,7 @@ const CharitiesPage = () => {
     navigate(`/charities/${charityId}`);
   };
 
-    // Filter charities based on search, location, and categories (only show verified charities)
+  // Filter charities based on search, location, and categories (only show verified charities)
   const filteredCharities = charities.filter(charity => {
     // Only show verified charities
     const isVerified = charity.isVerified || charity.verificationStatus === 'verified';
@@ -100,7 +107,7 @@ const CharitiesPage = () => {
 
   return (
     <PageLayout>
-      <div className="min-h-screen bg-ghibli-cream pt-24 pb-8">
+      <div className={`min-h-screen bg-ghibli-cream pt-24 pb-8 transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
@@ -116,11 +123,11 @@ const CharitiesPage = () => {
               Find Charities
             </h1>
             <p className="text-xl text-ghibli-brown max-w-3xl mx-auto leading-relaxed">
-              Discover amazing charitable organizations making a difference in communities across Kenya.
-              Find verified charities that align with your values and make meaningful contributions.
+              Discover amazing charitable organizations making a difference in
+              communities across Kenya. Find verified charities that align with
+              your values and make meaningful contributions.
             </p>
           </div>
-
           {/* Search and Filter Section */}
           <div className="bg-white rounded-2xl shadow-ghibli border border-ghibli-brown-light p-6 mb-8">
             {/* Quick Search Bar */}
@@ -129,9 +136,9 @@ const CharitiesPage = () => {
                 <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-ghibli-teal" />
                 <input
                   type="text"
-                  placeholder="Search charities by name, description, or category..."
+                  placeholder="Search charities by name or description..."
                   value={search}
-                  onChange={e => setSearch(e.target.value)}
+                  onChange={(e) => setSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl border border-ghibli-brown-light bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-ghibli-teal focus:border-ghibli-teal transition-all text-ghibli-dark-blue placeholder-ghibli-brown"
                 />
               </div>
@@ -142,7 +149,7 @@ const CharitiesPage = () => {
                   type="text"
                   placeholder="Filter by location..."
                   value={location}
-                  onChange={e => setLocation(e.target.value)}
+                  onChange={(e) => setLocation(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl border border-ghibli-brown-light bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-ghibli-teal focus:border-ghibli-teal transition-all text-ghibli-dark-blue placeholder-ghibli-brown"
                 />
               </div>
@@ -157,17 +164,20 @@ const CharitiesPage = () => {
               hasActiveFilters={hasActiveFilters}
             />
           </div>
-
-          {/* Results Summary */}
+          
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
-              <h2 className="text-2xl font-semibold text-ghibli-dark-blue handwritten">
-                {isLoading ? 'Loading...' : `${filteredCharities.length} Charities Found`}
+              <h2 className="text-2xl font-semibold text-ghibli-dark-blue handwritten mt-4">
+                {isLoading
+                  ? "Loading..."
+                  : `${filteredCharities.length} Charit${
+                      filteredCharities.length === 1 ? "y" : "ies"
+                    } Found`}
               </h2>
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="text-sm text-ghibli-red hover:text-ghibli-red-dark transition-colors underline"
+                  className="mt-4 cursor-pointer text-sm text-ghibli-red hover:text-ghibli-red-dark transition-colors underline"
                 >
                   Clear all filters
                 </button>
@@ -176,17 +186,20 @@ const CharitiesPage = () => {
 
             {!isLoading && charities.length > 0 && (
               <p className="text-ghibli-brown text-sm">
-                Showing {filteredCharities.length} of {charities.length} total charities
+                Showing {filteredCharities.length} of {charities.length} total
+                charit{charities.length === 1 ? "y" : "ies"}
               </p>
             )}
           </div>
-
           {/* Charities Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {isLoading ? (
               // Loading skeleton
               Array.from({ length: 6 }).map((_, idx) => (
-                <div key={idx} className="bg-white rounded-2xl shadow-ghibli border border-ghibli-brown-light p-6 animate-pulse">
+                <div
+                  key={idx}
+                  className="bg-white rounded-2xl shadow-ghibli border border-ghibli-brown-light p-6 animate-pulse"
+                >
                   <div className="h-6 bg-ghibli-cream-lightest rounded mb-3"></div>
                   <div className="h-4 bg-ghibli-cream-lightest rounded mb-2"></div>
                   <div className="h-4 bg-ghibli-cream-lightest rounded mb-4 w-3/4"></div>
@@ -199,17 +212,18 @@ const CharitiesPage = () => {
               <div className="col-span-full text-center py-16">
                 <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-12">
                   <BuildingOfficeIcon className="h-16 w-16 text-ghibli-brown-light mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-2">No Charities Found</h3>
+                  <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-2">
+                    No Charities Found
+                  </h3>
                   <p className="text-ghibli-brown mb-6">
                     {hasActiveFilters
-                      ? 'Try adjusting your search filters to find more charities.'
-                      : 'No charities are currently available.'
-                    }
+                      ? "Try adjusting your search filters to find more charities."
+                      : "No charities are currently available."}
                   </p>
                   {hasActiveFilters && (
                     <button
                       onClick={clearFilters}
-                      className="px-6 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                      className="cursor-pointer px-6 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors"
                     >
                       Clear Filters
                     </button>
@@ -217,7 +231,7 @@ const CharitiesPage = () => {
                 </div>
               </div>
             ) : (
-              filteredCharities.map(charity => (
+              filteredCharities.map((charity) => (
                 <div
                   key={charity._id}
                   className="transition-all duration-200 transform hover:-translate-y-1 hover:scale-105"
@@ -231,21 +245,23 @@ const CharitiesPage = () => {
               ))
             )}
           </div>
-
           {/* Call to Action */}
           {!isLoading && filteredCharities.length > 0 && (
             <div className="mt-16 text-center">
               <div className="bg-gradient-to-r from-ghibli-teal to-ghibli-blue rounded-2xl p-8 text-white">
                 <HeartIcon className="h-16 w-16 mx-auto mb-4 text-white" />
-                <h3 className="text-3xl font-bold handwritten mb-4">Ready to Make a Difference?</h3>
+                <h3 className="text-3xl text-white font-bold handwritten mb-4">
+                  Ready to Make a Difference?
+                </h3>
                 <p className="text-white text-opacity-90 mb-6 max-w-2xl mx-auto text-lg">
-                  Join thousands of generous donors who are making a positive impact in communities across Kenya.
-                  Every donation, no matter the size, helps create meaningful change.
+                  Join thousands of generous donors who are making a positive
+                  impact in communities across Kenya. Every donation, no matter
+                  the size, helps create meaningful change.
                 </p>
                 {!isAuthenticated() && (
                   <button
-                    onClick={() => navigate('/auth/select')}
-                    className="bg-white text-ghibli-teal font-semibold px-8 py-3 rounded-lg hover:bg-opacity-90 transition-all duration-200 transform hover:scale-105 shadow-lg"
+                    onClick={() => navigate("/auth/select")}
+                    className="cursor-pointer bg-white text-ghibli-teal font-semibold px-8 py-3 rounded-lg hover:bg-opacity-90 transition-all duration-200 transform hover:scale-105 shadow-lg"
                   >
                     Join as a Donor
                   </button>

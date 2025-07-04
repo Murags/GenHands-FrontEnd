@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCharities } from '../../../hooks/useCharities';
 import { useCategories } from '../../../hooks/useCategories';
@@ -22,6 +22,10 @@ import {
 import toast from 'react-hot-toast';
 
 const PublicCharityDetailsPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top on mount
+  })
+
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: charities = [], isLoading } = useCharities();
@@ -44,7 +48,6 @@ const PublicCharityDetailsPage = () => {
 
   const handleDonateClick = () => {
     if (!isAuthenticated()) {
-      toast.error('Please log in to make a donation');
       navigate('/auth/signin', { state: { returnTo: `/charities/${charity._id}` } });
       return;
     }
@@ -84,7 +87,7 @@ const PublicCharityDetailsPage = () => {
             <p className="text-ghibli-red text-lg font-medium">Charity not found</p>
             <button
               onClick={() => navigate('/charities')}
-              className="mt-4 px-6 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors"
+              className="cursor-pointer mt-4 px-6 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors"
             >
               Back to Charities
             </button>
@@ -104,7 +107,7 @@ const PublicCharityDetailsPage = () => {
         <div className="max-w-4xl mx-auto">
           <button
             onClick={() => navigate('/charities')}
-            className="flex items-center space-x-2 mb-6 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors group"
+            className="cursor-pointer flex items-center space-x-2 mb-6 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors group"
           >
             <ArrowLeftIcon className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
             <span className="font-medium">Back to Charities</span>
@@ -115,7 +118,7 @@ const PublicCharityDetailsPage = () => {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <h1 className="text-4xl font-bold handwritten">{charity.charityName}</h1>
+                    <h1 className="text-4xl font-sans font-bold">{charity.charityName}</h1>
                     <span className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold ${
                       isVerified ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
                     }`}>
@@ -148,7 +151,7 @@ const PublicCharityDetailsPage = () => {
 
               <button
                 onClick={handleDonateClick}
-                className="bg-white text-ghibli-teal font-semibold px-8 py-3 rounded-lg hover:bg-opacity-90 transition-all duration-200 shadow-lg transform hover:scale-105 flex items-center gap-2"
+                className="cursor-pointer bg-white text-ghibli-teal font-semibold px-8 py-3 rounded-lg hover:bg-opacity-90 transition-all duration-200 shadow-lg transform hover:scale-105 flex items-center gap-2"
               >
                 <GiftIcon className="h-5 w-5" />
                 {isAuthenticated() ? 'Donate Now' : 'Login to Donate'}
@@ -158,7 +161,7 @@ const PublicCharityDetailsPage = () => {
             <div className="p-8">
               {charity.description && (
                 <div className="mb-8">
-                  <h2 className="text-2xl font-semibold text-ghibli-dark-blue handwritten mb-4 flex items-center gap-2">
+                  <h2 className="text-xl font-sans font-semibold text-ghibli-dark-blue mb-4 flex items-center gap-2">
                     <DocumentTextIcon className="h-6 w-6 text-ghibli-blue" />
                     About Our Mission
                   </h2>
@@ -170,7 +173,7 @@ const PublicCharityDetailsPage = () => {
 
               {neededCategories.length > 0 && (
                 <div className="mb-8">
-                  <h2 className="text-2xl font-semibold text-ghibli-dark-blue handwritten mb-4 flex items-center gap-2">
+                  <h2 className="text-xl font-sans font-semibold text-ghibli-dark-blue mb-4 flex items-center gap-2">
                     <TagIcon className="h-6 w-6 text-ghibli-teal" />
                     Items We Need Most
                   </h2>
@@ -196,7 +199,7 @@ const PublicCharityDetailsPage = () => {
 
               {charity.priorityItems && charity.priorityItems.length > 0 && (
                 <div className="mb-8">
-                  <h2 className="text-2xl font-semibold text-ghibli-dark-blue handwritten mb-4 flex items-center gap-2">
+                  <h2 className="text-2xl font-sans font-semibold text-ghibli-dark-blue handwritten mb-4 flex items-center gap-2">
                     <ClockIcon className="h-6 w-6 text-ghibli-red" />
                     Urgent Priority Items
                   </h2>
@@ -215,7 +218,7 @@ const PublicCharityDetailsPage = () => {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <div>
-                  <h3 className="text-xl font-semibold text-ghibli-dark-blue handwritten mb-4 flex items-center gap-2">
+                  <h3 className="text-xl font-sans font-semibold text-ghibli-dark-blue mb-4 flex items-center gap-2">
                     <BuildingOfficeIcon className="h-5 w-5 text-ghibli-blue" />
                     Organization Information
                   </h3>
@@ -252,7 +255,7 @@ const PublicCharityDetailsPage = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-ghibli-dark-blue handwritten mb-4 flex items-center gap-2">
+                  <h3 className="text-xl font-semibold text-ghibli-dark-blue font-sans mb-4 flex items-center gap-2">
                     <UserIcon className="h-5 w-5 text-ghibli-teal" />
                     Contact Person
                   </h3>
@@ -291,7 +294,7 @@ const PublicCharityDetailsPage = () => {
               {/* Call to Action */}
               <div className="bg-gradient-to-r from-ghibli-teal to-ghibli-blue rounded-xl p-8 text-white text-center">
                 <HeartIcon className="h-16 w-16 mx-auto mb-4 text-white" />
-                <h3 className="text-2xl font-semibold handwritten mb-3">Ready to Make a Difference?</h3>
+                <h3 className="text-2xl text-white font-semibold handwritten mb-3">Ready to Make a Difference?</h3>
                 <p className="text-white text-opacity-90 mb-6 max-w-2xl mx-auto">
                   Your generous donation helps us continue our mission and directly impacts the lives of those we serve.
                   Every contribution, no matter the size, makes a meaningful difference.
@@ -299,14 +302,14 @@ const PublicCharityDetailsPage = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
                     onClick={handleDonateClick}
-                    className="bg-white text-ghibli-teal font-semibold px-10 py-4 rounded-lg hover:bg-opacity-90 transition-all duration-200 transform hover:scale-105 shadow-lg"
+                    className="cursor-pointer bg-white text-ghibli-teal font-semibold px-10 py-4 rounded-lg hover:bg-opacity-90 transition-all duration-200 transform hover:scale-105 shadow-lg"
                   >
                     {isAuthenticated() ? 'Start Your Donation' : 'Login to Donate'}
                   </button>
                   {!isAuthenticated() && (
                     <button
                       onClick={handleJoinAsDonor}
-                      className="border-2 border-white text-white font-semibold px-10 py-4 rounded-lg hover:bg-white hover:text-ghibli-teal transition-all duration-200 transform hover:scale-105"
+                      className="cursor-pointer border-2 border-white text-white font-semibold px-10 py-4 rounded-lg hover:bg-white hover:text-ghibli-teal transition-all duration-200 transform hover:scale-105"
                     >
                       Join as a Donor
                     </button>

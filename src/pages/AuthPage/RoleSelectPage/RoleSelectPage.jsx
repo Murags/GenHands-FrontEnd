@@ -93,7 +93,7 @@ const RoleSelectPage = () => {
       <motion.button
         disabled={!selectedRole}
         onClick={handleContinue}
-        className={`w-full max-w-md mt-12 py-3 rounded-md font-semibold text-white transition ${
+        className={`cursor-pointer w-full max-w-md mt-12 py-3 rounded-md font-semibold text-white transition ${
           selectedRole
             ? 'bg-green-600 hover:bg-green-700'
             : 'bg-gray-300 cursor-not-allowed'
