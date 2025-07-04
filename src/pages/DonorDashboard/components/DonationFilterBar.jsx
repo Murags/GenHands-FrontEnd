@@ -83,9 +83,9 @@ const MultiSelectDropdown = ({
                       e.stopPropagation();
                       removeSelection(selectedValues[index]);
                     }}
-                    className="hover:bg-white hover:bg-opacity-20 rounded-full p-0.5"
+                    className="cursor-pointer hover:bg-white hover:bg-opacity-20 rounded-full p-0.5"
                   >
-                    <XMarkIcon className="h-3 w-3" />
+                    <XMarkIcon className="cursor-pointer h-3 w-3" />
                   </button>
                 </span>
               ))}
@@ -156,7 +156,7 @@ const MultiSelectDropdown = ({
             <div className="p-2 border-t border-ghibli-brown-light">
               <button
                 onClick={() => onSelectionChange([])}
-                className="w-full px-3 py-1 text-xs text-ghibli-red hover:bg-ghibli-red hover:text-white rounded transition-colors"
+                className="cursor-pointer w-full px-3 py-1 text-xs text-ghibli-red hover:bg-ghibli-red hover:text-white rounded transition-colors"
               >
                 Clear All
               </button>
@@ -234,7 +234,7 @@ const DonationFilterBar = ({
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ghibli-teal" />
             <input
               type="text"
-              placeholder="Search donations..."
+              placeholder="Search donations by items, pickup address..."
               value={search}
               onChange={e => onSearchChange(e.target.value)}
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-ghibli-brown-light bg-ghibli-cream-lightest focus:outline-none focus:ring-2 focus:ring-ghibli-teal focus:border-ghibli-teal transition-all text-ghibli-dark-blue placeholder-ghibli-brown text-sm"
@@ -320,7 +320,7 @@ const DonationFilterBar = ({
           {hasActiveFilters && (
             <button
               onClick={onClearFilters}
-              className="px-6 py-2 bg-ghibli-red text-white rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium whitespace-nowrap self-start"
+              className="cursor-pointer px-6 py-2 bg-ghibli-red text-white rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium whitespace-nowrap self-start"
             >
               Clear All Filters
             </button>

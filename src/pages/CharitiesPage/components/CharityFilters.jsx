@@ -50,7 +50,7 @@ const CategoryMultiSelect = ({
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-4 py-3 border border-ghibli-brown-light rounded-xl bg-white hover:border-ghibli-teal focus:outline-none focus:ring-2 focus:ring-ghibli-teal focus:border-ghibli-teal transition-all"
+        className="cursor-pointer w-full flex items-center justify-between px-4 py-3 border border-ghibli-brown-light rounded-xl bg-white hover:border-ghibli-teal focus:outline-none focus:ring-2 focus:ring-ghibli-teal focus:border-ghibli-teal transition-all"
       >
         <div className="flex items-center gap-2">
           <TagIcon className="h-5 w-5 text-ghibli-teal" />
@@ -78,7 +78,7 @@ const CategoryMultiSelect = ({
                   const categoryId = categories.find(cat => cat.name === name)?._id;
                   if (categoryId) handleCategoryToggle(categoryId);
                 }}
-                className="hover:bg-white hover:bg-opacity-20 rounded-full p-0.5"
+                className="cursor-pointer hover:bg-white hover:bg-opacity-20 rounded-full p-0.5"
               >
                 <XMarkIcon className="h-3 w-3" />
               </button>
@@ -134,7 +134,7 @@ const CategoryMultiSelect = ({
             <div className="p-2 border-t border-ghibli-brown-light">
               <button
                 onClick={() => onCategoriesChange([])}
-                className="w-full px-3 py-1 text-xs text-ghibli-red hover:bg-ghibli-red hover:text-white rounded transition-colors"
+                className="cursor-pointer w-full px-3 py-1 text-xs text-ghibli-red hover:bg-ghibli-red hover:text-white rounded transition-colors"
               >
                 Clear All Categories
               </button>
@@ -160,19 +160,19 @@ const CharityFilters = ({
       <div className="flex items-center justify-between">
         <button
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="flex items-center gap-2 text-ghibli-blue hover:text-ghibli-blue-dark transition-colors"
+          className="cursor-pointer flex items-center gap-2 text-ghibli-blue hover:text-ghibli-blue-dark transition-colors"
         >
-          <FunnelIcon className="h-5 w-5" />
-          <span className="font-medium">
+          <FunnelIcon className="cursor-pointer h-5 w-5" />
+          <span className="cursor-pointer font-medium">
             {showAdvanced ? 'Hide' : 'Show'} Advanced Filters
           </span>
-          <ChevronDownIcon className={`h-4 w-4 transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
+          <ChevronDownIcon className={`cursor-pointer h-4 w-4 transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
         </button>
 
         {hasActiveFilters && (
           <button
             onClick={onClearFilters}
-            className="text-sm text-ghibli-red hover:text-ghibli-red-dark transition-colors font-medium"
+            className="cursor-pointer text-sm text-ghibli-red hover:text-ghibli-red-dark transition-colors font-medium"
           >
             Clear All Filters
           </button>
@@ -203,7 +203,7 @@ const CharityFilters = ({
               {selectedCategories.length} categories
               <button
                 onClick={() => onCategoriesChange([])}
-                className="hover:bg-white hover:bg-opacity-20 rounded-full p-0.5"
+                className="cursor-pointer hover:bg-white hover:bg-opacity-20 rounded-full p-0.5"
               >
                 <XMarkIcon className="h-3 w-3" />
               </button>
@@ -212,7 +212,7 @@ const CharityFilters = ({
 
           <button
             onClick={onClearFilters}
-            className="text-xs text-ghibli-red hover:text-ghibli-red-dark transition-colors underline ml-2"
+            className="cursor-pointer text-xs text-ghibli-red hover:text-ghibli-red-dark transition-colors underline ml-2"
           >
             Clear all
           </button>

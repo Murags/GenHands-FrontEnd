@@ -43,7 +43,7 @@ const DonorSignUpPage = () => {
     >
       <button
         onClick={() => navigate(-1)}
-        className="fixed top-6 left-6 bg-white border border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
+        className="cursor-pointer fixed top-6 left-6 bg-white border border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
         aria-label="Go back"
       >
         <FiArrowLeft size={20} />
@@ -141,7 +141,7 @@ const DonorSignUpPage = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="cursor-pointer w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ background: 'linear-gradient(to right, #1f4037, #99f2c8)' }}
             >
               {isLoading ? 'Creating Account...' : 'Create Account'}
