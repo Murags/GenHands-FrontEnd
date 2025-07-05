@@ -37,14 +37,14 @@ const PublicCharityCard = ({ charity, onCharityClick, onDonateClick }) => {
 
   return (
     <div
-      className={`relative bg-white rounded-2xl shadow-ghibli p-6 hover:shadow-md transition-all duration-200 group border border-ghibli-brown-light flex flex-col h-96 border-l-8 ${
+      className={`cursor-pointer h-110 relative bg-white rounded-2xl shadow-ghibli p-6 hover:shadow-md transition-all duration-200 group border border-ghibli-brown-light flex flex-col h-96 border-l-8 ${
         isVerified ? 'border-l-ghibli-teal' : 'border-l-ghibli-yellow'
       }`}
       style={{ minHeight: '24rem' }}
     >
       {/* Header */}
       <div className="flex items-center gap-3 mb-2">
-        <h2 className="text-xl font-bold text-ghibli-dark-blue handwritten flex-1">
+        <h2 className="text-xl font-bold text-ghibli-dark-blue flex-1">
           {charity.charityName}
         </h2>
         <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold shadow-sm ${
@@ -160,7 +160,7 @@ const PublicCharityCard = ({ charity, onCharityClick, onDonateClick }) => {
             e.stopPropagation();
             onCharityClick();
           }}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-ghibli-teal text-ghibli-teal rounded-lg hover:bg-ghibli-teal hover:text-white transition-colors text-sm font-medium"
+          className="cursor-pointer flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-ghibli-teal text-ghibli-teal rounded-lg hover:bg-ghibli-teal hover:text-white transition-colors text-sm font-medium"
         >
           <EyeIcon className="h-4 w-4" />
           View Details
@@ -171,7 +171,7 @@ const PublicCharityCard = ({ charity, onCharityClick, onDonateClick }) => {
             e.stopPropagation();
             onDonateClick();
           }}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium shadow-sm"
+          className="cursor-pointer flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:brightness-80 transition-all text-sm font-medium shadow-sm"
         >
           <GiftIcon className="h-4 w-4" />
           Donate

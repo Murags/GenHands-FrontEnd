@@ -31,7 +31,7 @@ const SignInPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-200 via-blue-100 to-pink-100 p-4">
       <button
         onClick={() => navigate(-1)}
-        className="fixed top-4 left-4 bg-white border-1 border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
+        className="cursor-pointer fixed top-4 left-4 bg-white border-1 border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
         aria-label="Go back"
       >
         <FiArrowLeft size={20} />
@@ -91,7 +91,7 @@ const SignInPage = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2 px-4 mt-4 hover:brightness-110 text-white font-semibold rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="cursor-pointer w-full py-2 px-4 mt-4 hover:brightness-110 text-white font-semibold rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ background: "linear-gradient(to right,rgb(21, 122, 255), #1b53a7,rgb(54, 20, 243))" }}
             >
               {isLoading ? 'Logging in...' : 'Log In'}

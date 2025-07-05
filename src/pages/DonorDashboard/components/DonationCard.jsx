@@ -66,10 +66,10 @@ const DonationCard = ({ donation }) => {
 
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-ghibli p-6 flex flex-col justify-between border border-ghibli-brown-light hover:shadow-sm transition-shadow duration-200" style={{ minHeight: '28rem' }}>
+      <div className="cursor-pointer bg-white rounded-2xl shadow-ghibli p-6 flex flex-col justify-between border border-ghibli-brown-light hover:shadow-sm transition-shadow duration-200" style={{ minHeight: '28rem' }}>
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <h2 className="text-lg font-bold text-ghibli-dark-blue handwritten">
+            <h2 className="text-lg font-bold font-sans text-ghibli-dark-blue handwritten">
               {donation.organizationName || 'Charity'}
             </h2>
             {donation.organizationType && (
@@ -191,7 +191,7 @@ const DonationCard = ({ donation }) => {
           {canCancel() && (
             <button
               onClick={() => setShowCancelModal(true)}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-ghibli-red text-white rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium shadow-sm"
+              className="cursor-pointer w-full flex items-center justify-center gap-2 px-3 py-2 bg-ghibli-red text-white rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium shadow-sm"
             >
               <XMarkIcon className="h-4 w-4" />
               Cancel Donation
@@ -210,8 +210,8 @@ const DonationCard = ({ donation }) => {
         <div className="space-y-4">
           <div className="flex items-center gap-3 p-4 bg-ghibli-red bg-opacity-10 rounded-lg border border-ghibli-red border-opacity-20">
             <ExclamationTriangleIcon className="h-6 w-6 text-ghibli-red flex-shrink-0" />
-            <div className="text-sm text-ghibli-brown">
-              <p className="font-medium text-ghibli-dark-blue mb-1">This action cannot be undone</p>
+            <div className="text-sm text-white">
+              <p className="font-medium text-white mb-1">This action cannot be undone</p>
               <p>Your donation will be cancelled and removed from the charity's incoming donations list.</p>
             </div>
           </div>
@@ -219,7 +219,7 @@ const DonationCard = ({ donation }) => {
           <div className="flex gap-3">
             <button
               onClick={() => setShowCancelModal(false)}
-              className="flex-1 px-4 py-2 text-ghibli-brown bg-ghibli-cream-lightest rounded-lg hover:bg-ghibli-brown hover:text-white transition-colors"
+              className="cursor-pointer flex-1 px-4 py-2 text-ghibli-brown bg-ghibli-cream-lightest rounded-lg hover:bg-ghibli-brown hover:text-white transition-colors"
               disabled={isCancelling}
             >
               Keep Donation
@@ -227,7 +227,7 @@ const DonationCard = ({ donation }) => {
             <button
               onClick={handleCancelDonation}
               disabled={isCancelling}
-              className="flex-1 px-4 py-2 bg-ghibli-red text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="cursor-pointer flex-1 px-4 py-2 bg-ghibli-red text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isCancelling ? 'Cancelling...' : 'Cancel Donation'}
             </button>

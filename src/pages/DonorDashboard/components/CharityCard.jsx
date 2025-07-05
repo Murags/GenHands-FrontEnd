@@ -43,7 +43,7 @@ const CharityCard = ({ charity }) => {
     >
       {/* Header */}
       <div className="flex items-center gap-3 mb-2">
-        <h2 className="text-xl font-bold text-ghibli-dark-blue handwritten">{charity.charityName}</h2>
+        <h2 className="text-xl font-bold text-ghibli-dark-blue">{charity.charityName}</h2>
         <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold shadow-sm ${isVerified ? 'bg-ghibli-teal text-white' : 'bg-ghibli-yellow text-ghibli-dark-blue'} transition-colors`}>
           {isVerified ? <CheckCircleIcon className="h-4 w-4" /> : <ExclamationCircleIcon className="h-4 w-4" />}
           {statusText}
