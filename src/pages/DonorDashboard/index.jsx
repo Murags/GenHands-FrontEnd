@@ -53,9 +53,14 @@ const DonorDashboard = () => {
       return donationCharity && selectedCharities.includes(donationCharity._id);
     })();
 
-    const matchesCategory = !selectedCategories.length ||
-      (donation.donationItems || []).some(item =>
-        selectedCategories.includes(item.category)
+    const matchesCategory =
+      !selectedCategories.length ||
+      (donation.donationItems || []).some((item) =>
+        selectedCategories.includes(
+          typeof item.category === "object" && item.category !== null
+            ? item.category._id
+            : item.category
+        )
       );
 
     const matchesUrgency = !donationUrgency ||
@@ -76,7 +81,12 @@ const DonorDashboard = () => {
   const filteredCharities = charities.filter(charity => {
     const matchesSearch =
       charity.charityName?.toLowerCase().includes(search.toLowerCase()) ||
-      charity.description?.toLowerCase().includes(search.toLowerCase());
+      charity.description?.toLowerCase().includes(search.toLowerCase()) || 
+      // Search in category names
+      (charity.neededCategories || []).some(catId => {
+      const cat = categories.find(c => c._id === catId);
+      return cat && cat.name.toLowerCase().includes(search.toLowerCase());
+      });
 
     const addressString = [
       charity.location?.address || '',
@@ -87,22 +97,11 @@ const DonorDashboard = () => {
       ? addressString.includes(location.trim().toLowerCase())
       : true;
 
-    const matchesCategories = !selectedCategories.length || (() => {
-      if (charity.priorityItems && charity.priorityItems.length > 0) {
-        return charity.priorityItems.some(priorityItem => {
-          const selectedCategoryNames = selectedCategories.map(categoryId => {
-            const category = categories.find(cat => cat._id === categoryId);
-            return category ? category.name.toLowerCase() : '';
-          }).filter(name => name);
-
-          return selectedCategoryNames.some(categoryName =>
-            priorityItem.toLowerCase().includes(categoryName) ||
-            categoryName.includes(priorityItem.toLowerCase())
-          );
-        });
-      }
-      return false;
-    })();
+    const matchesCategories =
+      !selectedCategories.length ||
+      (charity.neededCategories || []).some(neededCategory =>
+        selectedCategories.includes(neededCategory)
+      );
 
     return matchesSearch && matchesLocation && matchesCategories;
   });
@@ -127,7 +126,7 @@ const DonorDashboard = () => {
       <DonorSidebar />
       <main className="flex-1 flex flex-col p-0 md:p-8 bg-ghibli-cream">
         {/* Sticky header */}
-        <div className="sticky top-0 z-10 bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <div className="sticky top-0 z-10 bg-white shadow-ghibli border border-ghibli-brown-light px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between mb-6">
           <h1 className="text-3xl font-bold text-ghibli-dark-blue handwritten tracking-tight mb-2 md:mb-0">
             {isMyDonations
               ? 'My Donations'
@@ -197,7 +196,7 @@ const DonorDashboard = () => {
                     {donations.length > 0 && (
                       <button
                         onClick={clearDonationFilters}
-                        className="mt-4 px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium"
+                        className="cursor-pointer mt-4 px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium"
                       >
                         Clear All Filters
                       </button>
@@ -217,15 +216,15 @@ const DonorDashboard = () => {
             />
           ) : isProfile ? (
             <div className="max-w-md mx-auto">
-              <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-8">
+              <div className="cursor-pointer bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-8 hover:shadow-2xl transition-shadow">
                 <div className="text-center">
                   <div className="w-20 h-20 bg-ghibli-teal rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
                     <UserIcon className="h-10 w-10 text-white" />
                   </div>
-                  <div className="space-y-4">
+                  <div className="cursor-pointer space-y-4">
                     <div>
                       <p className="text-sm text-ghibli-brown mb-1">Name</p>
-                      <p className="text-xl font-semibold text-ghibli-dark-blue handwritten">{donor.name || 'Not provided'}</p>
+                      <p className="text-3xl font-semibold text-ghibli-dark-blue handwritten">{donor.name || 'Not provided'}</p>
                     </div>
                     <div>
                       <p className="text-sm text-ghibli-brown mb-1">Email</p>

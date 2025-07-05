@@ -152,7 +152,7 @@ const MultiSelectDropdown = ({
             <div className="p-2 border-t border-ghibli-brown-light">
               <button
                 onClick={() => onSelectionChange([])}
-                className="w-full px-3 py-1 text-xs text-ghibli-red hover:bg-ghibli-red hover:text-white rounded transition-colors"
+                className="cursor-pointer w-full px-3 py-1 text-xs text-ghibli-red hover:bg-ghibli-red hover:text-white rounded transition-colors"
               >
                 Clear All
               </button>
@@ -185,7 +185,7 @@ const SearchAndFilterBar = ({
     <div className="flex flex-col md:flex-row gap-4 w-full">
       {/* Search */}
       <div className="relative flex-1">
-        <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-ghibli-teal" />
+        <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-ghibli-teal" />
         <input
           type="text"
           placeholder="Search charities..."
@@ -197,7 +197,7 @@ const SearchAndFilterBar = ({
 
       {/* Location */}
       <div className="relative flex-1">
-        <MapPinIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-ghibli-teal" />
+        <MapPinIcon className="absolute left-3 top-3 h-5 w-5 text-ghibli-teal" />
         <input
           type="text"
           placeholder="Filter by location..."

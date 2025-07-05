@@ -183,21 +183,21 @@ function HomePage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-              <div className="card text-center p-8">
+              <div className="card text-center p-8 cursor-pointer">
                 <div className="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-full ghibli-image animate-float" style={{ backgroundColor: 'var(--color-ghibli-teal)', opacity: 0.9 }}>
                   <Icon path="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
                 </div>
                 <h3 className="text-2xl font-semibold mb-3">Empower Communities</h3>
                 <p className="text-base">Help build sustainable projects and support local initiatives.</p>
               </div>
-              <div className="card text-center p-8">
+              <div className="card text-center p-8 cursor-pointer">
                 <div className="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-full ghibli-image animate-float" style={{ backgroundColor: 'var(--color-ghibli-blue)', opacity: 0.9, animationDelay: '0.3s' }}>
                   <Icon path="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                 </div>
                 <h3 className="text-2xl font-semibold mb-3">Transparent Giving</h3>
                 <p className="text-base">See the direct impact of your generosity with clear reporting.</p>
               </div>
-              <div className="card text-center p-8">
+              <div className="card text-center p-8 cursor-pointer">
                 <div className="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-full ghibli-image animate-float" style={{ backgroundColor: 'var(--color-ghibli-red)', opacity: 0.9, animationDelay: '0.6s' }}>
                   <Icon path="M14.25 7.756a4.5 4.5 0 100 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </div>

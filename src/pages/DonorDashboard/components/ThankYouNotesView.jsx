@@ -60,11 +60,11 @@ const ThankYouNotesView = ({ donations, isLoading }) => {
 
         {donationsWithThankYou.length > 0 && (
           <div className="flex items-center gap-2">
-            <span className="text-sm text-ghibli-brown">Sort by:</span>
+            <span className="cursor-pointer text-sm text-ghibli-brown">Sort by:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 rounded-lg border border-ghibli-brown-light bg-white focus:outline-none focus:ring-2 focus:ring-ghibli-teal focus:border-ghibli-teal text-sm"
+              className="cursor-pointer px-3 py-2 rounded-lg border border-ghibli-brown-light bg-white focus:outline-none focus:ring-2 focus:ring-ghibli-teal focus:border-ghibli-teal text-sm"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -92,7 +92,7 @@ const ThankYouNotesView = ({ donations, isLoading }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6 hover:shadow-lg transition-shadow"
+              className="cursor-pointer bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6 hover:shadow-lg transition-shadow"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
@@ -173,7 +173,7 @@ const ThankYouNotesView = ({ donations, isLoading }) => {
       )}
 
       {donationsWithThankYou.length > 0 && (
-        <div className="bg-ghibli-cream-lightest rounded-xl p-6 border border-ghibli-brown-light">
+        <div className="cursor-pointer bg-ghibli-cream-lightest rounded-xl p-6 border border-ghibli-brown-light">
           <div className="flex items-center gap-3 mb-3">
             <HeartIcon className="h-6 w-6 text-ghibli-teal" />
             <h3 className="font-bold text-ghibli-dark-blue">Your Impact</h3>
