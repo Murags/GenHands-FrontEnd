@@ -4,6 +4,10 @@ import { verifyUser } from "../../../services/userService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+
+const API_URL = API_BASE_URL.replace(/\/api$/, '');
+
 const statusOptions = [
   //   'Pending Review',
   //   'Needs More Info',
@@ -150,7 +154,7 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
                 // If doc is a string, treat it as a file path
                 const isString = typeof doc === "string";
                 const url = isString
-                  ? `http://localhost:3000/${doc.replace(/^\/+/, "")}`
+                  ? `${API_URL}/${doc.replace(/^\/+/, "")}`
                   : doc.url;
                 const name = isString
                   ? doc.split("/").pop()
