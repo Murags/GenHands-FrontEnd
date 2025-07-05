@@ -27,6 +27,7 @@ import RequirementsPage from '../pages/CharityDashboard/RequirementsPage';
 import AllDonationsPage from '../pages/CharityDashboard/AllDonationsPage';
 import IncomingDonationsPage from '../pages/CharityDashboard/IncomingDonationsPage';
 import ThankYouNotesPage from '../pages/CharityDashboard/ThankYouNotesPage';
+import OrganisationProfilePage from '../pages/CharityDashboard/OrganisationProfilePage';
 import DonationSubmission from '../pages/DonationSubmission';
 import RoleSelectPage from '../pages/AuthPage/RoleSelectPage/RoleSelectPage';
 import DonorSignUpPage from '../pages/AuthPage/SignUpPage/DonorSignUpPage';
@@ -187,7 +188,7 @@ function AppRoutes() {
         <Route path="donations" element={<IncomingDonationsPage />} />
         <Route path="thank-you" element={<ThankYouNotesPage />} />
         {/* <Route path="reports" element={<DashboardNotFoundPage />} /> */}
-        <Route path="profile" element={<DashboardNotFoundPage />} />
+        <Route path="profile" element={<OrganisationProfilePage />} />
         <Route path="settings" element={<DashboardNotFoundPage />} />
         <Route path="*" element={<DashboardNotFoundPage />} />
       </Route>

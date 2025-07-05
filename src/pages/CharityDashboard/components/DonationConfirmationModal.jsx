@@ -132,14 +132,14 @@ With heartfelt appreciation,
             type="button"
             onClick={handleClose}
             disabled={isSubmitting}
-            className="px-6 py-2 text-ghibli-brown border border-ghibli-brown-light rounded-lg hover:bg-ghibli-cream-lightest transition-colors disabled:opacity-50"
+            className="cursor-pointer px-6 py-2 text-ghibli-brown border border-ghibli-brown-light rounded-lg hover:bg-ghibli-cream-lightest transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting || !thankYouNote.trim()}
-            className="px-6 py-2 bg-ghibli-green text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+            className="cursor-pointer px-6 py-2 bg-ghibli-green text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
           >
             {isSubmitting ? (
               <>
