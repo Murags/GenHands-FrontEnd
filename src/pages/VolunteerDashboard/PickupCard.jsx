@@ -1,24 +1,43 @@
-import React from 'react';
-import { MapPinIcon, ClockIcon, ExclamationTriangleIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import React from "react";
+import {
+  MapPinIcon,
+  ClockIcon,
+  ExclamationTriangleIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 
 const PickupCard = ({ pickup, isSelected, onSelect, disabled = false }) => {
   const getPriorityBadge = (priority, status) => {
-    if (status === 'urgent') {
-      return <span className="px-2 py-1 rounded-full text-xs font-medium bg-ghibli-red text-white">Urgent</span>;
-    } else if (priority === 'high') {
-      return <span className="px-2 py-1 rounded-full text-xs font-medium bg-ghibli-yellow text-ghibli-dark-blue">High</span>;
+    if (status === "urgent") {
+      return (
+        <span className="px-2 py-1 rounded-full text-xs font-medium bg-ghibli-red text-white">
+          Urgent
+        </span>
+      );
+    } else if (priority === "high") {
+      return (
+        <span className="px-2 py-1 rounded-full text-xs font-medium bg-ghibli-yellow text-ghibli-dark-blue">
+          High
+        </span>
+      );
     }
     return null;
+  };
+
+  // Scroll to bottom handler
+  const handleViewDetailsClick = (e) => {
+    e.stopPropagation();
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   };
 
   return (
     <div
       className={`p-4 cursor-pointer transition-all duration-200 border-l-4 ${
-        disabled ? 'opacity-50 cursor-not-allowed' : ''
+        disabled ? "opacity-50 cursor-not-allowed" : ""
       } ${
         isSelected
-          ? 'bg-white shadow-ghibli border-l-ghibli-teal'
-          : 'bg-ghibli-cream-lightest hover:bg-white border-l-transparent'
+          ? "bg-white shadow-ghibli border-l-ghibli-teal"
+          : "bg-ghibli-cream-lightest hover:bg-white border-l-transparent"
       }`}
       onClick={() => !disabled && onSelect()}
     >
@@ -26,11 +45,11 @@ const PickupCard = ({ pickup, isSelected, onSelect, disabled = false }) => {
         <div className="flex-1 min-w-0">
           {/* Header */}
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-lg font-bold text-ghibli-dark-blue truncate handwritten">
+            <h3 className="text-lg font-bold text-ghibli-dark-blue truncate font-sans">
               {pickup.charity}
             </h3>
             <div className="flex items-center space-x-2">
-              {pickup.status === 'urgent' && (
+              {pickup.status === "urgent" && (
                 <ExclamationTriangleIcon className="h-4 w-4 text-ghibli-red" />
               )}
               {getPriorityBadge(pickup.priority, pickup.status)}
@@ -48,7 +67,9 @@ const PickupCard = ({ pickup, isSelected, onSelect, disabled = false }) => {
             <ClockIcon className="h-4 w-4 mr-2 flex-shrink-0 text-ghibli-blue" />
             <span className="font-medium">
               <span className="text-ghibli-dark-blue">{pickup.distance}</span> •
-              <span className="text-ghibli-dark-blue ml-1">{pickup.estimatedTime}</span>
+              <span className="text-ghibli-dark-blue ml-1">
+                {pickup.estimatedTime}
+              </span>
             </span>
           </div>
 
@@ -56,9 +77,12 @@ const PickupCard = ({ pickup, isSelected, onSelect, disabled = false }) => {
           <div className="text-xs text-ghibli-brown">
             <span className="font-medium">{pickup.items.length} items:</span>
             <span className="ml-1">
-              {pickup.items.slice(0, 2).join(', ')}
+              {pickup.items.slice(0, 2).join(", ")}
               {pickup.items.length > 2 && (
-                <span className="text-ghibli-teal font-medium"> +{pickup.items.length - 2} more</span>
+                <span className="text-ghibli-teal font-medium">
+                  {" "}
+                  +{pickup.items.length - 2} more
+                </span>
               )}
             </span>
           </div>
@@ -66,11 +90,13 @@ const PickupCard = ({ pickup, isSelected, onSelect, disabled = false }) => {
 
         {/* Action Indicator */}
         <div className="ml-3 flex-shrink-0">
-          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold transition-all ${
-            isSelected
-              ? 'bg-ghibli-teal shadow-sm'
-              : 'bg-ghibli-blue hover:bg-ghibli-teal'
-          }`}>
+          <div
+            className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold transition-all ${
+              isSelected
+                ? "bg-ghibli-teal shadow-sm"
+                : "bg-ghibli-blue hover:bg-ghibli-teal"
+            }`}
+          >
             <ChevronRightIcon className="h-5 w-5" />
           </div>
         </div>
@@ -81,9 +107,13 @@ const PickupCard = ({ pickup, isSelected, onSelect, disabled = false }) => {
         <div className="mt-3 pt-3 border-t border-ghibli-teal border-opacity-30">
           <div className="flex items-center justify-between text-xs">
             <span className="text-ghibli-brown">
-              <span className="font-medium">Contact:</span> {pickup.contactPerson}
+              <span className="font-medium">Contact:</span>{" "}
+              {pickup.contactPerson}
             </span>
-            <span className="text-ghibli-teal font-medium">
+            <span
+              className="text-ghibli-teal font-medium cursor-pointer"
+              onClick={handleViewDetailsClick}
+            >
               📍 View Details
             </span>
           </div>

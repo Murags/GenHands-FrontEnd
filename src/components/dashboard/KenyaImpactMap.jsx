@@ -217,7 +217,7 @@ const KenyaImpactMap = () => {
     <div className="bg-ghibli-cream rounded-lg shadow-ghibli p-6">
       {/* Header with view switcher */}
       <div className="mb-6">
-        <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-2 handwritten">
+        <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-2 font-sans">
           Impact Across Kenya
         </h3>
         <p className="text-ghibli-brown text-sm mb-4">{currentView.subtitle}</p>
@@ -231,7 +231,7 @@ const KenyaImpactMap = () => {
                 key={key}
                 onClick={() => setActiveView(key)}
                 disabled={isLoading}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   activeView === key
                     ? 'bg-ghibli-teal text-ghibli-cream shadow-md'
                     : 'bg-ghibli-cream-light text-ghibli-brown hover:bg-ghibli-teal-light hover:text-ghibli-dark-blue'

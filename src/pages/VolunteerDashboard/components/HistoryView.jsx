@@ -128,7 +128,7 @@ const HistoryView = () => {
           <p className="text-red-800 mb-4">Failed to load pickup history</p>
           <button
             onClick={() => refetch()}
-            className="px-4 py-2 bg-ghibli-blue text-white rounded-lg hover:bg-opacity-90 transition-colors"
+            className="cursor-pointer px-4 py-2 bg-ghibli-blue text-white rounded-lg hover:bg-opacity-90 transition-colors"
           >
             Try Again
           </button>
@@ -149,7 +149,7 @@ const HistoryView = () => {
         </div>
         <button
           onClick={() => refetch()}
-          className="p-2 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors"
+          className="cursor-pointer p-2 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors"
         >
           <ArrowPathIcon className="h-5 w-5" />
         </button>
@@ -209,7 +209,7 @@ const HistoryView = () => {
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent"
+              className="cursor-pointer w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent"
             >
               <option value="all">All Time</option>
               <option value="week">Last Week</option>
@@ -223,7 +223,7 @@ const HistoryView = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent"
+              className="cursor-pointer w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent"
             >
               <option value="all">All Statuses</option>
               <option value="delivered">Delivered Only</option>
@@ -236,7 +236,7 @@ const HistoryView = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent"
+              className="cursor-pointer w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent"
             >
               <option value="date">Most Recent</option>
               <option value="charity">Charity Name</option>
@@ -249,7 +249,7 @@ const HistoryView = () => {
       {/* History List */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light">
         <div className="p-6 border-b border-ghibli-brown-light">
-          <h3 className="text-xl font-semibold text-ghibli-dark-blue handwritten">
+          <h3 className="text-xl font-semibold text-ghibli-dark-blue font-sans">
             Mission History ({filteredHistory.length})
           </h3>
         </div>

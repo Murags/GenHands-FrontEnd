@@ -109,7 +109,7 @@ const PickupFlowManager = ({
         {/* Header */}
         <div className="p-6 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold text-ghibli-dark-blue handwritten flex items-center">
+            <h2 className="text-2xl font-semibold text-ghibli-dark-blue font-sans flex items-center">
               <InformationCircleIcon className="h-6 w-6 mr-3 text-ghibli-green" />
               {statusConfig ? statusConfig.title : 'Pickup Details'}
             </h2>
@@ -135,7 +135,7 @@ const PickupFlowManager = ({
             {/* Left Column - Details */}
             <div className="space-y-6">
               <div>
-                <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-4 handwritten">
+                <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-4 font-sans">
                   {selectedPickup.charity}
                 </h3>
                 <div className="space-y-4">
@@ -177,7 +177,7 @@ const PickupFlowManager = ({
                         <p className="text-ghibli-brown text-sm">{selectedPickup.phone}</p>
                         <button
                           onClick={handleContactCall}
-                          className="btn bg-ghibli-green text-white px-3 py-1 text-xs hover:bg-ghibli-dark-blue transition-colors"
+                          className="cursor-pointer btn bg-ghibli-green text-white px-3 py-1 text-xs hover:bg-ghibli-dark-blue transition-colors"
                         >
                           <PhoneIcon className="h-3 w-3 mr-1" />
                           Call
@@ -194,7 +194,7 @@ const PickupFlowManager = ({
 
               {/* Items to Collect */}
               <div>
-                <h4 className="text-xl font-bold text-ghibli-dark-blue mb-4 handwritten flex items-center">
+                <h4 className="text-xl font-bold text-ghibli-dark-blue mb-4 font-sans flex items-center">
                   <CubeIcon className="h-5 w-5 mr-2" />
                   Items to {selectedPickup.status === PICKUP_STATUSES.EN_ROUTE_DELIVERY ? 'Deliver' : 'Collect'}
                 </h4>
@@ -219,7 +219,7 @@ const PickupFlowManager = ({
                   <>
                     <button
                       onClick={handleAcceptPickup}
-                      className="w-full btn btn-primary text-lg py-4 flex items-center justify-center space-x-2 hover:scale-105 transition-transform"
+                      className="cursor-pointer w-full btn btn-primary text-lg py-4 flex items-center justify-center space-x-2 hover:scale-105 transition-transform"
                       disabled={!isAvailable}
                     >
                       <CheckCircleIcon className="h-6 w-6" />
@@ -227,7 +227,7 @@ const PickupFlowManager = ({
                     </button>
                     <button
                       onClick={() => onCancel(selectedPickup.id)}
-                      className="w-full btn btn-secondary text-lg py-4 flex items-center justify-center space-x-2"
+                      className="cursor-pointer w-full btn btn-secondary text-lg py-4 flex items-center justify-center space-x-2"
                     >
                       <span>View Other Options</span>
                     </button>
@@ -238,14 +238,14 @@ const PickupFlowManager = ({
                   <>
                     <button
                       onClick={handleNextStep}
-                      className="w-full btn btn-primary text-lg py-4 flex items-center justify-center space-x-2 hover:scale-105 transition-transform"
+                      className="cursor-pointer w-full btn btn-primary text-lg py-4 flex items-center justify-center space-x-2 hover:scale-105 transition-transform"
                     >
                       <ArrowRightIcon className="h-6 w-6" />
                       <span>{statusConfig.nextAction}</span>
                     </button>
                     <button
                       onClick={() => onCancel(selectedPickup.id)}
-                      className="w-full btn btn-secondary text-lg py-4 flex items-center justify-center space-x-2"
+                      className="cursor-pointer w-full btn btn-secondary text-lg py-4 flex items-center justify-center space-x-2"
                     >
                       <span>Cancel Mission</span>
                     </button>
@@ -261,7 +261,7 @@ const PickupFlowManager = ({
                     </p>
                     <button
                       onClick={() => onCancel(selectedPickup.id)}
-                      className="btn btn-primary"
+                      className="cursor-pointer btn btn-primary"
                     >
                       Find New Mission
                     </button>

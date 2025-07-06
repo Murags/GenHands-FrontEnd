@@ -193,7 +193,7 @@ const NeedsManager = () => {
             <p className="text-ghibli-red font-medium">Failed to load your requirements list</p>
             <button
               onClick={() => refetchNeeds()}
-              className="text-ghibli-blue hover:text-ghibli-dark-blue text-sm font-medium mt-1"
+              className="cursor-pointer text-ghibli-blue hover:text-ghibli-dark-blue text-sm font-medium mt-1"
             >
               Try again
             </button>
@@ -209,8 +209,8 @@ const NeedsManager = () => {
         <div className="p-6 border-b border-ghibli-brown-light">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-ghibli-dark-blue handwritten">
-                Organization Requirements
+              <h2 className="text-3xl font-semibold text-ghibli-dark-blue handwritten">
+                Organisation Requirements
               </h2>
               <p className="text-ghibli-brown mt-1">
                 Let donors know what your organization needs most
@@ -221,7 +221,7 @@ const NeedsManager = () => {
                 <>
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-ghibli-blue text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                    className="cursor-pointer flex items-center space-x-2 px-4 py-2 bg-ghibli-blue text-white rounded-lg hover:bg-opacity-90 transition-colors"
                   >
                     <PencilIcon className="h-4 w-4" />
                     <span>Edit</span>
@@ -229,7 +229,7 @@ const NeedsManager = () => {
                   <button
                     onClick={handleClear}
                     disabled={isClearingNeeds}
-                    className="flex items-center space-x-2 px-4 py-2 bg-ghibli-red text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50"
+                    className="cursor-pointer flex items-center space-x-2 px-4 py-2 bg-ghibli-red text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50"
                   >
                     <TrashIcon className="h-4 w-4" />
                     <span>{isClearingNeeds ? 'Clearing...' : 'Clear All'}</span>
@@ -239,7 +239,7 @@ const NeedsManager = () => {
               {!charityNeeds && !isEditing && (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="flex items-center space-x-2 px-4 py-2 bg-ghibli-green text-white rounded-lg hover:bg-opacity-90 transition-colors"
+                  className="cursor-pointer flex items-center space-x-2 px-4 py-2 bg-ghibli-green text-white rounded-lg hover:bg-opacity-90 transition-colors"
                 >
                   <PlusIcon className="h-4 w-4" />
                   <span>Create Requirements List</span>
@@ -261,7 +261,7 @@ const NeedsManager = () => {
               </p>
               <button
                 onClick={() => setIsEditing(true)}
-                className="flex items-center space-x-2 px-6 py-3 bg-ghibli-green text-white rounded-lg hover:bg-opacity-90 transition-colors mx-auto"
+                className="cursor-pointer flex items-center space-x-2 px-6 py-3 bg-ghibli-green text-white rounded-lg hover:bg-opacity-90 transition-colors mx-auto"
               >
                 <PlusIcon className="h-5 w-5" />
                 <span>Create Your First Requirements List</span>
@@ -315,9 +315,9 @@ const NeedsManager = () => {
                             <span>Loading category...</span>
                             <button
                               onClick={() => handleCategoryRemove(categoryId)}
-                              className="hover:bg-white hover:bg-opacity-20 rounded-full p-0.5 transition-colors"
+                              className="cursor-pointer hover:bg-white hover:bg-opacity-20 rounded-full p-0.5 transition-colors"
                             >
-                              <XMarkIcon className="h-3 w-3" />
+                              <XMarkIcon className="cursor-pointer h-3 w-3" />
                             </button>
                           </div>
                         ))
@@ -331,9 +331,9 @@ const NeedsManager = () => {
                             <span>{category.name}</span>
                             <button
                               onClick={() => handleCategoryRemove(category._id)}
-                              className="hover:bg-white hover:bg-opacity-20 rounded-full p-0.5 transition-colors"
+                              className="cursor-pointer hover:bg-white hover:bg-opacity-20 rounded-full p-0.5 transition-colors"
                             >
-                              <XMarkIcon className="h-3 w-3" />
+                              <XMarkIcon className="cursor-pointer h-3 w-3" />
                             </button>
                           </div>
                         ))
@@ -365,12 +365,12 @@ const NeedsManager = () => {
                       <button
                         key={category._id}
                         onClick={() => handleCategoryAdd(category._id)}
-                        className="flex items-center justify-between p-3 border-2 border-ghibli-brown-light rounded-lg hover:border-ghibli-teal hover:bg-ghibli-teal hover:bg-opacity-5 transition-all text-left"
+                        className="cursor-pointer flex items-center justify-between p-3 border-2 border-ghibli-brown-light rounded-lg hover:border-ghibli-teal hover:bg-ghibli-teal hover:bg-opacity-5 transition-all text-left"
                       >
-                        <span className="text-sm font-medium text-ghibli-dark-blue">
+                        <span className="cursor-pointer text-sm font-medium text-ghibli-dark-blue">
                           {category.name}
                         </span>
-                        <PlusIcon className="h-4 w-4 text-ghibli-teal" />
+                        <PlusIcon className="cursor-pointer h-4 w-4 text-ghibli-teal" />
                       </button>
                     ))}
                   </div>
@@ -381,17 +381,17 @@ const NeedsManager = () => {
               <div className="flex items-center justify-end space-x-3 pt-4 border-t border-ghibli-brown-light">
                 <button
                   onClick={handleCancel}
-                  className="flex items-center space-x-2 px-4 py-2 text-ghibli-brown border border-ghibli-brown-light rounded-lg hover:bg-ghibli-cream-lightest transition-colors"
+                  className="cursor-pointer flex items-center space-x-2 px-4 py-2 text-ghibli-brown border border-ghibli-brown-light rounded-lg hover:bg-ghibli-cream-lightest transition-colors"
                 >
-                  <XMarkIcon className="h-4 w-4" />
+                  <XMarkIcon className="cursor-pointer h-4 w-4" />
                   <span>Cancel</span>
                 </button>
                 <button
                   onClick={handleSave}
                   disabled={isSettingNeeds || formData.neededCategories.length === 0}
-                  className="flex items-center space-x-2 px-6 py-2 bg-ghibli-green text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="cursor-pointer flex items-center space-x-2 px-6 py-2 bg-ghibli-green text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <CheckCircleIcon className="h-4 w-4" />
+                  <CheckCircleIcon className="cursor-pointer h-4 w-4" />
                   <span>{isSettingNeeds ? 'Saving...' : 'Save Requirements List'}</span>
                 </button>
               </div>
@@ -429,10 +429,10 @@ const NeedsManager = () => {
                         <button
                           onClick={() => handleRemoveSingleCategory(category._id)}
                           disabled={isSettingNeeds}
-                          className="ml-3 p-1.5 text-ghibli-red hover:bg-ghibli-red hover:text-white rounded-lg transition-colors disabled:opacity-50"
+                          className="cursor-pointer ml-3 p-1.5 text-ghibli-red hover:bg-ghibli-red hover:text-white rounded-lg transition-colors disabled:opacity-50"
                           title="Remove this category"
                         >
-                          <TrashIcon className="h-4 w-4" />
+                          <TrashIcon className="cursor-pointer h-4 w-4" />
                         </button>
                       </div>
                     </div>
@@ -445,8 +445,8 @@ const NeedsManager = () => {
                 <div className="flex items-start space-x-3">
                   <CheckCircleIcon className="h-5 w-5 text-ghibli-blue mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-ghibli-dark-blue">Your requirements list is live!</p>
-                    <p className="text-xs text-ghibli-brown mt-1">
+                    <p className="text-sm font-medium text-white">Your requirements list is live!</p>
+                    <p className="text-xs text-white mt-1">
                       Donors can now see what your organization needs and contribute accordingly.
                     </p>
                   </div>

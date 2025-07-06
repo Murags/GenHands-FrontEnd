@@ -27,7 +27,7 @@ const ConfirmationModal = ({
         {icon}
       </div>
 
-      <h2 className="text-xl font-bold text-ghibli-dark-blue handwritten mb-2">
+      <h2 className="text-xl font-bold text-ghibli-dark-blue font-sans mb-2">
         {title}
       </h2>
 
@@ -39,14 +39,14 @@ const ConfirmationModal = ({
         <button
           onClick={onClose}
           disabled={isLoading}
-          className="px-6 py-3 border border-ghibli-brown-light rounded-lg text-ghibli-brown hover:bg-ghibli-cream-lightest transition-colors disabled:opacity-50"
+          className="cursor-pointer px-6 py-3 border border-ghibli-brown-light rounded-lg text-ghibli-brown hover:bg-ghibli-cream-lightest transition-colors disabled:opacity-50"
         >
           {cancelText}
         </button>
         <button
           onClick={onConfirm}
           disabled={isLoading}
-          className={`px-6 py-3 text-white rounded-lg transition-colors flex items-center disabled:opacity-50 ${confirmButtonClass}`}
+          className={`cursor-pointer px-6 py-3 text-white rounded-lg transition-colors flex items-center disabled:opacity-50 ${confirmButtonClass}`}
         >
           {isLoading && <FiLoader className="animate-spin mr-2" />}
           {confirmText}

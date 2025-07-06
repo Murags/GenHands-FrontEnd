@@ -106,10 +106,10 @@ const ActivePickupsView = ({
   if (activePickups.length === 0) {
     return (
       <div className="p-8 text-center">
-        <div className="w-20 h-20 bg-ghibli-teal bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
-          <TruckIcon className="h-10 w-10 text-ghibli-teal" />
+        <div className="w-20 h-20 bg-ghibli-teal rounded-full flex items-center justify-center mx-auto mb-6">
+          <TruckIcon className="h-10 w-10 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-ghibli-dark-blue mb-4 handwritten">No Active Missions</h2>
+        <h2 className="text-3xl font-bold text-ghibli-dark-blue mb-4 handwritten">No Active Missions</h2>
         <p className="text-ghibli-brown mb-6">
           You don't have any active pickups right now. Head to the dashboard to find new opportunities!
         </p>
@@ -139,7 +139,7 @@ const ActivePickupsView = ({
               )}
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-ghibli-dark-blue handwritten">
+              <h1 className="text-2xl font-bold text-ghibli-dark-blue font-sans">
                 {routingDestination.isDelivery ? 'Delivering to' : 'Navigating to'} {routingDestination.name}
               </h1>
               <p className="text-ghibli-brown">{routingDestination.address}</p>
@@ -147,9 +147,9 @@ const ActivePickupsView = ({
           </div>
           <button
             onClick={closeRouting}
-            className="p-2 hover:bg-ghibli-cream rounded-lg transition-colors"
+            className="cursor-pointer p-2 hover:bg-ghibli-cream rounded-lg transition-colors"
           >
-            <XMarkIcon className="h-6 w-6 text-ghibli-brown" />
+            <XMarkIcon className="cursor-pointer h-6 w-6 text-ghibli-brown" />
           </button>
         </div>
 
@@ -174,16 +174,16 @@ const ActivePickupsView = ({
             {/* Contact Button */}
             <button
               onClick={() => callContact(selectedMission.phone)}
-              className="flex items-center justify-center space-x-2 bg-ghibli-green text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
+              className="cursor-pointer flex items-center justify-center space-x-2 bg-ghibli-green text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
             >
-              <PhoneIcon className="h-5 w-5" />
+              <PhoneIcon className="cursor-pointer h-5 w-5" />
               <span>Call Contact</span>
             </button>
 
             {/* Status Update Button */}
             <button
               onClick={() => handleStatusUpdate(selectedMission.id, getStatusInfo(selectedMission.status).nextStatus)}
-              className="bg-ghibli-teal text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
+              className="cursor-pointer bg-ghibli-teal text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
             >
               {getStatusInfo(selectedMission.status).nextAction}
             </button>
@@ -191,7 +191,7 @@ const ActivePickupsView = ({
             {/* Back to Mission Details */}
             <button
               onClick={closeRouting}
-              className="bg-ghibli-brown-light text-ghibli-brown px-4 py-3 rounded-lg font-medium hover:bg-white transition-colors"
+              className="cursor-pointer bg-ghibli-brown-light text-ghibli-brown px-4 py-3 rounded-lg font-medium hover:bg-white transition-colors"
             >
               Back to Details
             </button>
@@ -221,7 +221,7 @@ const ActivePickupsView = ({
         <div className="lg:col-span-1">
           <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light">
             <div className="p-4 border-b border-ghibli-brown-light">
-              <h3 className="text-lg font-semibold text-ghibli-dark-blue handwritten">Your Missions</h3>
+              <h3 className="text-lg font-semibold text-ghibli-dark-blue font-sans">Your Missions</h3>
             </div>
             <div className="divide-y divide-ghibli-brown-light">
               {activePickups.map((pickup) => {
@@ -267,12 +267,12 @@ const ActivePickupsView = ({
               <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold text-ghibli-dark-blue handwritten">
+                    <h2 className="text-2xl font-bold text-ghibli-dark-blue font-sans">
                       {selectedMission.charity}
                     </h2>
                     <button
                       onClick={() => onCancel(selectedMission.id)}
-                      className="px-4 py-2 bg-ghibli-red text-white rounded-lg text-sm font-medium hover:bg-opacity-90 transition-colors"
+                      className="cursor-pointer px-4 py-2 bg-ghibli-red text-white rounded-lg text-sm font-medium hover:bg-opacity-90 transition-colors"
                     >
                       Cancel Mission
                     </button>
@@ -303,9 +303,9 @@ const ActivePickupsView = ({
                     {/* Navigation Button */}
                     <button
                       onClick={() => startNavigation(selectedMission)}
-                      className="flex items-center justify-center space-x-2 bg-ghibli-blue text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
+                      className="cursor-pointer flex items-center justify-center space-x-2 bg-ghibli-blue text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
                     >
-                      <MapIcon className="h-5 w-5" />
+                      <MapIcon className="cursor-pointer h-5 w-5" />
                       <span>
                         {[PICKUP_STATUSES.PICKED_UP, PICKUP_STATUSES.EN_ROUTE_DELIVERY].includes(selectedMission.status)
                           ? 'Navigate to Delivery'
@@ -317,9 +317,9 @@ const ActivePickupsView = ({
                     {/* Contact Button */}
                     <button
                       onClick={() => callContact(selectedMission.phone)}
-                      className="flex items-center justify-center space-x-2 bg-ghibli-green text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
+                      className="cursor-pointer flex items-center justify-center space-x-2 bg-ghibli-green text-white px-4 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
                     >
-                      <PhoneIcon className="h-5 w-5" />
+                      <PhoneIcon className="cursor-pointer h-5 w-5" />
                       <span>Call {selectedMission.contactPerson}</span>
                     </button>
                   </div>
@@ -328,10 +328,10 @@ const ActivePickupsView = ({
                   {selectedMission.status !== PICKUP_STATUSES.DELIVERED && (
                     <button
                       onClick={() => handleStatusUpdate(selectedMission.id, getStatusInfo(selectedMission.status).nextStatus)}
-                      className="w-full bg-ghibli-teal text-white px-6 py-4 rounded-lg font-semibold text-lg hover:bg-opacity-90 transition-colors flex items-center justify-center space-x-2"
+                      className="cursor-pointer w-full bg-ghibli-teal text-white px-6 py-4 rounded-lg font-semibold text-lg hover:bg-opacity-90 transition-colors flex items-center justify-center space-x-2"
                     >
                       <span>{getStatusInfo(selectedMission.status).nextAction}</span>
-                      <ArrowRightIcon className="h-5 w-5" />
+                      <ArrowRightIcon className="cursor-pointer h-5 w-5" />
                     </button>
                   )}
                 </div>
@@ -340,7 +340,7 @@ const ActivePickupsView = ({
               {/* Mission Details */}
               <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light">
                 <div className="p-6">
-                  <h3 className="text-lg font-semibold text-ghibli-dark-blue mb-4 handwritten">Mission Details</h3>
+                  <h3 className="text-lg font-semibold text-ghibli-dark-blue mb-4 font-sans">Mission Details</h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Pickup Info */}

@@ -161,13 +161,13 @@ const AvailabilityView = () => {
 
   const renderAvailabilityTypeSelector = () => (
     <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6 mb-6">
-      <h3 className="text-xl font-bold text-ghibli-dark-blue handwritten mb-4">Availability Type</h3>
+      <h3 className="text-xl font-bold text-ghibli-dark-blue font-sans mb-4">Availability Type</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {Object.values(AVAILABILITY_TYPES).map((type) => (
           <button
             key={type}
             onClick={() => handleAvailabilityTypeChange(type)}
-            className={`p-4 rounded-lg border-2 text-left transition-all ${
+            className={`cursor-pointer p-4 rounded-lg border-2 text-left transition-all ${
               availabilityType === type
                 ? 'border-ghibli-teal bg-ghibli-teal bg-opacity-10'
                 : 'border-ghibli-brown-light hover:border-ghibli-teal'
@@ -322,7 +322,7 @@ const AvailabilityView = () => {
                 const newDates = formData.specificDates.filter((_, i) => i !== index);
                 updateFormData({ specificDates: newDates });
               }}
-              className="p-2 text-ghibli-red hover:bg-ghibli-red hover:text-white rounded-lg transition-colors"
+              className="cursor-pointer p-2 text-ghibli-red hover:bg-ghibli-red hover:text-white rounded-lg transition-colors"
             >
               <TrashIcon className="h-4 w-4" />
             </button>
@@ -340,7 +340,7 @@ const AvailabilityView = () => {
             specificDates: [...(formData.specificDates || []), newDate]
           });
         }}
-        className="w-full p-4 border-2 border-dashed border-ghibli-brown-light rounded-lg text-ghibli-brown hover:border-ghibli-teal hover:text-ghibli-teal transition-colors"
+        className="cursor-pointer w-full p-4 border-2 border-dashed border-ghibli-brown-light rounded-lg text-ghibli-brown hover:border-ghibli-teal hover:text-ghibli-teal transition-colors"
       >
         <PlusIcon className="h-5 w-5 mx-auto mb-2" />
         Add Date
@@ -445,8 +445,8 @@ const AvailabilityView = () => {
         <div className="flex items-start space-x-3">
           <CheckCircleIcon className="h-5 w-5 text-ghibli-blue mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-ghibli-dark-blue">Always Available Mode</p>
-            <p className="text-xs text-ghibli-brown mt-1">
+            <p className="text-sm font-medium text-white">Always Available Mode</p>
+            <p className="text-xs text-white mt-1">
               You'll be available for pickups at any time. You can optionally set general time constraints below.
             </p>
           </div>
@@ -511,7 +511,7 @@ const AvailabilityView = () => {
       {renderAvailabilityTypeSelector()}
 
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
-        <h3 className="text-xl font-bold text-ghibli-dark-blue handwritten mb-6">Schedule Configuration</h3>
+        <h3 className="text-xl font-bold text-ghibli-dark-blue font-sans mb-6">Schedule Configuration</h3>
 
         {availabilityType === AVAILABILITY_TYPES.RECURRING_WEEKLY && renderRecurringWeeklyForm()}
         {availabilityType === AVAILABILITY_TYPES.SPECIFIC_DATES && renderSpecificDatesForm()}
@@ -541,7 +541,7 @@ const AvailabilityView = () => {
     <div className="space-y-6">
       {/* Service Area */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
-        <h3 className="text-xl font-bold text-ghibli-dark-blue handwritten mb-4">Service Area</h3>
+        <h3 className="text-xl font-bold text-ghibli-dark-blue font-sans mb-4">Service Area</h3>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">
@@ -566,7 +566,7 @@ const AvailabilityView = () => {
 
       {/* Transportation Mode */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
-        <h3 className="text-xl font-bold text-ghibli-dark-blue handwritten mb-4">Transportation</h3>
+        <h3 className="text-xl font-bold text-ghibli-dark-blue font-sans mb-4">Transportation</h3>
         <div>
           <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">
             Transportation Mode
@@ -585,7 +585,7 @@ const AvailabilityView = () => {
 
       {/* Pickup Preferences */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
-        <h3 className="text-xl font-bold text-ghibli-dark-blue handwritten mb-4">Pickup Preferences</h3>
+        <h3 className="text-xl font-bold text-ghibli-dark-blue font-sans mb-4">Pickup Preferences</h3>
         <div>
           <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">
             Maximum pickups per day
@@ -603,7 +603,7 @@ const AvailabilityView = () => {
 
       {/* Notes */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
-        <h3 className="text-xl font-bold text-ghibli-dark-blue handwritten mb-4">Additional Notes</h3>
+        <h3 className="text-xl font-bold text-ghibli-dark-blue font-sans mb-4">Additional Notes</h3>
         <div>
           <textarea
             value={formData.notes || ''}
@@ -621,7 +621,7 @@ const AvailabilityView = () => {
     <div className="space-y-6">
       {/* Add New Unavailability */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
-        <h3 className="text-xl font-bold text-ghibli-dark-blue handwritten mb-4">Add Unavailable Period</h3>
+        <h3 className="text-xl font-bold text-ghibli-dark-blue font-sans mb-4">Add Unavailable Period</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-ghibli-dark-blue mb-1">Start Date</label>
@@ -656,7 +656,7 @@ const AvailabilityView = () => {
           <button
             onClick={handleAddUnavailability}
             disabled={isAddingUnavailability || !newUnavailability.startDate || !newUnavailability.endDate}
-            className="px-4 py-2 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="cursor-pointer px-4 py-2 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isAddingUnavailability ? 'Adding...' : 'Add Period'}
           </button>
@@ -665,7 +665,7 @@ const AvailabilityView = () => {
 
       {/* Existing Unavailability Periods */}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6">
-        <h3 className="text-xl font-bold text-ghibli-dark-blue handwritten mb-4">Current Unavailable Periods</h3>
+        <h3 className="text-xl font-bold text-ghibli-dark-blue font-sans mb-4">Current Unavailable Periods</h3>
 
         {isLoadingUnavailability ? (
           <div className="text-center py-8 text-ghibli-brown">Loading...</div>
@@ -689,7 +689,7 @@ const AvailabilityView = () => {
                 <button
                   onClick={() => removeUnavailability(period.id)}
                   disabled={isRemovingUnavailability}
-                  className="p-2 text-ghibli-red hover:bg-ghibli-red hover:text-white rounded-lg transition-colors disabled:opacity-50"
+                  className="cursor-pointer p-2 text-ghibli-red hover:bg-ghibli-red hover:text-white rounded-lg transition-colors disabled:opacity-50"
                 >
                   <TrashIcon className="h-4 w-4" />
                 </button>
@@ -730,7 +730,7 @@ const AvailabilityView = () => {
           )}
           <button
             onClick={() => refetchAvailability()}
-            className="p-2 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors"
+            className="cursor-pointer p-2 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors"
           >
             <ArrowPathIcon className="h-5 w-5" />
           </button>
@@ -758,7 +758,7 @@ const AvailabilityView = () => {
               <button
                 key={tab.id}
                 onClick={() => setCurrentTab(tab.id)}
-                className={`flex items-center space-x-2 py-4 border-b-2 font-medium text-sm transition-colors ${
+                className={`cursor-pointer flex items-center space-x-2 py-4 border-b-2 font-medium text-sm transition-colors ${
                   currentTab === tab.id
                     ? 'border-ghibli-teal text-ghibli-teal'
                     : 'border-transparent text-ghibli-brown hover:text-ghibli-dark-blue'
@@ -785,7 +785,7 @@ const AvailabilityView = () => {
             <button
               onClick={handleDeleteAvailability}
               disabled={isDeletingAvailability}
-              className="px-6 py-3 bg-ghibli-red text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+              className="cursor-pointer px-6 py-3 bg-ghibli-red text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
             >
               <TrashIcon className="h-5 w-5" />
               <span>{isDeletingAvailability ? 'Deleting...' : 'Delete Availability'}</span>
@@ -795,7 +795,7 @@ const AvailabilityView = () => {
         <button
           onClick={handleSaveAvailability}
           disabled={isSettingAvailability}
-          className="px-6 py-3 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+          className="cursor-pointer px-6 py-3 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
         >
           <CheckCircleIcon className="h-5 w-5" />
           <span>{isSettingAvailability ? 'Saving...' : 'Save Availability Settings'}</span>

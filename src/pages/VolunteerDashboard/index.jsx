@@ -14,6 +14,7 @@ import PickupRequestsList from './components/PickupRequestsList';
 import PickupFlowManager from './components/PickupFlowManager';
 import AvailabilityView from './components/AvailabilityView';
 import HistoryView from './components/HistoryView';
+import DistanceSelector from './components/DistanceSelector';
 import MapComponent from './MapComponent';
 import { usePickupRequests } from '../../hooks/usePickupRequests';
 import { useUpdatePickupStatus } from '../../hooks/useUpdatePickupStatus';
@@ -36,22 +37,32 @@ const VolunteerDashboard = () => {
   const [selectedPickup, setSelectedPickup] = useState(null);
   const [isAvailable, setIsAvailable] = useState(true);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [searchRadius, setSearchRadius] = useState(25);
   const [notifications] = useState([
     { id: 1, message: "New pickup request nearby", time: "10 min ago" },
     { id: 2, message: "Pickup completed successfully", time: "2 hours ago" },
-    { id: 3, message: "Rating updated: 4.8 stars", time: "1 day ago" }
+    { id: 3, message: "You have new available pickups", time: "1 day ago" }
   ]);
   const [volunteerStats, setVolunteerStats] = useState({
     completedPickups: 5,
-    totalRequests: 12,
-    rating: 4.8
+    totalRequests: 12
   });
+
+  // Build filters for pickup requests including location if available
+  const pickupFilters = {
+    status: 'available',
+    ...(userLocation && {
+      lat: userLocation[0],
+      lng: userLocation[1],
+      radius: searchRadius
+    })
+  };
 
   const {
     requests: pickupRequests,
     isLoading: isLoadingAvailable,
     refetch: refetchAvailable,
-  } = usePickupRequests({ status: 'available' });
+  } = usePickupRequests(pickupFilters);
 
   const {
     myPickups,
@@ -148,6 +159,10 @@ const VolunteerDashboard = () => {
     setIsAvailable(!isAvailable);
   };
 
+  const handleDistanceChange = (newRadius) => {
+    setSearchRadius(newRadius);
+  };
+
   const activePickups = myPickups.filter(
     (p) => p.status !== 'delivered' && p.status !== 'cancelled'
   );
@@ -217,7 +232,7 @@ const VolunteerDashboard = () => {
             </div>
 
             <div className="p-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 <StatsCard
                   title="Completed Pickups"
                   value={volunteerStats.completedPickups}
@@ -227,20 +242,12 @@ const VolunteerDashboard = () => {
                   textColor="text-ghibli-green"
                 />
                 <StatsCard
-                  title="Total Requests"
+                  title="Available Requests"
                   value={pickupRequests.length}
                   subtitle="Available now"
                   icon={EyeIcon}
                   bgColor="bg-ghibli-blue"
                   textColor="text-ghibli-blue"
-                />
-                <StatsCard
-                  title="Volunteer Rating"
-                  value={`${volunteerStats.rating}⭐`}
-                  subtitle="Community feedback"
-                  icon={MapPinIcon}
-                  bgColor="bg-ghibli-yellow"
-                  textColor="text-ghibli-yellow"
                 />
                 <StatsCard
                   title="Active Missions"
@@ -257,13 +264,23 @@ const VolunteerDashboard = () => {
                   <div className="bg-ghibli-cream rounded-xl shadow-ghibli border" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
                     <div className="p-4 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
                       <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-semibold text-ghibli-dark-blue handwritten">
+                        <h2 className="text-xl font-semibold text-ghibli-dark-blue font-sans">
                           Available Pickups
                         </h2>
                         <span className="text-sm text-ghibli-brown">
                           {pickupRequests.length} available
                         </span>
                       </div>
+                    </div>
+
+                    <div className="p-4 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
+                      <DistanceSelector
+                        selectedDistance={searchRadius}
+                        onDistanceChange={handleDistanceChange}
+                        userLocation={userLocation}
+                        requestCount={pickupRequests.length}
+                        isLoading={isLoadingAvailable}
+                      />
                     </div>
 
                     <div className="max-h-96 overflow-y-auto">
@@ -281,7 +298,7 @@ const VolunteerDashboard = () => {
                 <div className="lg:col-span-2">
                   <div className="bg-ghibli-cream rounded-xl shadow-ghibli border" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
                     <div className="p-6 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
-                      <h2 className="text-2xl font-semibold text-ghibli-dark-blue handwritten flex items-center">
+                      <h2 className="text-2xl font-semibold text-ghibli-dark-blue font-sans flex items-center">
                         <MapPinIcon className="h-6 w-6 mr-3 text-ghibli-blue" />
                         Pickup Locations Map
                       </h2>
@@ -318,7 +335,7 @@ const VolunteerDashboard = () => {
         isAvailable={isAvailable}
         onAvailabilityToggle={handleAvailabilityToggle}
         notifications={notifications}
-        activePickupsCount={activePickups.length}
+        activePickups={activePickups}
         onSectionChange={handleSectionChange}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={handleToggleSidebar}

@@ -4,6 +4,7 @@ import {
   UserIcon,
   HeartIcon,
   GiftIcon,
+  ChatBubbleLeftEllipsisIcon,
   ArrowRightStartOnRectangleIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -27,6 +28,7 @@ const DonorSidebar = () => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: HeartIcon, to: '/donor' },
     { id: 'my-donations', label: 'My Donations', icon: GiftIcon, to: '/donor/my-donations' },
+    { id: 'thank-you-notes', label: 'Thank You Notes', icon: ChatBubbleLeftEllipsisIcon, to: '/donor/thank-you-notes' },
     { id: 'profile', label: 'Profile', icon: UserIcon, to: '/donor/profile' },
   ];
 
@@ -72,7 +74,7 @@ const DonorSidebar = () => {
       {/* Navigation Menu */}
       <nav className={`${isCollapsed ? 'p-2' : 'p-6'} flex flex-col gap-2 flex-1`}>
         {!isCollapsed && (
-          <h3 className="text-lg font-bold text-center text-ghibli-dark-blue mb-4 tracking-wide handwritten">Welcome!</h3>
+          <h3 className="text-3xl font-bold text-center text-ghibli-dark-blue mb-4 tracking-wide handwritten">Welcome!</h3>
         )}
         {menuItems.map((item) => {
           const isActive = location.pathname === item.to;
@@ -99,13 +101,13 @@ const DonorSidebar = () => {
       <div className={`p-4 border-t border-ghibli-brown-light`}>
         <button
           onClick={handleLogout}
-          className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium text-base text-ghibli-red bg-ghibli-cream-lightest hover:bg-ghibli-red hover:text-white transition-all
+          className={`cursor-pointer w-full flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium text-base text-ghibli-red bg-ghibli-cream-lightest hover:bg-ghibli-red hover:text-white transition-all
             ${isCollapsed ? 'justify-center p-3' : ''}
           `}
           title={isCollapsed ? 'Logout' : ''}
         >
           <ArrowRightStartOnRectangleIcon className="h-5 w-5 flex-shrink-0" />
-          {!isCollapsed && <span className="truncate">Logout</span>}
+          {!isCollapsed && <span className="cursor-pointer truncate">Logout</span>}
         </button>
       </div>
     </aside>

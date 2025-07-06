@@ -400,7 +400,7 @@ const MapComponent = ({
       {/* Legend - only show in regular view */}
       {!showRouting && (
         <div className="absolute top-4 right-4 bg-ghibli-cream rounded-xl shadow-ghibli p-5 z-[1000] border" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
-          <h4 className="text-lg font-bold text-ghibli-dark-blue mb-4 handwritten">Map Legend</h4>
+          <h4 className="text-lg font-bold text-ghibli-dark-blue mb-4 font-sans">Map Legend</h4>
           <div className="space-y-3">
             <div className="flex items-center">
               <div className="w-5 h-5 bg-ghibli-teal rounded-full mr-3 relative">
@@ -431,7 +431,7 @@ const MapComponent = ({
       {/* Route info - only show in regular view with selected pickup */}
       {!showRouting && selectedPickup && (
         <div className="absolute bottom-4 left-4 bg-ghibli-cream rounded-xl shadow-ghibli p-5 z-[1000] border animate-float" style={{ borderColor: 'var(--color-ghibli-teal)' }}>
-          <h4 className="text-lg font-bold text-ghibli-dark-blue mb-3 handwritten flex items-center">
+          <h4 className="text-lg font-bold text-ghibli-dark-blue mb-3 font-sans flex items-center">
             🚗 Route to {selectedPickup.charity}
           </h4>
           <div className="space-y-2">
@@ -457,7 +457,7 @@ const MapComponent = ({
       {/* Navigation info - show in routing mode */}
       {showRouting && routingDestination && (
         <div className="absolute bottom-4 left-4 bg-white rounded-xl shadow-ghibli p-5 z-[1000] border-2" style={{ borderColor: routingMode === 'delivery' ? '#8FCE72' : '#71A6D1' }}>
-          <h4 className="text-lg font-bold text-ghibli-dark-blue mb-3 handwritten flex items-center">
+          <h4 className="text-lg font-bold text-ghibli-dark-blue mb-3 font-sans flex items-center">
             {routingMode === 'delivery' ? '🚚 Delivery Navigation' : '📦 Pickup Navigation'}
           </h4>
           <div className="text-sm text-ghibli-brown">

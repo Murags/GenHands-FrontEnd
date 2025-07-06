@@ -54,7 +54,7 @@ const Modal = ({
 
       <div
         className={`
-          relative bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light
+          cursor-pointer relative bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light
           w-full ${sizeClasses[size]} max-h-[90vh] overflow-y-auto
           transform transition-all duration-300 ease-in-out scale-100
           ${className}
@@ -65,7 +65,7 @@ const Modal = ({
           <div className="flex items-start justify-between p-6 pb-4">
             <div className="flex-1">
               {title && (
-                <h2 className="text-2xl font-bold text-ghibli-dark-blue handwritten mb-2">
+                <h2 className="text-2xl font-bold text-ghibli-dark-blue font-sans mb-2">
                   {title}
                 </h2>
               )}
@@ -78,7 +78,7 @@ const Modal = ({
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="ml-4 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors p-1 rounded-lg hover:bg-ghibli-cream-lightest"
+                className="cursor-pointer ml-4 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors p-1 rounded-lg hover:bg-ghibli-cream-lightest"
                 aria-label="Close modal"
               >
                 <FiX size={24} />

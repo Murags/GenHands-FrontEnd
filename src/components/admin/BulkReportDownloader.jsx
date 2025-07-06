@@ -54,7 +54,7 @@ const BulkReportDownloader = ({ className = '' }) => {
               <DocumentArrowDownIcon className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-ghibli-dark-blue handwritten">
+              <h3 className="text-lg font-semibold text-ghibli-dark-blue font-sans">
                 Bulk Download
               </h3>
               <p className="text-sm text-ghibli-brown">
@@ -71,7 +71,7 @@ const BulkReportDownloader = ({ className = '' }) => {
               <select
                 value={period}
                 onChange={(e) => setPeriod(e.target.value)}
-                className="w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent bg-white text-sm"
+                className="cursor-pointer w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent bg-white text-sm"
               >
                 <option value="7d">📅 Last 7 Days</option>
                 <option value="30d">📅 Last 30 Days</option>
@@ -84,7 +84,7 @@ const BulkReportDownloader = ({ className = '' }) => {
             {/* Download Button */}
             <button
               onClick={() => setShowConfirmModal(true)}
-              className="flex items-center space-x-2 px-4 py-2 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-all duration-200"
+              className="cursor-pointer flex items-center space-x-2 px-4 py-2 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-all duration-200"
             >
               <ArrowDownTrayIcon className="h-4 w-4" />
               <span>Download All</span>
@@ -150,13 +150,13 @@ const BulkReportDownloader = ({ className = '' }) => {
           <div className="flex items-center justify-end space-x-3">
             <button
               onClick={() => setShowConfirmModal(false)}
-              className="px-4 py-2 text-ghibli-brown hover:bg-ghibli-cream-lightest rounded-lg transition-colors"
+              className="cursor-pointer px-4 py-2 text-ghibli-brown hover:bg-ghibli-cream-lightest rounded-lg transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleBulkDownload}
-              className="px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors"
+              className="cursor-pointer px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors"
             >
               Download All
             </button>

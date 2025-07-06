@@ -43,7 +43,7 @@ const DonorSignUpPage = () => {
     >
       <button
         onClick={() => navigate(-1)}
-        className="fixed top-6 left-6 bg-white border border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
+        className="cursor-pointer fixed top-6 left-6 bg-white border border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
         aria-label="Go back"
       >
         <FiArrowLeft size={20} />
@@ -62,7 +62,7 @@ const DonorSignUpPage = () => {
 
         {/* Right: Form */}
         <div className="p-8 md:p-12 flex flex-col justify-center">
-          <h2 className="text-3xl font-medium text-black mb-4">Sign Up as a Donor</h2>
+          <h2 className="text-3xl font-serif font-medium text-black mb-4">Sign Up as a Donor</h2>
           <p className="text-black text-sm mb-6">
             Join us in giving back to the community. Your generosity makes a big difference!
           </p>
@@ -141,7 +141,7 @@ const DonorSignUpPage = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="cursor-pointer w-full py-3 px-4 hover:brightness-110 transition text-white font-semibold rounded-md shadow transition disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ background: 'linear-gradient(to right, #1f4037, #99f2c8)' }}
             >
               {isLoading ? 'Creating Account...' : 'Create Account'}

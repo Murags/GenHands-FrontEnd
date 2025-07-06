@@ -88,9 +88,9 @@ const DashboardCategoriesPage = () => {
         </div>
         <button
           onClick={() => openModal()}
-          className="flex items-center bg-ghibli-teal text-white px-6 py-3 rounded-lg shadow-ghibli hover:bg-opacity-90 transition-all duration-200 transform hover:scale-105"
+          className="cursor-pointer flex items-center bg-ghibli-teal text-white px-6 py-3 rounded-lg shadow-ghibli hover:bg-opacity-90 transition-all duration-200 transform hover:scale-105"
         >
-          <FiPlus className="mr-2" /> Add New Category
+          <FiPlus className="cursor-pointer mr-2" /> Add New Category
         </button>
       </div>
 
@@ -152,14 +152,14 @@ const DashboardCategoriesPage = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         onClick={() => openModal(category)}
-                        className="text-ghibli-teal hover:text-ghibli-dark-blue mr-4 transition-all duration-200 transform hover:scale-110"
+                        className="cursor-pointer text-ghibli-teal hover:text-ghibli-dark-blue mr-4 transition-all duration-200 transform hover:scale-110"
                         title="Edit category"
                       >
                         <FiEdit size={18} />
                       </button>
                       <button
                         onClick={() => openConfirmModal(category._id)}
-                        className="text-ghibli-red hover:text-ghibli-dark-blue transition-all duration-200 transform hover:scale-110"
+                        className="cursor-pointer text-ghibli-red hover:text-ghibli-dark-blue transition-all duration-200 transform hover:scale-110"
                         title="Delete category"
                       >
                         <FiTrash2 size={18} />
@@ -212,14 +212,14 @@ const DashboardCategoriesPage = () => {
             <button
               type="button"
               onClick={closeModal}
-              className="px-6 py-3 border border-ghibli-brown-light rounded-lg text-ghibli-brown hover:bg-ghibli-cream-lightest transition-colors"
+              className="cursor-pointer px-6 py-3 border border-ghibli-brown-light rounded-lg text-ghibli-brown hover:bg-ghibli-cream-lightest transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isCreating || isUpdating}
-              className="px-6 py-3 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors flex items-center disabled:opacity-50"
+              className="cursor-pointer px-6 py-3 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors flex items-center disabled:opacity-50"
             >
               {(isCreating || isUpdating) && <FiLoader className="animate-spin mr-2" />}
               {selectedCategory ? 'Update Category' : 'Create Category'}

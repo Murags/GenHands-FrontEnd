@@ -1,10 +1,7 @@
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import pickupRequestService from '../services/pickupRequestService';
 
-export const usePickupRequests = (initialFilters = {}) => {
-  const [filters, setFilters] = useState(initialFilters);
-
+export const usePickupRequests = (filters = {}) => {
   const queryKey = ['pickupRequests', filters];
 
   const {
@@ -18,6 +15,7 @@ export const usePickupRequests = (initialFilters = {}) => {
     queryKey,
     queryFn: () => pickupRequestService.getPickupRequests(filters),
     keepPreviousData: true,
+    enabled: true, // Always enabled, but will refetch when filters change
   });
 
   return {
@@ -28,9 +26,6 @@ export const usePickupRequests = (initialFilters = {}) => {
     isError,
     error,
     isFetching,
-
-    filters,
-    setFilters,
 
     refetch,
   };

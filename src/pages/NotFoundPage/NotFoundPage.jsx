@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function NotFoundPage() {
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top on mount
+  })
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center px-6" style={{ backgroundColor: 'var(--color-ghibli-cream-light)', color: 'var(--color-ghibli-brown)' }}>
       <h1 className="text-6xl md:text-9xl font-bold text-shadow-ghibli-dark-blue" style={{ color: 'var(--color-ghibli-dark-blue)' }}>404</h1>
