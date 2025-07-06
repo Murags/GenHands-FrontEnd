@@ -36,14 +36,14 @@ const Pagination = ({ currentPage, totalPages, onPageChange, itemsPerPage, total
         <button
           onClick={handlePrevious}
           disabled={currentPage === 1}
-          className="relative inline-flex items-center rounded-md border border-ghibli-brown-light bg-ghibli-cream-light px-4 py-2 text-sm font-medium text-ghibli-brown hover:bg-ghibli-cream-lightest disabled:opacity-50"
+          className="cursor-pointer relative inline-flex items-center rounded-md border border-ghibli-brown-light bg-ghibli-cream-light px-4 py-2 text-sm font-medium text-ghibli-brown hover:bg-ghibli-cream-lightest disabled:opacity-50"
         >
           Previous
         </button>
         <button
           onClick={handleNext}
           disabled={currentPage === totalPages}
-          className="relative ml-3 inline-flex items-center rounded-md border border-ghibli-brown-light bg-ghibli-cream-light px-4 py-2 text-sm font-medium text-ghibli-brown hover:bg-ghibli-cream-lightest disabled:opacity-50"
+          className="cursor-pointer relative ml-3 inline-flex items-center rounded-md border border-ghibli-brown-light bg-ghibli-cream-light px-4 py-2 text-sm font-medium text-ghibli-brown hover:bg-ghibli-cream-lightest disabled:opacity-50"
         >
           Next
         </button>
@@ -66,7 +66,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, itemsPerPage, total
             <button
               onClick={handlePrevious}
               disabled={currentPage === 1}
-              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-ghibli-brown ring-1 ring-inset ring-ghibli-brown-light hover:bg-ghibli-cream-lightest focus:z-20 focus:outline-offset-0 disabled:opacity-50"
+              className="cursor-pointer relative inline-flex items-center rounded-l-md px-2 py-2 text-ghibli-brown ring-1 ring-inset ring-ghibli-brown-light hover:bg-ghibli-cream-lightest focus:z-20 focus:outline-offset-0 disabled:opacity-50"
             >
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -77,7 +77,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, itemsPerPage, total
                 onClick={() => onPageChange(pageNumber)}
                 aria-current={pageNumber === currentPage ? 'page' : undefined}
                 className={classNames(
-                  'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 focus:outline-offset-0',
+                  'cursor-pointer relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 focus:outline-offset-0',
                   pageNumber === currentPage
                     ? 'z-10 bg-ghibli-teal text-ghibli-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ghibli-teal-dark'
                     : 'text-ghibli-brown ring-1 ring-inset ring-ghibli-brown-light hover:bg-ghibli-cream-lightest'
@@ -89,7 +89,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, itemsPerPage, total
             <button
               onClick={handleNext}
               disabled={currentPage === totalPages}
-              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-ghibli-brown ring-1 ring-inset ring-ghibli-brown-light hover:bg-ghibli-cream-lightest focus:z-20 focus:outline-offset-0 disabled:opacity-50"
+              className="cursor-pointer relative inline-flex items-center rounded-r-md px-2 py-2 text-ghibli-brown ring-1 ring-inset ring-ghibli-brown-light hover:bg-ghibli-cream-lightest focus:z-20 focus:outline-offset-0 disabled:opacity-50"
             >
               <span className="sr-only">Next</span>
               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />

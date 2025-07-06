@@ -1,27 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
 import { motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
 import {
   ChartBarIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
   ScaleIcon
 } from '@heroicons/react/24/outline';
-import { getCategoryAnalysis } from '../../services/analyticsService';
+import { useSupplyDemandData } from '../../hooks/useAdminDashboard';
 
 const CategoryAnalysisChart = () => {
   const chartRef = useRef(null);
   const [chartType, setChartType] = useState('bar');
 
-  const { data: categoryData, isLoading, isError } = useQuery({
-    queryKey: ['categoryAnalysis'],
-    queryFn: getCategoryAnalysis,
-  });
+  const { data: apiData, loading: isLoading, error: isError } = useSupplyDemandData({ timeframe: '30d' });
+
+  const categoryData = apiData?.supplyDemandData?.map(item => ({
+    category: item.category,
+    needed: item.itemsNeeded,
+    donated: item.itemsDonated
+  })) || [];
 
   useEffect(() => {
     let chart;
-    if (chartRef.current && categoryData) {
+    if (chartRef.current && categoryData && categoryData.length > 0) {
       chart = echarts.init(chartRef.current);
 
       const categories = categoryData.map(item => item.category);
@@ -224,7 +226,7 @@ const CategoryAnalysisChart = () => {
   }
 
   const calculateInsights = () => {
-    if (!categoryData) return { totalGap: 0, surplusCategories: 0, gapCategories: 0 };
+    if (!categoryData || categoryData.length === 0) return { totalGap: 0, surplusCategories: 0, gapCategories: 0 };
 
     let totalGap = 0;
     let surplusCategories = 0;
@@ -251,7 +253,7 @@ const CategoryAnalysisChart = () => {
       <div className="mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-2 handwritten">
+            <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-2 font-sans">
               Supply & Demand Analysis
             </h3>
             <p className="text-ghibli-brown text-sm">
@@ -263,7 +265,7 @@ const CategoryAnalysisChart = () => {
           <div className="flex gap-2">
             <button
               onClick={() => setChartType('bar')}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 chartType === 'bar'
                   ? 'bg-ghibli-teal text-ghibli-cream shadow-md'
                   : 'bg-ghibli-cream-light text-ghibli-brown hover:bg-ghibli-teal-light'
@@ -274,7 +276,7 @@ const CategoryAnalysisChart = () => {
             </button>
             <button
               onClick={() => setChartType('line')}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 chartType === 'line'
                   ? 'bg-ghibli-teal text-ghibli-cream shadow-md'
                   : 'bg-ghibli-cream-light text-ghibli-brown hover:bg-ghibli-teal-light'
@@ -377,7 +379,7 @@ const CategoryAnalysisChart = () => {
               </motion.div>
 
               {/* Top Gap Categories */}
-              {categoryData && (
+              {categoryData && categoryData.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

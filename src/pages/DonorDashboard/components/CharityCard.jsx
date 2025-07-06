@@ -33,7 +33,7 @@ const CharityCard = ({ charity }) => {
 
   return (
     <div
-      className="relative bg-white rounded-2xl shadow-ghibli p-6 cursor-pointer hover:shadow-lg transition-all duration-200 group border border-ghibli-brown-light flex flex-col h-96 hover:scale-105"
+      className={`relative bg-white rounded-2xl shadow-ghibli p-6 cursor-pointer hover:shadow-md transition-shadow duration-200 group border border-ghibli-brown-light flex flex-col h-96 border-l-8 ${isVerified ? 'border-l-ghibli-teal' : 'border-l-ghibli-yellow'}`}
       onClick={handleCardClick}
       tabIndex={0}
       role="button"
@@ -41,12 +41,9 @@ const CharityCard = ({ charity }) => {
       aria-label={`View details for ${charity.charityName}`}
       style={{ minHeight: '24rem' }}
     >
-      {/* Accent bar */}
-      <div className={`absolute left-0 top-0 h-full w-2 rounded-l-2xl ${isVerified ? 'bg-ghibli-teal' : 'bg-ghibli-yellow'} transition-colors`} />
-
       {/* Header */}
       <div className="flex items-center gap-3 mb-2">
-        <h2 className="text-xl font-bold text-ghibli-dark-blue handwritten">{charity.charityName}</h2>
+        <h2 className="text-xl font-bold text-ghibli-dark-blue">{charity.charityName}</h2>
         <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold shadow-sm ${isVerified ? 'bg-ghibli-teal text-white' : 'bg-ghibli-yellow text-ghibli-dark-blue'} transition-colors`}>
           {isVerified ? <CheckCircleIcon className="h-4 w-4" /> : <ExclamationCircleIcon className="h-4 w-4" />}
           {statusText}

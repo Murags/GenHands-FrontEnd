@@ -119,6 +119,21 @@ export const useAuth = () => {
     return authService.getDonorInfo();
   }, []);
 
+  // Get volunteer info
+  const getVolunteerInfo = useCallback(() => {
+    return authService.getVolunteerInfo();
+  }, []);
+
+  // Get charity info
+  const getCharityInfo = useCallback(() => {
+    return authService.getCharityInfo();
+  }, []);
+
+  // Get current user info based on role
+  const getCurrentUserInfo = useCallback(() => {
+    return authService.getCurrentUserInfo();
+  }, []);
+
   return {
     // State
     isLoading,
@@ -136,6 +151,9 @@ export const useAuth = () => {
     isAuthenticated,
     getCurrentRole,
     getDonorInfo,
+    getVolunteerInfo,
+    getCharityInfo,
+    getCurrentUserInfo,
   };
 };
 

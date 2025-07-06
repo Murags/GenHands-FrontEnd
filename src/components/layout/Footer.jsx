@@ -16,22 +16,22 @@ const Footer = () => (
           <h3 className="font-serif text-lg font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--color-ghibli-yellow)' }}>Navigate</h3>
           <ul className="space-y-2 text-sm font-sans">
             <li><RouterLink to="/about" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>About Us</RouterLink></li>
-            <li><RouterLink to="/causes" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Causes</RouterLink></li>
+            <li><RouterLink to="/charities" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Charities</RouterLink></li>
             <li><RouterLink to="/how-it-works" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>How It Works</RouterLink></li>
           </ul>
         </div>
         <div>
           <h3 className="font-serif text-lg font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--color-ghibli-yellow)' }}>Support</h3>
           <ul className="space-y-2 text-sm font-sans">
-            <li><RouterLink to="/faq" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>FAQ</RouterLink></li>
+            <li><RouterLink to="/faq" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>FAQs</RouterLink></li>
             <li><RouterLink to="/contact" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Contact</RouterLink></li>
           </ul>
         </div>
         <div>
           <h3 className="font-serif text-lg font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--color-ghibli-yellow)' }}>Legal</h3>
           <ul className="space-y-2 text-sm font-sans">
-            <li><RouterLink to="/privacy" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Privacy</RouterLink></li>
-            <li><RouterLink to="/terms" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Terms</RouterLink></li>
+            <li><RouterLink to="/privacy" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Privacy Policy</RouterLink></li>
+            <li><RouterLink to="/terms" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Terms & Conditions</RouterLink></li>
             <li><RouterLink to="/apiStatus" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>API Status</RouterLink></li>
           </ul>
         </div>

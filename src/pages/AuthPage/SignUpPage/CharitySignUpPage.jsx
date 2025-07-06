@@ -73,7 +73,7 @@ const CharitySignUpPage = () => {
     >
       <button
         onClick={() => navigate(-1)}
-        className="fixed top-6 left-6 bg-white border border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
+        className="cursor-pointer fixed top-6 left-6 bg-white border border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
         aria-label="Go back"
       >
         <FiArrowLeft size={20} />
@@ -91,7 +91,7 @@ const CharitySignUpPage = () => {
 
         {/* Right: Form */}
         <div className="p-8 md:p-12 flex flex-col justify-center">
-          <h2 className="text-3xl font-medium text-black mb-4">Sign Up as a Charity</h2>
+          <h2 className="text-3xl font-serif font-medium text-black mb-4">Sign Up as a Charity</h2>
           <p className="text-black text-sm mb-6">
             Register your organization and get support for your mission!
           </p>
@@ -264,14 +264,14 @@ const CharitySignUpPage = () => {
                 name="documents"
                 multiple required accept=".pdf,.doc,.docx,.jpg,.png"
                 onChange={handleFileChange}
-                className="w-full mt-1 border border-black rounded-md px-2 py-1 text-black"
+                className="cursor-pointer w-full mt-1 border border-black rounded-md px-2 py-1 text-black"
               />
             </div>
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 hover:brightness-110 text-white font-semibold rounded-md shadow transition disabled:opacity-50 disabled:cursor-not-allowed text-black"
+              className="cursor-pointer w-full py-3 px-4 hover:brightness-110 text-white font-semibold rounded-md shadow transition disabled:opacity-50 disabled:cursor-not-allowed text-black"
               style={{ background: 'linear-gradient(90deg, #005AA7, #FFFDE4)' }}
             >
               {isLoading ? 'Submitting Application...' : 'Submit Application'}

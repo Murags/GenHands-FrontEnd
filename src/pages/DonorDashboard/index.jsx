@@ -2,26 +2,91 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCharities } from '../../hooks/useCharities';
 import { useDonations } from '../../hooks/useDonations';
+import { useCategories } from '../../hooks/useCategories';
 import DonorSidebar from './components/DonorSidebar';
 import CharityCard from './components/CharityCard';
 import SearchAndFilterBar from './components/SearchAndFilterBar';
+import DonationFilterBar from './components/DonationFilterBar';
 import DonationCard from './components/DonationCard';
+import ThankYouNotesView from './components/ThankYouNotesView';
 import { UserIcon } from '@heroicons/react/24/outline';
 
 const DonorDashboard = () => {
   const [search, setSearch] = useState('');
   const [location, setLocation] = useState('');
-  const [priority, setPriority] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const [donationSearch, setDonationSearch] = useState('');
+  const [donationStatus, setDonationStatus] = useState('');
+  const [selectedCharities, setSelectedCharities] = useState([]);
+  const [donationUrgency, setDonationUrgency] = useState('');
+  const [donationDateRange, setDonationDateRange] = useState('');
+
   const navigate = useNavigate();
   const routerLocation = useLocation();
 
   const { data: charities = [], isLoading } = useCharities();
   const { data: donations = [], isLoading: isLoadingDonations } = useDonations();
+  const { categories = [] } = useCategories();
+
+  const getCategoryName = (categoryId) => {
+    const category = categories.find(cat => cat._id === categoryId);
+    return category ? category.name : categoryId;
+  };
+
+  const filteredDonations = donations.filter(donation => {
+    const matchesSearch = !donationSearch ||
+      (donation.organizationName || '').toLowerCase().includes(donationSearch.toLowerCase()) ||
+      (donation.donationItems || []).some(item =>
+        getCategoryName(item.category).toLowerCase().includes(donationSearch.toLowerCase()) ||
+        (item.description || '').toLowerCase().includes(donationSearch.toLowerCase())
+      ) ||
+      (donation.pickupAddress || '').toLowerCase().includes(donationSearch.toLowerCase());
+
+    const matchesStatus = !donationStatus ||
+      (donation.status || '').toLowerCase() === donationStatus.toLowerCase();
+
+    const matchesCharity = !selectedCharities.length || (() => {
+      const donationCharity = charities.find(charity =>
+        (charity.charityName || charity.name || '') === (donation.organizationName || '')
+      );
+      return donationCharity && selectedCharities.includes(donationCharity._id);
+    })();
+
+    const matchesCategory =
+      !selectedCategories.length ||
+      (donation.donationItems || []).some((item) =>
+        selectedCategories.includes(
+          typeof item.category === "object" && item.category !== null
+            ? item.category._id
+            : item.category
+        )
+      );
+
+    const matchesUrgency = !donationUrgency ||
+      (donation.urgencyLevel || '').toLowerCase() === donationUrgency.toLowerCase();
+
+    const matchesDateRange = !donationDateRange || (() => {
+      const donationDate = new Date(donation.createdAt);
+      const now = new Date();
+      const daysAgo = parseInt(donationDateRange);
+      const cutoffDate = new Date(now.getTime() - (daysAgo * 24 * 60 * 60 * 1000));
+      return donationDate >= cutoffDate;
+    })();
+
+    return matchesSearch && matchesStatus && matchesCharity &&
+           matchesCategory && matchesUrgency && matchesDateRange;
+  });
 
   const filteredCharities = charities.filter(charity => {
     const matchesSearch =
       charity.charityName?.toLowerCase().includes(search.toLowerCase()) ||
-      charity.description?.toLowerCase().includes(search.toLowerCase());
+      charity.description?.toLowerCase().includes(search.toLowerCase()) || 
+      // Search in category names
+      (charity.neededCategories || []).some(catId => {
+      const cat = categories.find(c => c._id === catId);
+      return cat && cat.name.toLowerCase().includes(search.toLowerCase());
+      });
 
     const addressString = [
       charity.location?.address || '',
@@ -32,20 +97,28 @@ const DonorDashboard = () => {
       ? addressString.includes(location.trim().toLowerCase())
       : true;
 
-    const matchesPriority = priority
-      ? (charity.priorityItems || []).some(item =>
-          item.toLowerCase().includes(priority.toLowerCase())
-        )
-      : true;
+    const matchesCategories =
+      !selectedCategories.length ||
+      (charity.neededCategories || []).some(neededCategory =>
+        selectedCategories.includes(neededCategory)
+      );
 
-    return matchesSearch && matchesLocation && matchesPriority;
+    return matchesSearch && matchesLocation && matchesCategories;
   });
 
-  // Determine which page to show
+  const clearDonationFilters = () => {
+    setDonationSearch('');
+    setDonationStatus('');
+    setSelectedCharities([]);
+    setSelectedCategories([]);
+    setDonationUrgency('');
+    setDonationDateRange('');
+  };
+
   const isMyDonations = routerLocation.pathname === '/donor/my-donations';
   const isProfile = routerLocation.pathname === '/donor/profile';
+  const isThankYouNotes = routerLocation.pathname === '/donor/thank-you-notes';
 
-  // Get donor info from localStorage for profile
   const donor = JSON.parse(localStorage.getItem('donor') || '{}');
 
   return (
@@ -53,27 +126,49 @@ const DonorDashboard = () => {
       <DonorSidebar />
       <main className="flex-1 flex flex-col p-0 md:p-8 bg-ghibli-cream">
         {/* Sticky header */}
-        <div className="sticky top-0 z-10 bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <div className="sticky top-0 z-10 bg-white shadow-ghibli border border-ghibli-brown-light px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between mb-6">
           <h1 className="text-3xl font-bold text-ghibli-dark-blue handwritten tracking-tight mb-2 md:mb-0">
             {isMyDonations
               ? 'My Donations'
               : isProfile
               ? 'My Profile'
+              : isThankYouNotes
+              ? 'Thank You Notes'
               : 'Donate Now!'}
           </h1>
-          {!isMyDonations && !isProfile && (
+          {!isMyDonations && !isProfile && !isThankYouNotes && (
             <div className="w-full md:w-auto md:flex-1 md:ml-8">
               <SearchAndFilterBar
                 search={search}
                 onSearchChange={setSearch}
                 location={location}
                 onLocationChange={setLocation}
-                priority={priority}
-                onPriorityChange={setPriority}
+                selectedCategories={selectedCategories}
+                onCategoriesChange={setSelectedCategories}
               />
             </div>
           )}
         </div>
+
+        {/* Donation Filters - only show on My Donations page */}
+        {isMyDonations && (
+          <DonationFilterBar
+            search={donationSearch}
+            onSearchChange={setDonationSearch}
+            status={donationStatus}
+            onStatusChange={setDonationStatus}
+            selectedCharities={selectedCharities}
+            onCharitiesChange={setSelectedCharities}
+            selectedCategories={selectedCategories}
+            onCategoriesChange={setSelectedCategories}
+            urgency={donationUrgency}
+            onUrgencyChange={setDonationUrgency}
+            dateRange={donationDateRange}
+            onDateRangeChange={setDonationDateRange}
+            onClearFilters={clearDonationFilters}
+          />
+        )}
+
         {/* Main content */}
         <div className="flex-1 w-full max-w-7xl mx-auto">
           {isMyDonations ? (
@@ -85,30 +180,51 @@ const DonorDashboard = () => {
                   </div>
                   <p className="text-ghibli-brown text-lg">Loading donations...</p>
                 </div>
-              ) : donations.length === 0 ? (
+              ) : filteredDonations.length === 0 ? (
                 <div className="col-span-full text-center py-12">
                   <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-8">
-                    <p className="text-ghibli-brown text-lg mb-4">No donations to show yet.</p>
-                    <p className="text-ghibli-brown text-sm">Start making a difference by donating to a charity!</p>
+                    <p className="text-ghibli-brown text-lg mb-4">
+                      {donations.length === 0
+                        ? 'No donations to show yet.'
+                        : 'No donations match your current filters.'}
+                    </p>
+                    <p className="text-ghibli-brown text-sm">
+                      {donations.length === 0
+                        ? 'Start making a difference by donating to a charity!'
+                        : 'Try adjusting your filters to see more results.'}
+                    </p>
+                    {donations.length > 0 && (
+                      <button
+                        onClick={clearDonationFilters}
+                        className="cursor-pointer mt-4 px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium"
+                      >
+                        Clear All Filters
+                      </button>
+                    )}
                   </div>
                 </div>
               ) : (
-                donations.map(donation => (
+                filteredDonations.map(donation => (
                   <DonationCard key={donation._id} donation={donation} />
                 ))
               )}
             </div>
+          ) : isThankYouNotes ? (
+            <ThankYouNotesView
+              donations={donations}
+              isLoading={isLoadingDonations}
+            />
           ) : isProfile ? (
             <div className="max-w-md mx-auto">
-              <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-8">
+              <div className="cursor-pointer bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-8 hover:shadow-2xl transition-shadow">
                 <div className="text-center">
                   <div className="w-20 h-20 bg-ghibli-teal rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
                     <UserIcon className="h-10 w-10 text-white" />
                   </div>
-                  <div className="space-y-4">
+                  <div className="cursor-pointer space-y-4">
                     <div>
                       <p className="text-sm text-ghibli-brown mb-1">Name</p>
-                      <p className="text-xl font-semibold text-ghibli-dark-blue handwritten">{donor.name || 'Not provided'}</p>
+                      <p className="text-3xl font-semibold text-ghibli-dark-blue handwritten">{donor.name || 'Not provided'}</p>
                     </div>
                     <div>
                       <p className="text-sm text-ghibli-brown mb-1">Email</p>

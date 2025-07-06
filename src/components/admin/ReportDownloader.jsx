@@ -45,7 +45,7 @@ const ReportDownloader = ({
             <Icon className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-ghibli-dark-blue handwritten">
+            <h3 className="text-lg font-semibold text-ghibli-dark-blue font-sans">
               {title}
             </h3>
             <p className="text-sm text-ghibli-brown mt-1">
@@ -72,7 +72,7 @@ const ReportDownloader = ({
                 setPeriod(e.target.value);
               }
             }}
-            className="w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent bg-white"
+            className="cursor-pointer w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent bg-white"
           >
             <option value="7d">📅 Last 7 Days</option>
             <option value="30d">📅 Last 30 Days</option>
@@ -119,7 +119,7 @@ const ReportDownloader = ({
           <button
             onClick={handleDownload}
             disabled={!canDownload}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+            className={`cursor-pointer flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
               canDownload
                 ? 'bg-ghibli-teal text-white hover:bg-opacity-90 hover:shadow-lg transform hover:-translate-y-0.5'
                 : 'bg-ghibli-brown-light text-ghibli-brown cursor-not-allowed'
