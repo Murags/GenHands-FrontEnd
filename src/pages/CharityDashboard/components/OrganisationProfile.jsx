@@ -47,7 +47,7 @@ const OrganisationProfile = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-ghibli-cream-lightest">
-      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-ghibli border border-ghibli-brown-light p-0 overflow-hidden flex flex-col md:flex-row hover:shadow-2xl transition-shadow duration-300">
+      <div className="cursor-pointer mb-15 w-full max-w-4xl bg-white rounded-2xl shadow-ghibli border border-ghibli-brown-light p-0 overflow-hidden flex flex-col md:flex-row hover:shadow-2xl transition-shadow duration-300">
         {/* Left: Profile Picture & Status */}
         <div className="bg-ghibli-teal bg-opacity-10 md:w-1/3 flex flex-col items-center justify-center p-8">
           <img
