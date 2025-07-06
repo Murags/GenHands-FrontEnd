@@ -62,7 +62,7 @@ const DonorSignUpPage = () => {
 
         {/* Right: Form */}
         <div className="p-8 md:p-12 flex flex-col justify-center">
-          <h2 className="text-3xl font-medium text-black mb-4">Sign Up as a Donor</h2>
+          <h2 className="text-3xl font-serif font-medium text-black mb-4">Sign Up as a Donor</h2>
           <p className="text-black text-sm mb-6">
             Join us in giving back to the community. Your generosity makes a big difference!
           </p>

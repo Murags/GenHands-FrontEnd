@@ -14,7 +14,7 @@ const DashboardNotFoundPage = () => {
       </p>
       <Link
         to="/admin"
-        className="btn btn-secondary text-lg py-2 px-5"
+        className="cursor-pointer btn btn-secondary text-lg py-2 px-5"
       >
         Back to Dashboard Overview
       </Link>

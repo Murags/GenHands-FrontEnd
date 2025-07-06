@@ -18,6 +18,7 @@ import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersP
 import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPage';
 import DashboardCategoriesPage from '../pages/DashboardPage/DashboardCategoriesPage';
 import AdminReportsPage from '../pages/DashboardPage/AdminReportsPage';
+import DashboardSettingsPage from '../pages/DashboardPage/DashboardSettingsPage';
 import DonorDashboard from '../pages/DonorDashboard';
 import CharityDetailsPage from '../pages/DonorDashboard/components/CharityDetailsPage';
 import VolunteerDashboard from '../pages/VolunteerDashboard';
@@ -199,6 +200,7 @@ function AppRoutes() {
         <Route path="users/charities" element={<DashboardCharitiesPage />} />
         <Route path="items/categories" element={<DashboardCategoriesPage />} />
         <Route path="reports" element={<AdminReportsPage />} />
+        <Route path="settings" element={<DashboardSettingsPage />} />
         <Route path="*" element={<DashboardNotFoundPage />} />
       </Route>
 

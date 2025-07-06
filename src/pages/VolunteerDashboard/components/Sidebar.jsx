@@ -64,19 +64,16 @@ const Sidebar = ({
     }`} style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
 
       {/* Collapse Toggle Button */}
-      <div className="absolute -right-3 top-6 z-20">
-        <button
-          onClick={onToggleCollapse}
-          className="w-6 h-6 bg-ghibli-teal text-white rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-90 transition-colors"
-        >
-          {isCollapsed ? (
-            <ChevronRightIcon className="h-4 w-4" />
-          ) : (
+      {!isCollapsed && (
+        <div className="absolute right-3 top-6 z-20">
+          <button
+            onClick={onToggleCollapse}
+            className="cursor-pointer w-6 h-6 bg-ghibli-teal text-white rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-90 transition-colors"
+          >
             <ChevronLeftIcon className="h-4 w-4" />
-          )}
-        </button>
-      </div>
-
+          </button>
+        </div>
+      )}
       {/* Profile Section */}
       <div className={`border-b ${isCollapsed ? 'p-4' : 'p-6'}`} style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
         {isCollapsed ? (
@@ -88,7 +85,7 @@ const Sidebar = ({
             {/* Collapsed Availability Toggle */}
             <button
               onClick={onAvailabilityToggle}
-              className={`w-8 h-4 rounded-full transition-colors ${
+              className={`cursor-pointer w-8 h-4 rounded-full transition-colors ${
                 isAvailable ? 'bg-ghibli-green' : 'bg-ghibli-brown-light'
               }`}
               title={isAvailable ? 'Available for pickups' : 'Unavailable'}
@@ -106,7 +103,7 @@ const Sidebar = ({
                 <UserIcon className="h-7 w-7 text-white" />
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-lg font-bold text-ghibli-dark-blue handwritten truncate">
+                <h2 className="text-lg font-bold text-ghibli-dark-blue font-sans truncate">
                   {volunteerInfo.name || 'Volunteer'}
                 </h2>
                 <p className="text-sm text-ghibli-brown truncate">
@@ -121,7 +118,7 @@ const Sidebar = ({
                 <span className="text-sm font-medium text-ghibli-dark-blue truncate mr-2">Available for Pickups</span>
                 <button
                   onClick={onAvailabilityToggle}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
+                  className={`cursor-pointer relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                     isAvailable ? 'bg-ghibli-green' : 'bg-ghibli-brown-light'
                   }`}
                 >
@@ -143,14 +140,14 @@ const Sidebar = ({
       {/* Navigation Menu */}
       <div className={`${isCollapsed ? 'p-2' : 'p-6'}`}>
         {!isCollapsed && (
-          <h3 className="text-lg font-semibold text-ghibli-dark-blue mb-4 handwritten">Menu</h3>
+          <h3 className="text-3xl text-center font-semibold text-ghibli-dark-blue mb-4 handwritten">Welcome!</h3>
         )}
         <nav className="space-y-2">
           {menuItems.map((item) => (
             <button
               key={item.id}
               onClick={() => handleSectionChange(item.id)}
-              className={`w-full flex items-center ${isCollapsed ? 'justify-center p-3' : 'justify-between px-4 py-3'} rounded-lg transition-all relative ${
+              className={`cursor-pointer w-full flex items-center ${isCollapsed ? 'justify-center p-3' : 'justify-between px-4 py-3'} rounded-lg transition-all relative ${
                 activeSection === item.id
                   ? 'bg-ghibli-teal text-white shadow-sm'
                   : 'text-ghibli-brown hover:bg-white hover:shadow-sm'
@@ -183,7 +180,7 @@ const Sidebar = ({
       <div className={`absolute bottom-0 w-full ${isCollapsed ? 'p-2' : 'p-6'}`}>
           <button
               onClick={handleLogout}
-              className={`w-full flex items-center ${isCollapsed ? 'justify-center p-3' : 'justify-between px-4 py-3'} rounded-lg transition-all text-ghibli-brown hover:bg-ghibli-red-light hover:shadow-sm`}
+              className={`cursor-pointer w-full flex items-center ${isCollapsed ? 'justify-center p-3' : 'justify-between px-4 py-3'} rounded-lg transition-all text-ghibli-brown hover:bg-ghibli-red hover:text-white hover:shadow-sm transition-all`}
               title={isCollapsed ? 'Logout' : ''}
             >
               <div className={`flex items-center ${isCollapsed ? '' : 'space-x-3 min-w-0 flex-1'}`}>
@@ -198,7 +195,7 @@ const Sidebar = ({
         <div className="p-4 border-t" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
           <button
             onClick={onToggleCollapse}
-            className="w-full p-3 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center"
+            className="cursor-pointer w-full p-3 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center"
             title="Expand sidebar"
           >
             <Bars3Icon className="h-5 w-5" />

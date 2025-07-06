@@ -49,12 +49,12 @@ const Drawer = ({ isOpen, onClose, title, children, position = 'right' }) => {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-ghibli-brown-light bg-ghibli-cream-light">
-          <h2 className="text-xl font-semibold text-ghibli-dark-blue handwritten">
+          <h2 className="text-xl font-semibold text-ghibli-dark-blue font-sans">
             {title || 'Details'}
           </h2>
           <button
             type="button"
-            className="rounded-md p-1 text-ghibli-brown hover:text-ghibli-red-dark hover:bg-ghibli-red-light transition-colors"
+            className="cursor-pointer rounded-md p-1 text-ghibli-brown hover:text-ghibli-red-dark hover:bg-ghibli-red-light transition-colors"
             onClick={onClose}
           >
             <span className="sr-only">Close panel</span>

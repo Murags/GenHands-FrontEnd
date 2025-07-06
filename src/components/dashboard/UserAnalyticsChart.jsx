@@ -241,7 +241,7 @@ const UserAnalyticsChart = ({ timeframe = '30d' }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Users by Role Pie Chart */}
         <div className="bg-ghibli-cream p-6 rounded-lg shadow-ghibli border border-ghibli-brown-light">
-          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue handwritten">Users by Role</h3>
+          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue font-sans">Users by Role</h3>
           {data.usersByRole && data.usersByRole.length > 0 ? (
             <div ref={pieChartRef} style={{ width: '100%', height: '300px' }} />
           ) : (
@@ -253,7 +253,7 @@ const UserAnalyticsChart = ({ timeframe = '30d' }) => {
 
         {/* Registration Trends Line Chart */}
         <div className="bg-ghibli-cream p-6 rounded-lg shadow-ghibli border border-ghibli-brown-light">
-          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue handwritten">Registration Trends</h3>
+          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue font-sans">Registration Trends</h3>
           {data.newUsersOverTime && data.newUsersOverTime.length > 0 ? (
             <div ref={lineChartRef} style={{ width: '100%', height: '300px' }} />
           ) : (
@@ -265,7 +265,7 @@ const UserAnalyticsChart = ({ timeframe = '30d' }) => {
 
         {/* Verification Status Chart */}
         <div className="bg-ghibli-cream p-6 rounded-lg shadow-ghibli border border-ghibli-brown-light">
-          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue handwritten">Verification Status</h3>
+          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue font-sans">Verification Status</h3>
           {data.verificationStats && data.verificationStats.length > 0 ? (
             <div ref={barChartRef} style={{ width: '100%', height: '300px' }} />
           ) : (
@@ -277,7 +277,7 @@ const UserAnalyticsChart = ({ timeframe = '30d' }) => {
 
         {/* User Activity Status */}
         <div className="bg-ghibli-cream p-6 rounded-lg shadow-ghibli border border-ghibli-brown-light">
-          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue handwritten">User Activity</h3>
+          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue font-sans">User Activity</h3>
           {data.userActivity && data.userActivity.length > 0 ? (
             <div className="space-y-4">
               {data.userActivity.map((activity, index) => (

@@ -128,7 +128,7 @@ const PublicCharityDetailsPage = () => {
                   </div>
 
                   <div className="flex items-center gap-4 mb-3">
-                    <span className="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-white bg-opacity-20 text-black px-3 py-1 rounded-full text-sm font-semibold uppercase">
                       {charity.category}
                     </span>
                     {charity.registrationNumber && (
@@ -145,7 +145,7 @@ const PublicCharityDetailsPage = () => {
                 </div>
 
                 <div className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center ml-6">
-                  <HeartIcon className="h-10 w-10 text-white" />
+                  <HeartIcon className="h-10 w-10 text-black" />
                 </div>
               </div>
 

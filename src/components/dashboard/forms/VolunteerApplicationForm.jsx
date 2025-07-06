@@ -13,7 +13,7 @@ const statusOptions = [
 
 const getStatusButtonStyles = (status, currentStatus) => {
   let base =
-    "px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 w-full text-center";
+    "cursor-pointer px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 w-full text-center";
   let active = "ring-2 ring-offset-1";
   let specific = "";
 
@@ -22,13 +22,13 @@ const getStatusButtonStyles = (status, currentStatus) => {
       specific =
         currentStatus === status
           ? `bg-ghibli-green text-ghibli-cream ${active} ring-ghibli-green-dark`
-          : "bg-ghibli-green-lightest text-ghibli-green-dark hover:bg-ghibli-green-light";
+          : "bg-ghibli-green-lightest text-ghibli-green-dark hover:bg-ghibli-green hover:text-white";
       break;
     case "Rejected":
       specific =
         currentStatus === status
           ? `bg-ghibli-red text-ghibli-cream ${active} ring-ghibli-red-dark`
-          : "bg-ghibli-red-lightest text-ghibli-red-dark hover:bg-ghibli-red-light";
+          : "bg-ghibli-red-lightest text-ghibli-red-dark hover:bg-ghibli-red hover:text-white";
       break;
     default:
       specific = "bg-gray-200 text-gray-700 hover:bg-gray-300";
@@ -94,7 +94,7 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
     <div className="flex flex-col h-full bg-ghibli-cream text-ghibli-brown">
       <div className="p-6 space-y-6 overflow-y-auto flex-grow">
         <section>
-          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-4 handwritten">
+          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-4 font-sans">
             Volunteer Information
           </h3>
           <div className="flex items-start space-x-4">
@@ -115,7 +115,8 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
                   Email:
                 </strong>{" "}
                 <a
-                  href={`mailto:${volunteer.email}`}
+                  target="_blank"
+                  href={`https://mail.google.com/mail/?view=cm&to=${volunteer.email}`}
                   className="text-ghibli-blue hover:underline"
                 >
                   {volunteer.email}
@@ -140,7 +141,7 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-3 handwritten">
+          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-3 font-sans">
             Supporting Documents
           </h3>
           {volunteer.verificationDocuments &&
@@ -183,7 +184,7 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-3 handwritten">
+          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-3 font-sans">
             Application Status
           </h3>
           <div className="grid grid-cols-2 gap-3">
@@ -202,7 +203,7 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
         </section>
 
         <section>
-          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-2 handwritten">
+          <h3 className="text-xl font-semibold text-ghibli-dark-blue mb-2 font-sans">
             Admin Notes
           </h3>
           <textarea
@@ -216,12 +217,12 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
         </section>
       </div>
 
-      <div className="p-4 border-t border-ghibli-brown-light bg-ghibli-cream-light sticky bottom-0">
+      <div className="p-4 border-t border-ghibli-brown-light bg-ghibli-cream-light bottom-0">
         <div className="flex justify-end space-x-3">
           <button
             type="button"
             onClick={onCloseDrawer}
-            className="px-5 py-2.5 rounded-lg text-sm font-medium text-ghibli-brown hover:bg-ghibli-red-lightest transition-colors duration-150 border border-ghibli-brown-light focus:outline-none focus:ring-2 focus:ring-ghibli-red-light focus:ring-offset-1"
+            className="cursor-pointer px-5 py-2.5 rounded-lg text-sm font-medium text-ghibli-brown hover:bg-ghibli-red-lightest transition-colors duration-150 border border-ghibli-brown-light focus:outline-none focus:ring-2 focus:ring-ghibli-red-light focus:ring-offset-1"
             disabled={verifyUserMutation.isPending}
           >
             Cancel
@@ -229,9 +230,13 @@ const VolunteerApplicationForm = ({ volunteer, onCloseDrawer }) => {
           <button
             type="button"
             onClick={handleUpdate}
-            disabled={verifyUserMutation.isPending}
-            className={`px-5 py-2.5 rounded-lg text-sm font-medium text-ghibli-cream transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-              verifyUserMutation.isPending
+            disabled={
+              verifyUserMutation.isPending ||
+              (currentStatus !== "Approved" && currentStatus !== "Rejected")
+            }
+            className={`cursor-pointer px-5 py-2.5 rounded-lg text-sm font-medium text-ghibli-cream transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+              verifyUserMutation.isPending ||
+              (currentStatus !== "Approved" && currentStatus !== "Rejected")
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-ghibli-green hover:bg-ghibli-green-dark focus:ring-ghibli-green-dark"
             }`}

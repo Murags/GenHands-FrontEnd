@@ -131,7 +131,7 @@ const SupplyDemandChart = ({ timeframe = '30d' }) => {
   return (
     <div className="bg-ghibli-cream p-6 rounded-lg shadow-ghibli border border-ghibli-brown-light">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-2xl font-bold text-ghibli-dark-blue handwritten">Supply & Demand Analysis</h3>
+        <h3 className="text-2xl font-bold text-ghibli-dark-blue font-sans">Supply & Demand Analysis</h3>
         <div className="text-sm text-ghibli-brown">
           Period: {timeframe}
         </div>

@@ -23,7 +23,7 @@ const Footer = () => (
         <div>
           <h3 className="font-serif text-lg font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--color-ghibli-yellow)' }}>Support</h3>
           <ul className="space-y-2 text-sm font-sans">
-            <li><RouterLink to="/faq" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>FAQ</RouterLink></li>
+            <li><RouterLink to="/faq" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>FAQs</RouterLink></li>
             <li><RouterLink to="/contact" className="hover:underline" style={{ color: 'var(--color-ghibli-cream)' }}>Contact</RouterLink></li>
           </ul>
         </div>

@@ -50,9 +50,6 @@ const ThankYouNotesView = ({ donations, isLoading }) => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-ghibli-dark-blue handwritten mb-2">
-            Thank You Notes
-          </h2>
           <p className="text-ghibli-brown">
             Heartfelt messages from charities who received your donations
           </p>
