@@ -246,7 +246,7 @@ const DonationTrendsChart = ({ timeframe = '30d' }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Donations Over Time */}
         <div className="bg-ghibli-cream p-6 rounded-lg shadow-ghibli border border-ghibli-brown-light">
-          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue handwritten">Donations Over Time</h3>
+          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue font-sans">Donations Over Time</h3>
           {data.donationsOverTime && data.donationsOverTime.length > 0 ? (
             <div ref={areaChartRef} style={{ width: '100%', height: '300px' }} />
           ) : (
@@ -258,7 +258,7 @@ const DonationTrendsChart = ({ timeframe = '30d' }) => {
 
         {/* Donation Status Breakdown */}
         <div className="bg-ghibli-cream p-6 rounded-lg shadow-ghibli border border-ghibli-brown-light">
-          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue handwritten">Donation Status</h3>
+          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue font-sans">Donation Status</h3>
           {data.donationsByStatus && data.donationsByStatus.length > 0 ? (
             <div ref={pieChartRef} style={{ width: '100%', height: '300px' }} />
           ) : (
@@ -270,7 +270,7 @@ const DonationTrendsChart = ({ timeframe = '30d' }) => {
 
         {/* Donations by Category */}
         <div className="bg-ghibli-cream p-6 rounded-lg shadow-ghibli border border-ghibli-brown-light">
-          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue handwritten">Donations by Category</h3>
+          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue font-sans">Donations by Category</h3>
           {data.donationsByCategory && data.donationsByCategory.length > 0 ? (
             <div ref={barChartRef} style={{ width: '100%', height: '300px' }} />
           ) : (
@@ -282,7 +282,7 @@ const DonationTrendsChart = ({ timeframe = '30d' }) => {
 
         {/* Top Performers */}
         <div className="bg-ghibli-cream p-6 rounded-lg shadow-ghibli border border-ghibli-brown-light">
-          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue handwritten">Top Performers</h3>
+          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue font-sans">Top Performers</h3>
           <div className="space-y-4">
             {data.topCharities && data.topCharities.length > 0 && (
               <div>

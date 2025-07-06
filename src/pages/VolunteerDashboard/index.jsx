@@ -264,7 +264,7 @@ const VolunteerDashboard = () => {
                   <div className="bg-ghibli-cream rounded-xl shadow-ghibli border" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
                     <div className="p-4 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
                       <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-semibold text-ghibli-dark-blue handwritten">
+                        <h2 className="text-xl font-semibold text-ghibli-dark-blue font-sans">
                           Available Pickups
                         </h2>
                         <span className="text-sm text-ghibli-brown">
@@ -298,7 +298,7 @@ const VolunteerDashboard = () => {
                 <div className="lg:col-span-2">
                   <div className="bg-ghibli-cream rounded-xl shadow-ghibli border" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
                     <div className="p-6 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
-                      <h2 className="text-2xl font-semibold text-ghibli-dark-blue handwritten flex items-center">
+                      <h2 className="text-2xl font-semibold text-ghibli-dark-blue font-sans flex items-center">
                         <MapPinIcon className="h-6 w-6 mr-3 text-ghibli-blue" />
                         Pickup Locations Map
                       </h2>

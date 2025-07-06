@@ -23,7 +23,7 @@ const DashboardCard = ({ title, children, icon: Icon, iconBgColor = 'bg-ghibli-t
       </div>
     )}
     <div className="flex-1">
-      <h3 className="text-lg font-semibold mb-1 text-ghibli-dark-blue handwritten">{title}</h3>
+      <h3 className="text-lg font-semibold mb-1 text-ghibli-dark-blue font-sans">{title}</h3>
       {isLoading ? (
         <div className="animate-pulse">
           <div className="h-8 bg-gray-200 rounded mb-2"></div>
@@ -107,7 +107,7 @@ const DashboardOverviewPage = () => {
           <TimeframeSelector timeframe={timeframe} onChange={setTimeframe} />
           <button
             onClick={handleRefresh}
-            className="flex items-center space-x-2 px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors"
+            className="cursor-pointer flex items-center space-x-2 px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors"
             disabled={isLoading}
           >
             <ArrowPathIcon className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
@@ -310,7 +310,7 @@ const DashboardOverviewPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-ghibli-cream p-5 rounded-lg shadow-ghibli" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
-          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue handwritten">Recent Platform Activity</h3>
+          <h3 className="text-xl font-semibold mb-4 text-ghibli-dark-blue font-sans">Recent Platform Activity</h3>
           {operationalLoading ? (
             <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
@@ -344,16 +344,16 @@ const DashboardOverviewPage = () => {
         </div>
 
         <div className="bg-ghibli-cream p-5 rounded-lg shadow-ghibli" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
-          <h3 className="text-xl font-semibold mb-2 text-ghibli-dark-blue handwritten">Admin Shortcuts</h3>
+          <h3 className="text-xl font-semibold mb-2 text-ghibli-dark-blue font-sans">Admin Shortcuts</h3>
           <p className="text-sm text-ghibli-brown mb-4">Quick access to common administrative tasks.</p>
           <div className="space-y-3">
-            <Link to="/admin/items/new" className="btn btn-primary w-full text-sm flex items-center justify-center">
+            <Link to="/admin/items/categories" className="cursor-pointer btn btn-primary w-full text-sm flex items-center justify-center">
               <span>List New Item</span>
             </Link>
-            <Link to="/admin/pickups/assign" className="btn btn-secondary w-full text-sm flex items-center justify-center">
+            <Link to="/admin/pickups/assign" className="cursor-pointer btn btn-secondary w-full text-sm flex items-center justify-center">
               <span>Assign Pending Pickup</span>
             </Link>
-            <Link to="/admin/volunteers/message" className="btn btn-secondary-alt w-full text-sm flex items-center justify-center">
+            <Link to="/admin/volunteers/message" className="cursor-pointer btn btn-secondary-alt w-full text-sm flex items-center justify-center hover:bg-ghibli-brown hover:text-white transition-all">
               <span>Message Volunteers</span>
             </Link>
           </div>

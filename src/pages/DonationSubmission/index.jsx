@@ -76,7 +76,11 @@ const DonationSubmission = () => {
       setSubmissionSuccess(true);
       setCurrentStep(5);
     } catch (error) {
-      toast.error(error.message || 'An error occurred while submitting your donation.');
+      if (error?.name === 'ValidationError' || error?.message?.toLowerCase().includes('required') || error?.response?.status === 400) {
+        toast.error('Please fill in all donation details');
+      } else {
+        toast.error(error.message || 'An unexpected error occurred');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -125,14 +129,14 @@ const DonationSubmission = () => {
       {/* Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="fixed top-4 left-4 bg-white border-1 border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
+        className="cursor-pointer fixed top-4 left-4 bg-white border-1 border-black text-black rounded-full p-2 shadow hover:bg-gray-100 transition"
         aria-label="Go back"
       >
         <FiArrowLeft size={20} />
       </button>
 
        <div className="text-center mb-8">
-         <h2 className="text-2xl font-bold text-ghibli-dark-blue handwritten mb-2">Donor Information</h2>
+         <h2 className="text-2xl font-bold text-ghibli-dark-blue font-sans mb-2">Donor Information</h2>
          <p className="text-ghibli-brown">Tell us about yourself and pickup location</p>
        </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -148,7 +152,7 @@ const DonationSubmission = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">Organization Type</label>
-            <select {...register('organizationType')} className="w-full px-4 py-3 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent">
+            <select {...register('organizationType')} className="cursor-pointer w-full px-4 py-3 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent">
               <option value="individual">Individual</option>
               <option value="business">Business</option>
               <option value="organization">Organization</option>
@@ -195,14 +199,14 @@ const DonationSubmission = () => {
   const renderStep2 = () => (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-ghibli-dark-blue handwritten mb-2">Donation Details</h2>
+        <h2 className="text-2xl font-bold text-ghibli-dark-blue font-sans mb-2">Donation Details</h2>
         <p className="text-ghibli-brown">What are you donating?</p>
       </div>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-ghibli-dark-blue">Items to Donate</h3>
-          <button type="button" onClick={() => append({ category: '', description: '', quantity: '', condition: 'good' })} className="flex items-center space-x-2 px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors">
-            <PlusIcon className="h-4 w-4" />
+          <button type="button" onClick={() => append({ category: '', description: '', quantity: '', condition: 'good' })} className="cursor-pointer flex items-center space-x-2 px-4 py-2 bg-ghibli-teal text-white rounded-lg hover:bg-opacity-90 transition-colors">
+            <PlusIcon className="cursor-pointer h-4 w-4" />
             <span>Add Item</span>
           </button>
         </div>
@@ -243,13 +247,13 @@ const DonationSubmission = () => {
               <div className="flex items-end">
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">Condition</label>
-                  <select {...register(`donationItems.${index}.condition`)} className="w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent">
+                  <select {...register(`donationItems.${index}.condition`)} className="cursor-pointer w-full px-3 py-2 border border-ghibli-brown-light rounded-lg focus:ring-2 focus:ring-ghibli-teal focus:border-transparent">
                     {itemConditions.map(condition => (
                       <option key={condition.value} value={condition.value}>{condition.label}</option>
                     ))}
                   </select>
                 </div>
-                {fields.length > 1 && <button type="button" onClick={() => remove(index)} className="ml-2 p-2 text-ghibli-red hover:bg-ghibli-red hover:text-white rounded-lg transition-colors"><TrashIcon className="h-4 w-4" /></button>}
+                {fields.length > 1 && <button type="button" onClick={() => remove(index)} className="cursor-pointer ml-2 p-2 text-ghibli-red hover:bg-ghibli-red hover:text-white rounded-lg transition-colors"><TrashIcon className="cursor-pointer h-4 w-4" /></button>}
               </div>
             </div>
           </div>
@@ -261,12 +265,12 @@ const DonationSubmission = () => {
           </div>
           <div className="space-y-4">
             <label className="flex items-center">
-              <input type="checkbox" {...register('requiresRefrigeration')} className="w-4 h-4 text-ghibli-teal bg-gray-100 border-gray-300 rounded focus:ring-ghibli-teal" />
-              <span className="ml-2 text-sm text-ghibli-dark-blue">Requires refrigeration</span>
+              <input type="checkbox" {...register('requiresRefrigeration')} className="cursor-pointer w-4 h-4 text-ghibli-teal bg-gray-100 border-gray-300 rounded focus:ring-ghibli-teal" />
+              <span className="cursor-pointer ml-2 text-sm text-ghibli-dark-blue">Requires refrigeration</span>
             </label>
             <label className="flex items-center">
-              <input type="checkbox" {...register('fragileItems')} className="w-4 h-4 text-ghibli-teal bg-gray-100 border-gray-300 rounded focus:ring-ghibli-teal" />
-              <span className="ml-2 text-sm text-ghibli-dark-blue">Contains fragile items</span>
+              <input type="checkbox" {...register('fragileItems')} className="cursor-pointer w-4 h-4 text-ghibli-teal bg-gray-100 border-gray-300 rounded focus:ring-ghibli-teal" />
+              <span className="cursor-pointer ml-2 text-sm text-ghibli-dark-blue">Contains fragile items</span>
             </label>
           </div>
         </div>
@@ -277,7 +281,7 @@ const DonationSubmission = () => {
   const renderStep3 = () => (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-ghibli-dark-blue handwritten mb-2">Delivery & Scheduling</h2>
+        <h2 className="text-2xl font-bold text-ghibli-dark-blue font-sans mb-2">Delivery & Scheduling</h2>
         <p className="text-ghibli-brown">Where should we deliver and when?</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -335,7 +339,7 @@ const DonationSubmission = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">Availability Type</label>
-            <select {...register('availabilityType')} className="w-full px-4 py-3 border border-ghibli-brown-light rounded-lg">
+            <select {...register('availabilityType')} className="cursor-pointer w-full px-4 py-3 border border-ghibli-brown-light rounded-lg">
               <option value="flexible">Flexible - anytime</option>
               <option value="urgent">Urgent - ASAP</option>
             </select>
@@ -350,7 +354,7 @@ const DonationSubmission = () => {
     return (
       <div className="space-y-6">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-ghibli-dark-blue handwritten mb-2">Review & Submit</h2>
+          <h2 className="text-2xl font-bold text-ghibli-dark-blue font-sans mb-2">Review & Submit</h2>
           <p className="text-ghibli-brown">Please review your donation details</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -404,12 +408,12 @@ const DonationSubmission = () => {
           </div>
           <div className="mt-4 space-y-3">
             <label className="flex items-center">
-              <input type="checkbox" {...register('photoConsent')} className="w-4 h-4" />
-              <span className="ml-2 text-sm text-ghibli-dark-blue">I consent to photos being taken.</span>
+              <input type="checkbox" {...register('photoConsent')} className="cursor-pointer w-4 h-4" />
+              <span className="cursor-pointer ml-2 text-sm text-ghibli-dark-blue">I consent to photos being taken.</span>
             </label>
             <div>
               <label className="block text-sm font-medium text-ghibli-dark-blue mb-2">Preferred Contact Method</label>
-              <select {...register('contactPreference')} className="w-full px-4 py-3 border border-ghibli-brown-light rounded-lg">
+              <select {...register('contactPreference')} className="cursor-pointer w-full px-4 py-3 border border-ghibli-brown-light rounded-lg">
                 <option value="phone">Phone call</option>
                 <option value="sms">SMS/Text message</option>
                 <option value="email">Email</option>
@@ -421,7 +425,7 @@ const DonationSubmission = () => {
           <button
             type="submit"
             disabled={isSubmitting || !isValid}
-            className="px-8 py-3 bg-ghibli-green text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors flex items-center space-x-2 disabled:opacity-50"
+            className="cursor-pointer px-8 py-3 bg-ghibli-green text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors flex items-center space-x-2 disabled:opacity-50"
           >
             {isSubmitting ? (
               <>
@@ -446,7 +450,7 @@ const DonationSubmission = () => {
         <CheckCircleIcon className="h-12 w-12 text-white" />
       </div>
       <div>
-        <h2 className="text-3xl font-bold text-ghibli-dark-blue handwritten mb-4">Donation Submitted Successfully! 🎉</h2>
+        <h2 className="text-3xl font-bold text-ghibli-dark-blue font-sans mb-4">Donation Submitted Successfully! 🎉</h2>
         <p className="text-lg text-ghibli-brown mb-6">Thank you for your generous donation! Your request has been submitted and volunteers in your area will be notified.</p>
       </div>
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light p-6 max-w-md mx-auto">
@@ -467,7 +471,7 @@ const DonationSubmission = () => {
         </div>
       </div>
       <div className="flex justify-center space-x-4">
-        <button onClick={() => { reset(); setCurrentStep(1); setSubmissionSuccess(false); }} className="px-6 py-3 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
+        <button onClick={() => { reset(); setCurrentStep(1); setSubmissionSuccess(false); }} className="cursor-pointer px-6 py-3 bg-ghibli-teal text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
           Submit Another Donation
         </button>
         <button onClick={() => (window.location.href = '/donor/my-donations')} className="px-6 py-3 bg-ghibli-brown text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
@@ -501,12 +505,12 @@ const DonationSubmission = () => {
             {currentStep === 4 && renderStep4()}
           </div>
           <div className="flex justify-between items-center">
-            <button type="button" onClick={handlePrevious} disabled={currentStep === 1} className={`px-6 py-3 rounded-lg font-medium transition-colors ${currentStep === 1 ? 'bg-ghibli-brown-light text-ghibli-brown cursor-not-allowed' : 'bg-ghibli-brown text-white hover:bg-opacity-90'}`}>
+            <button type="button" onClick={handlePrevious} disabled={currentStep === 1} className={`cursor-pointer px-6 py-3 rounded-lg font-medium transition-colors ${currentStep === 1 ? 'bg-ghibli-brown-light text-ghibli-brown cursor-not-allowed' : 'bg-ghibli-brown text-white hover:bg-opacity-90'}`}>
               Previous
             </button>
             <div className="text-sm text-ghibli-brown">Step {currentStep} of 4</div>
             {currentStep < 4 && (
-              <button type="button" onClick={handleNext} className={`px-6 py-3 rounded-lg font-medium transition-colors bg-ghibli-teal text-white hover:bg-opacity-90`}>
+              <button type="button" onClick={handleNext} className={`cursor-pointer px-6 py-3 rounded-lg font-medium transition-colors bg-ghibli-teal text-white hover:bg-opacity-90`}>
                 Next
               </button>
             )}
@@ -516,12 +520,12 @@ const DonationSubmission = () => {
           <div className="flex items-start space-x-3">
             <InformationCircleIcon className="h-6 w-6 text-ghibli-blue mt-1" />
             <div>
-              <h3 className="font-semibold text-ghibli-dark-blue mb-2">Need Help?</h3>
-              <p className="text-sm text-ghibli-brown mb-2">If you have questions about the donation process or need assistance, please contact us:</p>
-              <div className="text-sm text-ghibli-brown space-y-1">
-                <p>📞 Phone: +254 700 123 456</p>
-                <p>📧 Email: donations@genhands.org</p>
-                <p>🕒 Available: Monday - Friday, 8:00 AM - 6:00 PM</p>
+              <h3 className="font-semibold text-white mb-2">Need Help?</h3>
+              <p className="text-sm text-white mb-2">If you have questions about the donation process or need assistance, please contact us:</p>
+              <div className="text-sm text-white space-y-1">
+                <p>📞 Phone: +254 757 700 440</p>
+                <p>📧 Email: jannyjonyo1@gmail.com</p>
+                <p>🕒 Available: Monday - Friday, 8:15 AM - 5:15 PM</p>
               </div>
             </div>
           </div>

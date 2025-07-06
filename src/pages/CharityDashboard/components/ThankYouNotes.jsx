@@ -74,7 +74,7 @@ const ThankYouNotes = () => {
             <p className="text-ghibli-red font-medium">Failed to load delivered donations</p>
             <button
               onClick={() => refetch()}
-              className="text-ghibli-blue hover:text-ghibli-dark-blue text-sm font-medium mt-1"
+              className="cursor-pointer text-ghibli-blue hover:text-ghibli-dark-blue text-sm font-medium mt-1"
             >
               Try again
             </button>
@@ -91,10 +91,10 @@ const ThankYouNotes = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-ghibli-red bg-opacity-20 rounded-lg">
-              <HeartIcon className="h-6 w-6 text-ghibli-red" />
+              <HeartIcon className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-ghibli-dark-blue handwritten">
+              <h2 className="text-3xl font-semibold text-ghibli-dark-blue handwritten">
                 Thank You Notes
               </h2>
               <p className="text-ghibli-brown mt-1">
@@ -105,7 +105,7 @@ const ThankYouNotes = () => {
           <div className="flex items-center space-x-3">
             <button
               onClick={() => refetch()}
-              className="p-2 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors rounded-lg hover:bg-ghibli-cream-lightest"
+              className="cursor-pointer p-2 text-ghibli-brown hover:text-ghibli-dark-blue transition-colors rounded-lg hover:bg-ghibli-cream-lightest"
               title="Refresh"
             >
               <ArrowPathIcon className="h-5 w-5" />
@@ -123,7 +123,7 @@ const ThankYouNotes = () => {
           <HeartIcon className="h-6 w-6 text-ghibli-red flex-shrink-0 mt-1" />
           <div>
             <h3 className="font-semibold text-ghibli-dark-blue mb-2">Express Your Gratitude</h3>
-            <p className="text-ghibli-brown text-sm leading-relaxed">
+            <p className="text-white text-sm leading-relaxed">
               These donations have been successfully delivered to your organization. Take a moment to send
               personalized thank you notes to show your appreciation to these generous donors. Your gratitude
               helps build lasting relationships and encourages continued support.
@@ -219,7 +219,7 @@ const ThankYouNotes = () => {
                   <div className="ml-6">
                     <button
                       onClick={() => openConfirmationModal(donation)}
-                      className="px-6 py-3 bg-ghibli-red text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-2 shadow-sm"
+                      className="cursor-pointer px-6 py-3 bg-ghibli-red text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors flex items-center space-x-2 shadow-sm"
                     >
                       <HeartIcon className="h-4 w-4" />
                       <span>Send Thank You</span>
@@ -242,18 +242,18 @@ const ThankYouNotes = () => {
                 <button
                   onClick={() => handlePageChange(pagination.currentPage - 1)}
                   disabled={pagination.currentPage === 1}
-                  className="flex items-center space-x-1 px-3 py-2 text-ghibli-brown border border-ghibli-brown-light rounded-lg hover:bg-ghibli-cream-lightest transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="cursor-pointer flex items-center space-x-1 px-3 py-2 text-ghibli-brown border border-ghibli-brown-light rounded-lg hover:bg-ghibli-cream-lightest transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <ChevronLeftIcon className="h-4 w-4" />
+                  <ChevronLeftIcon className="cursor-pointer h-4 w-4" />
                   <span>Previous</span>
                 </button>
                 <button
                   onClick={() => handlePageChange(pagination.currentPage + 1)}
                   disabled={pagination.currentPage === pagination.pages}
-                  className="flex items-center space-x-1 px-3 py-2 text-ghibli-brown border border-ghibli-brown-light rounded-lg hover:bg-ghibli-cream-lightest transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="cursor-pointer flex items-center space-x-1 px-3 py-2 text-ghibli-brown border border-ghibli-brown-light rounded-lg hover:bg-ghibli-cream-lightest transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span>Next</span>
-                  <ChevronRightIcon className="h-4 w-4" />
+                  <ChevronRightIcon className="cursor-pointer h-4 w-4" />
                 </button>
               </div>
             </div>

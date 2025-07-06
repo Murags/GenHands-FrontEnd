@@ -323,7 +323,7 @@ const MonthlyTrendsChart = () => {
       <div className="mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-2 handwritten">
+            <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-2 font-sans">
               Platform Trends
             </h3>
             <p className="text-ghibli-brown text-sm">
@@ -338,7 +338,7 @@ const MonthlyTrendsChart = () => {
                 key={key}
                 onClick={() => setActiveView(key)}
                 disabled={isLoading}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`cursor-pointer px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   activeView === key
                     ? 'bg-ghibli-teal text-ghibli-cream shadow-md'
                     : 'bg-ghibli-cream-light text-ghibli-brown hover:bg-ghibli-teal-light'

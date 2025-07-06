@@ -137,7 +137,7 @@ const DashboardVolunteersPage = () => {
               <button
                 key={tab.key}
                 onClick={() => handleTabChange(tab.key)}
-                className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-150 ${
+                className={`cursor-pointer py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-150 ${
                   activeTab === tab.key
                     ? 'border-ghibli-teal text-ghibli-teal'
                     : 'border-transparent text-ghibli-brown hover:text-ghibli-brown-dark hover:border-ghibli-brown-light'
@@ -179,7 +179,7 @@ const DashboardVolunteersPage = () => {
                 <td className="p-3 text-center whitespace-nowrap space-x-2">
                   <button
                     onClick={() => openVolunteerDrawer(volunteer)}
-                    className="p-1.5 text-ghibli-blue hover:text-ghibli-blue-dark transition-colors duration-150"
+                    className="cursor-pointer p-1.5 text-ghibli-blue hover:text-ghibli-blue-dark transition-colors duration-150"
                     title="View Application & Documents"
                   >
                     <EyeIcon className="h-5 w-5" />
