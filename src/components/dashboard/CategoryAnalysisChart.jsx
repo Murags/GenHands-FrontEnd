@@ -253,7 +253,7 @@ const CategoryAnalysisChart = () => {
       <div className="mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-2 handwritten">
+            <h3 className="text-2xl font-bold text-ghibli-dark-blue mb-2 font-sans">
               Supply & Demand Analysis
             </h3>
             <p className="text-ghibli-brown text-sm">
@@ -265,7 +265,7 @@ const CategoryAnalysisChart = () => {
           <div className="flex gap-2">
             <button
               onClick={() => setChartType('bar')}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 chartType === 'bar'
                   ? 'bg-ghibli-teal text-ghibli-cream shadow-md'
                   : 'bg-ghibli-cream-light text-ghibli-brown hover:bg-ghibli-teal-light'
@@ -276,7 +276,7 @@ const CategoryAnalysisChart = () => {
             </button>
             <button
               onClick={() => setChartType('line')}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 chartType === 'line'
                   ? 'bg-ghibli-teal text-ghibli-cream shadow-md'
                   : 'bg-ghibli-cream-light text-ghibli-brown hover:bg-ghibli-teal-light'

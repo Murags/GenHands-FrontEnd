@@ -91,7 +91,7 @@ const CharitySignUpPage = () => {
 
         {/* Right: Form */}
         <div className="p-8 md:p-12 flex flex-col justify-center">
-          <h2 className="text-3xl font-medium text-black mb-4">Sign Up as a Charity</h2>
+          <h2 className="text-3xl font-serif font-medium text-black mb-4">Sign Up as a Charity</h2>
           <p className="text-black text-sm mb-6">
             Register your organization and get support for your mission!
           </p>

@@ -63,7 +63,7 @@ const getNavigationByRole = (role) => {
         { name: 'All Donations', href: '/charity/all-donations', icon: ArchiveBoxIcon },
         { name: 'Incoming Donations', href: '/charity/donations', icon: GiftIcon },
         { name: 'Thank You Notes', href: '/charity/thank-you', icon: HeartIcon },
-        { name: 'Organization Profile', href: '/charity/profile', icon: BuildingStorefrontIcon },
+        { name: 'Organisation Profile', href: '/charity/profile', icon: BuildingStorefrontIcon },
       ];
 
     case 'volunteer':
@@ -145,7 +145,7 @@ const DashboardSidebar = ({ role }) => {
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 17.7472V20.9998" />
         </svg>
         {!isCollapsed && (
-          <h2 className="text-2xl font-semibold handwritten whitespace-nowrap overflow-hidden" style={{ color: 'var(--color-ghibli-dark-blue)' }}>{title}</h2>
+          <h2 className="text-xl font-semibold font-sans whitespace-nowrap overflow-hidden" style={{ color: 'var(--color-ghibli-dark-blue)' }}>{title}</h2>
         )}
       </div>
 
@@ -161,7 +161,7 @@ const DashboardSidebar = ({ role }) => {
                     data-tooltip-content={isCollapsed ? item.name : ''}
                     data-tooltip-place="right"
                     className={classNames(
-                      'flex items-center w-full px-3 py-2.5 rounded-lg transition-colors duration-200 ease-in-out text-ghibli-brown hover:bg-ghibli-teal-light hover:text-ghibli-dark-blue',
+                      'cursor-pointer flex items-center w-full px-3 py-2.5 rounded-lg transition-colors duration-200 ease-in-out text-ghibli-brown hover:bg-ghibli-teal-light hover:text-ghibli-dark-blue',
                       isCollapsed ? 'justify-center' : 'justify-between',
                       item.children.some(child => window.location.pathname.startsWith(child.href)) && !openSubMenus[item.name] ? 'bg-ghibli-teal-lightest text-ghibli-dark-blue' : ''
                     )}
@@ -225,7 +225,7 @@ const DashboardSidebar = ({ role }) => {
       <div className="mt-auto pt-4 border-t border-ghibli-brown-light">
         <button
           onClick={handleLogout}
-          className="flex items-center justify-center w-full px-3 py-2.5 rounded-lg text-ghibli-brown hover:bg-ghibli-red-light hover:text-ghibli-dark-blue transition-colors duration-200 ease-in-out focus:outline-none mb-2"
+          className="cursor-pointer flex items-center justify-center w-full px-3 py-2.5 rounded-lg text-ghibli-brown hover:bg-ghibli-red hover:text-white transition-all duration-200 ease-in-out focus:outline-none mb-2"
           title="Logout"
         >
           <ArrowRightStartOnRectangleIcon className={classNames('h-6 w-6 flex-shrink-0', isCollapsed ? '' : 'mr-3')} />
@@ -237,7 +237,7 @@ const DashboardSidebar = ({ role }) => {
             setIsCollapsed(!isCollapsed);
             if (!isCollapsed) setOpenSubMenus({});
           }}
-          className="flex items-center justify-center w-full px-3 py-2.5 rounded-lg text-ghibli-brown hover:bg-ghibli-teal-light hover:text-ghibli-dark-blue transition-colors duration-200 ease-in-out focus:outline-none"
+          className="cursor-pointer flex items-center justify-center w-full px-3 py-2.5 rounded-lg text-ghibli-brown hover:bg-ghibli-teal-light hover:text-ghibli-dark-blue transition-colors duration-200 ease-in-out focus:outline-none"
           title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
           {isCollapsed ? <ChevronDoubleRightIcon className="h-6 w-6" /> : <ChevronDoubleLeftIcon className="h-6 w-6" />}

@@ -18,6 +18,7 @@ import DashboardVolunteersPage from '../pages/DashboardPage/DashboardVolunteersP
 import DashboardCharitiesPage from '../pages/DashboardPage/DashboardCharitiesPage';
 import DashboardCategoriesPage from '../pages/DashboardPage/DashboardCategoriesPage';
 import AdminReportsPage from '../pages/DashboardPage/AdminReportsPage';
+import DashboardSettingsPage from '../pages/DashboardPage/DashboardSettingsPage';
 import DonorDashboard from '../pages/DonorDashboard';
 import CharityDetailsPage from '../pages/DonorDashboard/components/CharityDetailsPage';
 import VolunteerDashboard from '../pages/VolunteerDashboard';
@@ -27,6 +28,7 @@ import RequirementsPage from '../pages/CharityDashboard/RequirementsPage';
 import AllDonationsPage from '../pages/CharityDashboard/AllDonationsPage';
 import IncomingDonationsPage from '../pages/CharityDashboard/IncomingDonationsPage';
 import ThankYouNotesPage from '../pages/CharityDashboard/ThankYouNotesPage';
+import OrganisationProfilePage from '../pages/CharityDashboard/OrganisationProfilePage';
 import DonationSubmission from '../pages/DonationSubmission';
 import RoleSelectPage from '../pages/AuthPage/RoleSelectPage/RoleSelectPage';
 import DonorSignUpPage from '../pages/AuthPage/SignUpPage/DonorSignUpPage';
@@ -187,7 +189,7 @@ function AppRoutes() {
         <Route path="donations" element={<IncomingDonationsPage />} />
         <Route path="thank-you" element={<ThankYouNotesPage />} />
         {/* <Route path="reports" element={<DashboardNotFoundPage />} /> */}
-        <Route path="profile" element={<DashboardNotFoundPage />} />
+        <Route path="profile" element={<OrganisationProfilePage />} />
         <Route path="settings" element={<DashboardNotFoundPage />} />
         <Route path="*" element={<DashboardNotFoundPage />} />
       </Route>
@@ -198,6 +200,7 @@ function AppRoutes() {
         <Route path="users/charities" element={<DashboardCharitiesPage />} />
         <Route path="items/categories" element={<DashboardCategoriesPage />} />
         <Route path="reports" element={<AdminReportsPage />} />
+        <Route path="settings" element={<DashboardSettingsPage />} />
         <Route path="*" element={<DashboardNotFoundPage />} />
       </Route>
 
