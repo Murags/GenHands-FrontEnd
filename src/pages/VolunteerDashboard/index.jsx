@@ -14,6 +14,7 @@ import PickupRequestsList from './components/PickupRequestsList';
 import PickupFlowManager from './components/PickupFlowManager';
 import AvailabilityView from './components/AvailabilityView';
 import HistoryView from './components/HistoryView';
+import DistanceSelector from './components/DistanceSelector';
 import MapComponent from './MapComponent';
 import { usePickupRequests } from '../../hooks/usePickupRequests';
 import { useUpdatePickupStatus } from '../../hooks/useUpdatePickupStatus';
@@ -36,6 +37,7 @@ const VolunteerDashboard = () => {
   const [selectedPickup, setSelectedPickup] = useState(null);
   const [isAvailable, setIsAvailable] = useState(true);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [searchRadius, setSearchRadius] = useState(25);
   const [notifications] = useState([
     { id: 1, message: "New pickup request nearby", time: "10 min ago" },
     { id: 2, message: "Pickup completed successfully", time: "2 hours ago" },
@@ -46,11 +48,21 @@ const VolunteerDashboard = () => {
     totalRequests: 12
   });
 
+  // Build filters for pickup requests including location if available
+  const pickupFilters = {
+    status: 'available',
+    ...(userLocation && {
+      lat: userLocation[0],
+      lng: userLocation[1],
+      radius: searchRadius
+    })
+  };
+
   const {
     requests: pickupRequests,
     isLoading: isLoadingAvailable,
     refetch: refetchAvailable,
-  } = usePickupRequests({ status: 'available' });
+  } = usePickupRequests(pickupFilters);
 
   const {
     myPickups,
@@ -145,6 +157,10 @@ const VolunteerDashboard = () => {
 
   const handleAvailabilityToggle = () => {
     setIsAvailable(!isAvailable);
+  };
+
+  const handleDistanceChange = (newRadius) => {
+    setSearchRadius(newRadius);
   };
 
   const activePickups = myPickups.filter(
@@ -255,6 +271,16 @@ const VolunteerDashboard = () => {
                           {pickupRequests.length} available
                         </span>
                       </div>
+                    </div>
+
+                    <div className="p-4 border-b" style={{ borderColor: 'var(--color-ghibli-brown-light)' }}>
+                      <DistanceSelector
+                        selectedDistance={searchRadius}
+                        onDistanceChange={handleDistanceChange}
+                        userLocation={userLocation}
+                        requestCount={pickupRequests.length}
+                        isLoading={isLoadingAvailable}
+                      />
                     </div>
 
                     <div className="max-h-96 overflow-y-auto">
