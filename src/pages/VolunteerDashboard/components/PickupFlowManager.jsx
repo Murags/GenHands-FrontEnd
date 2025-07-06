@@ -226,7 +226,7 @@ const PickupFlowManager = ({
                       <span>{isAvailable ? 'Accept This Mission' : 'Set Available to Accept'}</span>
                     </button>
                     <button
-                      onClick={() => onCancel(selectedPickup.id)}
+                      onClick={() => window.scrollTo({ top: 300, behavior: "smooth"})}
                       className="cursor-pointer w-full btn btn-secondary text-lg py-4 flex items-center justify-center space-x-2"
                     >
                       <span>View Other Options</span>
