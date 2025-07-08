@@ -15,6 +15,7 @@ import {
 import { useCharityNeeds } from '../../hooks/useCharityNeeds';
 import { useCharityDashboardStats } from '../../hooks/useCharityDashboardStats';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
+import { useCategories } from "../../hooks/useCategories";
 
 const CharityDashboard = () => {
 
@@ -31,6 +32,7 @@ const CharityDashboard = () => {
   } = useCharityDashboardStats();
 
   const { user: currentUser, loading: userLoading } = useCurrentUser();
+  const { categories, isLoading: categoriesLoading } = useCategories();
 
   const dashboardStats = statsResponse?.data || null;
 
@@ -347,12 +349,12 @@ const CharityDashboard = () => {
             <div className="flex flex-wrap gap-2">
               {charityNeeds.neededCategories
                 ?.slice(0, 5)
-                .map((categoryId, index) => (
+                .map((cat, index) => (
                   <span
-                    key={categoryId || index}
+                    key={cat._id || index}
                     className="px-3 py-1 bg-ghibli-teal text-white rounded-full text-sm font-medium"
                   >
-                    Category {index + 1}
+                    {cat.name || "Unknown"}
                   </span>
                 ))}
               {charityNeeds.neededCategories?.length > 5 && (
@@ -392,7 +394,7 @@ const CharityDashboard = () => {
           </div>
         </div>
       )}
-      
+      {/*}
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light">
         <div className="p-6 border-b border-ghibli-brown-light">
           <div className="flex items-center justify-between">
@@ -455,7 +457,7 @@ const CharityDashboard = () => {
           })}
         </div>
       </div>
-      {/* Recent Incoming Donations */}
+      Recent Incoming Donations
       <div className="bg-white rounded-xl shadow-ghibli border border-ghibli-brown-light">
         <div className="p-6 border-b border-ghibli-brown-light">
           <div className="flex items-center justify-between">
@@ -536,6 +538,7 @@ const CharityDashboard = () => {
           })}
         </div>
       </div>
+      */}
     </div>
   );
 };

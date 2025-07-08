@@ -63,14 +63,14 @@ const DonationCard = ({ donation }) => {
   };
 
   const statusInfo = getStatusInfo(donation.status);
-
+   
   return (
     <>
       <div className="cursor-pointer bg-white rounded-2xl shadow-ghibli p-6 flex flex-col justify-between border border-ghibli-brown-light hover:shadow-sm transition-shadow duration-200" style={{ minHeight: '28rem' }}>
         <div>
           <div className="flex items-center gap-2 mb-3">
             <h2 className="text-lg font-bold font-sans text-ghibli-dark-blue handwritten">
-              {donation.organizationName || 'Charity'}
+              {donation.charityName || 'Charity'}
             </h2>
             {donation.organizationType && (
               <span className="bg-ghibli-blue text-white text-xs font-semibold px-2 py-0.5 rounded uppercase shadow-sm">
