@@ -59,4 +59,4 @@ src/
 ## 📬 Contact
 
 Questions or feedback?
-Email us at janny.jonyo@strathmore.edu or dennis.mukoma@strathmore.edu
+Email us at janny.jonyo@strathmore.edu OR dennis.mukoma@strathmore.edu
