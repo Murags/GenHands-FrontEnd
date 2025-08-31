@@ -18,7 +18,6 @@ This is the React + Vite powered web application for connecting donors, charitie
 ## 📸 Screenshots 
 
 ![Dashboard Preview](./public/dashboard-preview.png)
-![Demo of the app](public/demo.gif)
 
 ---
 
