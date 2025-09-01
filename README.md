@@ -50,19 +50,15 @@ npm run dev
 
 ## 🗂️ Project Structure
 
+```
 src/
-
   ├── components/         # Reusable UI components
-
   ├── hooks/              # Custom React hooks
-
   ├── pages/              # App pages (Dashboard, FAQ, HowItWorks, etc.)
-
   ├── assets/             # Images and icons
-
   ├── styles/             # Global and custom styles
-
   └── App.jsx             # Main app entry
+```
 
 ## 📬 Contact
 
