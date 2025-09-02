@@ -1,12 +1,66 @@
-# React + Vite
+# 🌱 Generous Hands FrontEnd
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the **Generous Hands** FrontEnd!  
+This is the React + Vite powered web application for connecting donors, charities, and volunteers to make giving easy, transparent, and impactful.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **Modern UI:** Beautiful, responsive design inspired by Studio Ghibli colors.
+- **Donor Flow:** Submit donations, track status, and connect with charities.
+- **Charity Dashboard:** Manage needs, review donations, and express gratitude.
+- **Volunteer Missions:** Accept pickup/delivery tasks and earn badges.
+- **Secure & Fast:** Built with Vite, React, and TailwindCSS for optimal performance.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📸 Screenshots 
+
+![Landing Page](./public/landing-page.png)
+
+![Dashboard Preview](./public/dashboard-preview.png)
+
+---
+
+## 🛠️ Tech Stack
+
+- **React** (with hooks)
+- **Vite** (blazing fast dev/build)
+- **TailwindCSS** (utility-first styling)
+- **Heroicons** (modern SVG icons)
+- **React Query** (data fetching/caching)
+- **Axios** (API requests)
+
+---
+
+## 📦 Installation
+
+```bash
+# Clone the repo
+git clone https://github.com/your-org/genhands-frontend.git
+cd genhands-frontend
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+## 🗂️ Project Structure
+
+```
+src/
+  ├── components/         # Reusable UI components
+  ├── hooks/              # Custom React hooks
+  ├── pages/              # App pages (Dashboard, FAQ, HowItWorks, etc.)
+  ├── assets/             # Images and icons
+  ├── styles/             # Global and custom styles
+  └── App.jsx             # Main app entry
+```
+
+## 📬 Contact
+
+Questions or feedback?
+Email us at [janny.jonyo@strathmore.edu](mailto:janny.jonyo@strathmore.edu) OR [dennis.mukoma@strathmore.edu](mailto:dennis.mukoma@strathmore.edu)

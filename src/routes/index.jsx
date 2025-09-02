@@ -36,6 +36,8 @@ import CharitySignUpPage from '../pages/AuthPage/SignUpPage/CharitySignUpPage';
 import VolunteerSignUpPage from '../pages/AuthPage/SignUpPage/VolunteerSignUpPage';
 import SignInPage from '../pages/AuthPage/SignInPage/SignInPage';
 import AboutPage from '../pages/AboutPage/AboutPage';
+import HowItWorksPage from '../pages/HowItWorksPage/HowItWorksPage';
+import FAQPage from '../pages/FAQPage/FAQPage';
 import ContactPage from '../pages/ContactPage/ContactPage';
 import PrivacyPolicyPage from '../pages/PrivacyPolicyPage/PrivacyPolicyPage';
 import TermsPage from '../pages/TermsPage/TermsPage';
@@ -67,6 +69,18 @@ function AppRoutes() {
         path="/about"
         element={
           <AboutPage />
+        }
+      />
+      <Route
+        path="/how-it-works"
+        element={
+          <HowItWorksPage />
+        }
+      />
+      <Route
+        path="/faq"
+        element={
+          <FAQPage />
         }
       />
       <Route
